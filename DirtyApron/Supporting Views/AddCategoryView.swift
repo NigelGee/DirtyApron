@@ -13,7 +13,8 @@ struct AddCategoryView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var categories: Categories
     
-    @State private var category = Category()
+    @State var category: Category
+    var isEdit: Bool
     
     var body: some View {
         NavigationView {
@@ -29,7 +30,11 @@ struct AddCategoryView: View {
                 
                 Section{
                     Button("Submit") {
-                        self.submit()
+                        if self.isEdit {
+                            self.modify()
+                        } else {
+                            self.submit()
+                        }
                     }
                 }
             }
@@ -58,10 +63,50 @@ struct AddCategoryView: View {
         
         presentationMode.wrappedValue.dismiss()
     }
+    
+    func modify() {
+        guard let recordID = category.recordID else { return }
+        CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { (record, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+            
+                guard let record = record else { return }
+                record["name"] = self.category.name as CKRecordValue
+                record["isEnable"] = self.category.isEnable as CKRecordValue
+                record["position"] = self.category.position as CKRecordValue
+                
+                CKContainer.default().publicCloudDatabase.save(record) { (record, error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    } else {
+                        guard let record = record else { return }
+                        let recordID = record.recordID
+                        guard let name = record["name"] as? String else { return }
+                        guard let isEnable = record["isEnable"] as? Bool else { return }
+                        guard let position = record["position"] as? Int else { return }
+                        
+                        let editItem = Category(recordID: recordID, position: position, name: name, isEnable: isEnable)
+                        
+                        DispatchQueue.main.async {
+                            for i in 0..<self.categories.lists.count {
+                                let currentItem = self.categories.lists[i]
+                                if currentItem.recordID == editItem.recordID {
+                                    self.categories.lists[i] = editItem
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+       
+        presentationMode.wrappedValue.dismiss()
+    }
 }
 
 struct AddCategoryView_Previews: PreviewProvider {
     static var previews: some View {
-        AddCategoryView(categories: Categories())
+        AddCategoryView(categories: Categories(), category: Category(), isEdit: false)
     }
 }

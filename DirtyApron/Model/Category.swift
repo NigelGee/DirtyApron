@@ -1,5 +1,5 @@
 //
-//  CategoryMenu.swift
+//  Category.swift
 //  DirtyApron
 //
 //  Created by Nigel Gee on 28/04/2020.
