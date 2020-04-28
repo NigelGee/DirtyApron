@@ -10,7 +10,25 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, World!")
+        TabView {
+//            InformationView()
+//                .tabItem {
+//                    Image(systemName: "exclamationmark.circle")
+//                    Text("Info")
+//                }
+            
+            MenuView()
+                .tabItem {
+                    Image(systemName: "doc.plaintext")
+                    Text("Menu")
+            }
+            
+            AboutView()
+                .tabItem {
+                    Image(systemName: "ellipsis")
+                    Text("About")
+                }
+        }
     }
 }
 

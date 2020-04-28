@@ -1,0 +1,17 @@
+[
+ {
+   "id": 1,
+   "name": "Terms & Conditions",
+   "file": "terms"
+ },
+ {
+   "id": 2,
+   "name": "Privacy Polices",
+   "file": "privacy"
+ },
+ {
+   "id": 3,
+   "name": "Credits & Acknowledgement",
+   "file": "credits"
+ }
+]

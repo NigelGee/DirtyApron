@@ -1,0 +1,27 @@
+[
+ {
+   "id": 1,
+   "title": "The App",
+   "description": "The App was developed by Nigel Gee from The App Forest (http://www.theappforest.co.uk). If you have any questions regards the app. Please contact me there."
+ },
+ {
+   "id": 2,
+   "title": "Acknowledgement",
+   "description": "Thanks to Paul Hudson from Hacking with Swift (https://hackingwithswift) with his tutorial that helped in this App"
+ },
+ {
+   "id": 3,
+   "title": "The Drinks",
+   "description": "Any question or issues with service or quality of drinks. Please contact the venue. Details can be found on Infomation Tab"
+ },
+ {
+   "id": 4,
+   "title": "Logo & Images",
+   "description": "Logo and images are the Intellectual Property of the Venue"
+ },
+ {
+   "id": 5,
+   "title": "THE SOFTWARE",
+   "description": "IS PROVIDED 'AS IS' WITHOUT WARRENTY OF ANY KIND, EXPRESS OR IMPLIED TO WARRANTIES OF MERCHANTABILTY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT, IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIBLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ASRISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE"
+ }
+]

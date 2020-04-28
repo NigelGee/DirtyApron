@@ -1,0 +1,12 @@
+[
+ {
+   "id": 1,
+   "title": "Near Field Comuication (NFC)",
+   "description": "This app does not collect any data device. Only use NFC to vefify that a correct 'Stamp' has been used."
+ },
+ {
+   "id": 2,
+   "title": "Email Address",
+   "description": "Addresses are only used to indentify user for their order. No addresses are stored or passes on to third parties"
+ }
+]

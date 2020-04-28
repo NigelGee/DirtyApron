@@ -1,0 +1,56 @@
+{
+   "id": 1,
+   "image": "cup",
+   "name": "dirty apron",
+   "webAddress": "instagram.com/dirtyapronuk",
+   "address": {
+       "street": "Deptford Market Yard",
+       "town": "133 Deptford High St.",
+       "city": "London",
+       "zip": "SE8 4NS"
+   },
+   "times": [
+        {
+          "day": "Monday",
+
+        },
+        {
+          "day": "Tuesday",
+          "open": "07:30",
+          "close": "19:00"
+        },
+        {
+          "day": "Wednesday",
+          "open": "07:30",
+          "close": "19:00"
+        },
+        {
+          "day": "Thursday",
+          "open": "07:30",
+          "close": "19:00"
+        },
+        {
+          "day": "Friday",
+          "open": "07:30",
+          "close": "19:00"
+        },
+        {
+          "day": "Saturday",
+          "open": "08:30",
+          "close": "19:00"
+        },
+        {
+          "day": "Sunday",
+          "open": "08:30",
+          "close": "19:00"
+        }
+   ],
+   "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+   "coordinates": {
+       "latitude": 51.478333,
+       "longitude": -0.026930,
+       "deltaSpan": 0.001
+   }
+
+}
+

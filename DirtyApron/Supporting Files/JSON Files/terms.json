@@ -1,0 +1,22 @@
+[
+ {
+    "id": 1,
+    "title": "Membership",
+    "description": "There are no membership fees associated with Loyaty Card Scheme. Stamps accumulated under the programme have no cash value."
+ },
+ {
+     "id": 2,
+     "title": "Loyalty Card Scheme",
+     "description": "Your Stamps under the Loyalty Card Scheme are personal to you and may not be sold, transferred or assigned to, or shared with, family, friends or other."
+ },
+ {
+     "id": 3,
+     "title": "Venue Rights",
+     "description": "The venue reserves the right to terminate, discontinue, cancel or amend the Loyalty Card Scheme at any time and in its sole discretion without notice to you."
+ },
+ {
+     "id": 4,
+     "title": "Governing Law and Jurisdiction",
+     "description": "These Terms are governed by the laws of England and Wales. The United Nations Convention on Contacts for International Sale of Goods shall have no applicabity. The User irrevocably consents to exclusive jurisdication of the courts of England and Wales, for purposes of any legal action arising out of or related to use of the Application or these Terms."
+ }
+]
