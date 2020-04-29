@@ -41,7 +41,7 @@ struct AddCategoryView: View {
             .navigationBarTitle("Add New Category", displayMode: .inline)
         }
     }
-    
+// MARK: Add Categories
     func submit() {
         category.position = (categories.lists.last?.position ?? 0) + 1
         
@@ -60,17 +60,15 @@ struct AddCategoryView: View {
                 }
             }
         }
-        
         presentationMode.wrappedValue.dismiss()
     }
-    
+// MARK: Modify Categories
     func modify() {
         guard let recordID = category.recordID else { return }
         CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { (record, error) in
             if let error = error {
                 print(error.localizedDescription)
             } else {
-            
                 guard let record = record else { return }
                 record["name"] = self.category.name as CKRecordValue
                 record["isEnable"] = self.category.isEnable as CKRecordValue
@@ -100,7 +98,6 @@ struct AddCategoryView: View {
                 }
             }
         }
-       
         presentationMode.wrappedValue.dismiss()
     }
 }

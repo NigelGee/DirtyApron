@@ -11,6 +11,8 @@ import SwiftUI
 struct MenuView: View {
     var body: some View {
         Image(systemName: "doc.plaintext")
+            .resizable()
+            .frame(width: 100, height: 150)
     }
 }
 
