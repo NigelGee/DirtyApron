@@ -17,11 +17,11 @@ struct ContentView: View {
 //                    Text("Info")
 //                }
             
-            MenuView()
-                .tabItem {
-                    Image(systemName: "doc.plaintext")
-                    Text("Menu")
-            }
+//            MenuView()
+//                .tabItem {
+//                    Image(systemName: "doc.plaintext")
+//                    Text("Menu")
+//            }
             
             AboutView()
                 .tabItem {

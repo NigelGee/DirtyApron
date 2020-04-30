@@ -15,37 +15,46 @@ struct CategoryView: View {
     @State private var isEdit = false
     @State private var addNewCategory = false
     @State private var item = Category()
+    @State private var showingAlert = false
+    @State private var message = ""
     
     var body: some View {
         List {
-            ForEach(categories.lists, id: \.id) { item in
-                Text(item.name)
-                    .fontWeight(item.isEnable ? .bold : .none)
-                    .foregroundColor(item.isEnable ? .primary : .secondary)
-                    .onTapGesture(count: 2) {
-                        self.item = item
-                        self.isEdit = true
-                        self.addNewCategory.toggle()
-                    }
+            ForEach(categories.lists, id: \.id) { category in
+                NavigationLink(destination: MenuItemView(category: category)) {
+                    Text(category.name)
+                        .fontWeight(category.isEnable ? .bold : .none)
+                        .foregroundColor(category.isEnable ? .primary : .secondary)
+                        .onTapGesture(count: 2) {
+                            self.item = category
+                            self.isEdit = true
+                            self.addNewCategory.toggle()
+                        }
+                }
             }
             .onDelete(perform: delete)
             .onMove(perform: move)
         }
         .onAppear(perform: loadCategories)
+        .alert(isPresented: $showingAlert) {
+            Alert(title: Text("Error"), message: Text(message), dismissButton: .default(Text("OK")))
+        }
         .sheet(isPresented: $addNewCategory) {
             AddCategoryView(categories: self.categories, category: self.item, isEdit: self.isEdit)
         }
         .navigationBarTitle("Categories", displayMode: .inline)
-        .navigationBarItems(trailing: HStack {
-                                EditButton()
-                                Button(action: {
-                                    self.addNewCategory.toggle()
-                                }){
-                                    Image(systemName: "plus")
-                                }
-                                .padding()
-                                })
-        
+        .navigationBarItems(
+                trailing:
+                    HStack {
+                        EditButton()
+                        
+                        Button(action: {
+                            self.addNewCategory.toggle()
+                        }){
+                            Image(systemName: "plus")
+                        }
+                        .padding()
+                    })
     }
 // MARK: Fetch Categories
     func loadCategories() {
@@ -72,10 +81,11 @@ struct CategoryView: View {
         
         operation.queryCompletionBlock = { (cursor, error) in
             DispatchQueue.main.async {
-                if error == nil {
-                    self.categories.lists = newCategories
+                if let error = error {
+                    self.message = error.localizedDescription
+                    self.showingAlert.toggle()
                 } else {
-                    print(error?.localizedDescription ?? "Unknown Error")
+                    self.categories.lists = newCategories
                 }
             }
         }
@@ -89,7 +99,8 @@ struct CategoryView: View {
         CKContainer.default().publicCloudDatabase.delete(withRecordID: recordID) { (recordID, error) in
             DispatchQueue.main.async {
                 if let error = error {
-                    print(error.localizedDescription)
+                    self.message = error.localizedDescription
+                    self.showingAlert.toggle()
                 } else {
                     self.categories.lists.remove(at: index)
                 }
@@ -149,7 +160,8 @@ struct CategoryView: View {
         guard let recordID = item.recordID else { return }
         CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { (record, error) in
             if let error = error {
-                print(error.localizedDescription)
+                self.message = error.localizedDescription
+                self.showingAlert.toggle()
             } else {
                 guard let record = record else { return }
                 record["name"] = item.name as CKRecordValue
@@ -158,7 +170,8 @@ struct CategoryView: View {
                 
                 CKContainer.default().publicCloudDatabase.save(record) { (record, error) in
                     if let error = error {
-                        print(error.localizedDescription)
+                        self.message = error.localizedDescription
+                        self.showingAlert.toggle()
                     } else {
                         guard let record = record else { return }
                         let recordID = record.recordID

@@ -30,6 +30,12 @@
 		8B7A2762243FC3FF00760F5D /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7A2761243FC3FF00760F5D /* About.swift */; };
 		8B7A2764243FC6DC00760F5D /* AboutDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7A2763243FC6DC00760F5D /* AboutDetailView.swift */; };
 		8B7A2766243FCD8C00760F5D /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7A2765243FCD8C00760F5D /* MenuView.swift */; };
+		8BA478DD245AED4800BAB7A5 /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA478DC245AED4800BAB7A5 /* MenuItem.swift */; };
+		8BA478DF245AF11400BAB7A5 /* MenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA478DE245AF11400BAB7A5 /* MenuItemView.swift */; };
+		8BA478E1245AFAE400BAB7A5 /* AddMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA478E0245AFAE400BAB7A5 /* AddMenuItemView.swift */; };
+		8BA478E3245B089C00BAB7A5 /* ResizableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA478E2245B089C00BAB7A5 /* ResizableTextField.swift */; };
+		8BA478E5245B17F900BAB7A5 /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA478E4245B17F900BAB7A5 /* Modifiers.swift */; };
+		8BA478E7245B1C9A00BAB7A5 /* AddFoodType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA478E6245B1C9A00BAB7A5 /* AddFoodType.swift */; };
 		8BDA448E24585C2100F054A0 /* AddCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDA448D24585C2100F054A0 /* AddCategoryView.swift */; };
 		8BDA44922458645400F054A0 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDA44912458645400F054A0 /* CategoryView.swift */; };
 		8BDA4495245871C100F054A0 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BDA4494245871C100F054A0 /* CloudKit.framework */; };
@@ -64,6 +70,12 @@
 		8B7A2761243FC3FF00760F5D /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		8B7A2763243FC6DC00760F5D /* AboutDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutDetailView.swift; sourceTree = "<group>"; };
 		8B7A2765243FCD8C00760F5D /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		8BA478DC245AED4800BAB7A5 /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
+		8BA478DE245AF11400BAB7A5 /* MenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemView.swift; sourceTree = "<group>"; };
+		8BA478E0245AFAE400BAB7A5 /* AddMenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMenuItemView.swift; sourceTree = "<group>"; };
+		8BA478E2245B089C00BAB7A5 /* ResizableTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizableTextField.swift; sourceTree = "<group>"; };
+		8BA478E4245B17F900BAB7A5 /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
+		8BA478E6245B1C9A00BAB7A5 /* AddFoodType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFoodType.swift; sourceTree = "<group>"; };
 		8BDA448D24585C2100F054A0 /* AddCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryView.swift; sourceTree = "<group>"; };
 		8BDA44912458645400F054A0 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		8BDA4494245871C100F054A0 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -138,6 +150,9 @@
 				8B7A275F243FC21500760F5D /* AdminView.swift */,
 				8BDA44912458645400F054A0 /* CategoryView.swift */,
 				8BDA448D24585C2100F054A0 /* AddCategoryView.swift */,
+				8BA478DE245AF11400BAB7A5 /* MenuItemView.swift */,
+				8BA478E0245AFAE400BAB7A5 /* AddMenuItemView.swift */,
+				8BA478E6245B1C9A00BAB7A5 /* AddFoodType.swift */,
 				8B7A2763243FC6DC00760F5D /* AboutDetailView.swift */,
 			);
 			path = "Supporting Views";
@@ -147,6 +162,8 @@
 			isa = PBXGroup;
 			children = (
 				8BDA4496245887D800F054A0 /* Spinner.swift */,
+				8BA478E2245B089C00BAB7A5 /* ResizableTextField.swift */,
+				8BA478E4245B17F900BAB7A5 /* Modifiers.swift */,
 				8B7A2742243F7D4800760F5D /* Extensions Files */,
 				8B7A2741243F7D1400760F5D /* JSON Files */,
 			);
@@ -157,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				8BDA449824588E5A00F054A0 /* Category.swift */,
+				8BA478DC245AED4800BAB7A5 /* MenuItem.swift */,
 				8B7A2759243F915600760F5D /* Information.swift */,
 				8B7A2761243FC3FF00760F5D /* About.swift */,
 			);
@@ -272,13 +290,18 @@
 				8B7A275A243F915600760F5D /* Information.swift in Sources */,
 				8B7A2760243FC21500760F5D /* AdminView.swift in Sources */,
 				8B7A2750243F809C00760F5D /* StringInterpolation-Number.swift in Sources */,
+				8BA478E5245B17F900BAB7A5 /* Modifiers.swift in Sources */,
+				8BA478DF245AF11400BAB7A5 /* MenuItemView.swift in Sources */,
 				8B7A2762243FC3FF00760F5D /* About.swift in Sources */,
 				8B7A2756243F8C6300760F5D /* MapView.swift in Sources */,
 				8BDA4497245887D800F054A0 /* Spinner.swift in Sources */,
 				8B7A2754243F82EB00760F5D /* InformationView.swift in Sources */,
 				8BDA44922458645400F054A0 /* CategoryView.swift in Sources */,
+				8BA478DD245AED4800BAB7A5 /* MenuItem.swift in Sources */,
+				8BA478E3245B089C00BAB7A5 /* ResizableTextField.swift in Sources */,
 				8BDA448E24585C2100F054A0 /* AddCategoryView.swift in Sources */,
 				8BDA449924588E5A00F054A0 /* Category.swift in Sources */,
+				8BA478E7245B1C9A00BAB7A5 /* AddFoodType.swift in Sources */,
 				8B7A2752243F81B700760F5D /* AboutView.swift in Sources */,
 				8B7A2728243F768A00760F5D /* AppDelegate.swift in Sources */,
 				8B7A274E243F7E8E00760F5D /* Bundle-Decodable.swift in Sources */,
@@ -286,6 +309,7 @@
 				8B7A272A243F768A00760F5D /* SceneDelegate.swift in Sources */,
 				8B7A272C243F768A00760F5D /* ContentView.swift in Sources */,
 				8B7A275E243FAC2A00760F5D /* WebView.swift in Sources */,
+				8BA478E1245AFAE400BAB7A5 /* AddMenuItemView.swift in Sources */,
 				8B7A2764243FC6DC00760F5D /* AboutDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

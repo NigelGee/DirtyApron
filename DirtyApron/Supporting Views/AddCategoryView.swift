@@ -14,6 +14,7 @@ struct AddCategoryView: View {
     @ObservedObject var categories: Categories
     
     @State var category: Category
+   
     var isEdit: Bool
     
     var body: some View {
@@ -23,22 +24,23 @@ struct AddCategoryView: View {
                     Toggle(isOn: $category.isEnable) {
                         Text("Enable")
                     }
-                    
-                    TextField("Category Name", text: $category.name)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
                 }
                 
-                Section{
-                    Button("Submit") {
+                Section(header: Text("Category Name")){
+                    TextField("Enter Name", text: $category.name)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                }
+            }
+            .navigationBarTitle("Add New Category", displayMode: .inline)
+            .navigationBarItems(
+                trailing:
+                    Button("Submit"){
                         if self.isEdit {
                             self.modify()
                         } else {
                             self.submit()
                         }
-                    }
-                }
-            }
-            .navigationBarTitle("Add New Category", displayMode: .inline)
+                    })
         }
     }
 // MARK: Add Categories
