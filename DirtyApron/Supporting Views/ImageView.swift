@@ -21,6 +21,7 @@ struct ImageView: View {
     }
 }
 
+
 struct ImageView_Previews: PreviewProvider {
     static var previews: some View {
         ImageView(image: Image("cup"))

@@ -17,6 +17,7 @@ class MenuItems: ObservableObject {
     static let typeColors: [String: Color] = ["GF": .orange, "VE": .red, "VG": .green, "OR": .blue, "HL": .purple]
 }
 
+
 struct MenuItem: Identifiable {
     var id = UUID()
     var recordID: CKRecord.ID?

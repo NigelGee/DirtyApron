@@ -30,6 +30,7 @@ struct AboutView: View {
             .navigationBarTitle("About", displayMode: .inline)
         }
     }
+    
 }
 
 struct AboutView_Previews: PreviewProvider {

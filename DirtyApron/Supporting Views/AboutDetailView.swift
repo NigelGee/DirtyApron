@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+
 struct AboutDetailView: View {
     var name: String
     var file: String

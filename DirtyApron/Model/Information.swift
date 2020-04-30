@@ -26,6 +26,7 @@ struct Information: Codable, Identifiable {
                 return "Closed"
             }
         }
+  
         
         var formattedCloseTime: String {
             if let close = close {

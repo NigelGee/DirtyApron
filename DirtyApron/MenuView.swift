@@ -14,6 +14,7 @@ struct MenuView: View {
             .resizable()
             .frame(width: 100, height: 150)
     }
+    
 }
 
 struct MenuView_Previews: PreviewProvider {

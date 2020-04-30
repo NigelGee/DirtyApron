@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+
 struct Spinner: UIViewRepresentable {
     let isAnimating: Bool
     let style: UIActivityIndicatorView.Style

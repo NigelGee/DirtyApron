@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+
 // MARK: Not using a present need to see how to get pickedType to the String array
 struct AddFoodType: View {@Environment(\.presentationMode) var presentationMode
     @State var menuItem: MenuItem
