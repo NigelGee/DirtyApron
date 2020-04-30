@@ -11,17 +11,17 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
-            InformationView()
-                .tabItem {
-                    Image(systemName: "exclamationmark.circle")
-                    Text("Info")
-                }
-            
-            MenuView()
-                .tabItem {
-                    Image(systemName: "doc.plaintext")
-                    Text("Menu")
-            }
+//            InformationView()
+//                .tabItem {
+//                    Image(systemName: "exclamationmark.circle")
+//                    Text("Info")
+//                }
+//            
+//            MenuView()
+//                .tabItem {
+//                    Image(systemName: "doc.plaintext")
+//                    Text("Menu")
+//            }
             
             AboutView()
                 .tabItem {

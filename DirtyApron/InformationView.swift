@@ -63,7 +63,6 @@ struct InformationView: View {
                     }
                     .foregroundColor(.secondary)
     
-                    
                     Spacer()
                 }
             }

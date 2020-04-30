@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-
 struct TypeBadges: ViewModifier {
     var text: String
         

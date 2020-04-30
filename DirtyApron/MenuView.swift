@@ -13,8 +13,7 @@ struct MenuView: View {
         Image(systemName: "doc.plaintext")
             .resizable()
             .frame(width: 100, height: 150)
-    }
-    
+    }    
 }
 
 struct MenuView_Previews: PreviewProvider {

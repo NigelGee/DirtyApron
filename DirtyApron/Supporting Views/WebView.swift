@@ -19,7 +19,6 @@ struct WebView: UIViewRepresentable {
             webView.allowsBackForwardNavigationGestures = false
         }
   
-        
         return webView
     }
     

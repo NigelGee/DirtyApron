@@ -11,8 +11,7 @@ import CloudKit
 
 struct MenuItemView: View {
     @EnvironmentObject var menuItems: MenuItems
- 
-    
+     
     @State var menuItem = MenuItem()
     @State private var showingAddMenuItem = false
     @State private var isEdit = false

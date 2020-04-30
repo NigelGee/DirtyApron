@@ -12,7 +12,6 @@ import CloudKit
 struct AddCategoryView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var categories: Categories
-
     
     @State var category: Category
    

@@ -11,8 +11,7 @@ import SwiftUI
 struct AddMenuItemView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var menuItems: MenuItems
-  
-    
+      
     @State var menuItem: MenuItem
     @State var height: CGFloat = 0
     @State private var showingAddType = false

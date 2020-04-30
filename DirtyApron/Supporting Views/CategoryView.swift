@@ -11,8 +11,7 @@ import CloudKit
 
 struct CategoryView: View {
     @EnvironmentObject var categories: Categories
- 
-    
+     
     @State private var isEdit = false
     @State private var addNewCategory = false
     @State private var item = Category()

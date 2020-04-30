@@ -27,7 +27,6 @@ struct Information: Codable, Identifiable {
             }
         }
   
-        
         var formattedCloseTime: String {
             if let close = close {
                 let formatter = DateFormatter()

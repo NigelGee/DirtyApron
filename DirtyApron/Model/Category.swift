@@ -13,7 +13,6 @@ class Categories: ObservableObject {
     @Published var lists: [Category] = []
 }
 
-
 struct Category: Identifiable {
     var id = UUID()
     var recordID: CKRecord.ID?

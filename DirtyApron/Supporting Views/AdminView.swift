@@ -14,7 +14,6 @@ struct AdminView: View {
     }
 }
 
-
 struct AdminView_Previews: PreviewProvider {
     static var previews: some View {
         AdminView()
