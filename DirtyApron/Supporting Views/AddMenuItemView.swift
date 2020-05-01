@@ -7,17 +7,21 @@
 //
 
 import SwiftUI
+import CloudKit
 
 struct AddMenuItemView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var menuItems: MenuItems
-      
+    
     @State var menuItem: MenuItem
     @State var height: CGFloat = 0
+    @State var amount: String
     @State private var showingAddType = false
+    @State private var showingAlert = false
     @State private var type = ""
-    @State private var amount = ""
-    
+    @State private var title = ""
+    @State private var message = ""
+    var category: Category
     var isEdit: Bool
     
     var body: some View {
@@ -32,12 +36,8 @@ struct AddMenuItemView: View {
                 Section {
                     TextField("Enter Name", text: $menuItem.name)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                    
-                    ResizableTextField(title: "Enter Description", text: $menuItem.description, height: $height)
-                        .frame(height: height)
-                        .background(Color.clear)
-                        .clipShape(RoundedRectangle(cornerRadius: 5))
-                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.secondary, lineWidth: 1))
+                    TextField("Enter Description", text: $menuItem.description)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
                     
                     HStack {
                         TextField("GF, VE, VG, OR, HL", text: $type)
@@ -46,6 +46,7 @@ struct AddMenuItemView: View {
                             self.menuItem.foodType.append(self.type.uppercased())
                             self.type = ""
                         }
+                        .styleButton(colour: type == "" ? .gray : .blue)
                         .disabled(type == "")
                     }
                     
@@ -57,6 +58,7 @@ struct AddMenuItemView: View {
                     }
                     
                     TextField("Amount", text: $amount)
+                        //                        .keyboardType(.decimalPad)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                 }
                 
@@ -64,26 +66,109 @@ struct AddMenuItemView: View {
                     Text("Add Picture here")
                 }
             }
-            .navigationBarTitle("Add New Item", displayMode: .inline)
-            .navigationBarItems(trailing: Button("Submit") {
-                self.saveItem()
-                self.presentationMode.wrappedValue.dismiss()
-            })
+            .alert(isPresented: $showingAlert) {
+                Alert(title: Text(title), message: Text(message), dismissButton: .default(Text("OK")))
+            }
+            .navigationBarTitle("\(isEdit ? "Edit" : "Add") \(category.name) item", displayMode: .inline)
+            .navigationBarItems(
+                leading:
+                    Button("Dismiss") {
+                        self.presentationMode.wrappedValue.dismiss()
+                    },
+                trailing:
+                    Button("Submit") {
+                        if self.isEdit {
+                            self.modifyItem()
+                        } else {
+                            self.saveItem()
+                        }
+                }.disabled(menuItem.name == ""))
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
-    
+    //MARK: Save Menu Item
     func saveItem() {
         if let actualAmount = Double(self.amount) {
+            let itemRecord = CKRecord(recordType: "Items")
             let item = MenuItem(name: menuItem.name, description: menuItem.description, amount: actualAmount, isEnable: menuItem.isEnable, foodType: menuItem.foodType)
-            menuItems.lists.append(item)
+            if let recordID = category.recordID {
+                let reference = CKRecord.Reference(recordID: recordID, action: .deleteSelf)
+                itemRecord["owningCategory"] = reference as CKRecordValue
+                itemRecord["isEnable"] = menuItem.isEnable as CKRecordValue
+                itemRecord["name"] = menuItem.name as CKRecordValue
+                itemRecord["description"] = menuItem.description as CKRecordValue
+                itemRecord["foodType"] = menuItem.foodType as CKRecordValue
+                itemRecord["amount"] = actualAmount as CKRecordValue
+                
+                CKContainer.default().publicCloudDatabase.save(itemRecord) { (record, error) in
+                    DispatchQueue.main.async {
+                        if let error = error {
+                            print(error.localizedDescription)
+                        } else {
+                            self.menuItems.lists.append(item)
+                        }
+                    }
+                }
+            }
+            presentationMode.wrappedValue.dismiss()
         } else {
-            print("Invalid Amount")
+            title = "Incorrect Amount!"
+            message = "You must enter a valid amount"
+            showingAlert.toggle()
+        }
+    }
+    //MARK: Modify Menu Item
+    func modifyItem() {
+        if let actualAmount = Double(amount) {
+            guard let recordID = menuItem.recordID else { return }
+            CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { (itemRecord, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    guard let itemRecord = itemRecord else { return }
+                    itemRecord["isEnable"] = self.menuItem.isEnable as CKRecordValue
+                    itemRecord["name"] = self.menuItem.name as CKRecordValue
+                    itemRecord["description"] = self.menuItem.description as CKRecordValue
+                    itemRecord["foodType"] = self.menuItem.foodType as CKRecordValue
+                    itemRecord["amount"] = actualAmount as CKRecordValue
+                    
+                    CKContainer.default().publicCloudDatabase.save(itemRecord) { (record, error) in
+                        if let error = error {
+                            print(error.localizedDescription)
+                        } else {
+                            guard let record = record else { return }
+                            let recordID = record.recordID
+                            guard let isEnable = record["isEnable"] as? Bool else { return }
+                            guard let name = record["name"] as? String else { return }
+                            guard let description = record["description"] as? String else { return }
+                            guard let foodType = record["foodType"] as? [String] else { return }
+                            guard let amount = record["amount"] as? Double else { return }
+                            
+                            let editItem = MenuItem(recordID: recordID, name: name, description: description, amount: amount, isEnable: isEnable, foodType: foodType)
+                            
+                            DispatchQueue.main.async {
+                                for i in 0..<self.menuItems.lists.count {
+                                    let currentItem = self.menuItems.lists[i]
+                                    if currentItem.recordID == editItem.recordID {
+                                        self.menuItems.lists[i] = editItem
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            presentationMode.wrappedValue.dismiss()
+        } else {
+            title = "Incorrect Amount!"
+            message = "You must enter a valid amount"
+            showingAlert.toggle()
         }
     }
 }
 
 struct AddMenuItemView_Previews: PreviewProvider {
     static var previews: some View {
-        AddMenuItemView(menuItems: MenuItems(), menuItem: MenuItem(), isEdit: true)
+        AddMenuItemView(menuItems: MenuItems(), menuItem: MenuItem(), amount: "", category: Category(), isEdit: false)
     }
 }

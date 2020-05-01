@@ -27,10 +27,9 @@ struct Buttons: ViewModifier {
     func body(content: Content) -> some View{
         content
             .foregroundColor(.white)
-            .padding(4)  
+            .padding(5)  
             .background(colour)
             .clipShape(Capsule())
-            .padding(.top)
     }
 }
 

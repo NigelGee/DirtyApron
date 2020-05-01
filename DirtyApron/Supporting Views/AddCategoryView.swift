@@ -31,17 +31,22 @@ struct AddCategoryView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                 }
             }
-            .navigationBarTitle("Add New Category", displayMode: .inline)
+            .navigationBarTitle("\(isEdit ? "Edit" : "Add New") Category", displayMode: .inline)
             .navigationBarItems(
+                leading:
+                    Button("Dismiss") {
+                        self.presentationMode.wrappedValue.dismiss()
+                    },
                 trailing:
-                    Button("Submit"){
+                    Button("Submit") {
                         if self.isEdit {
                             self.modify()
                         } else {
                             self.submit()
                         }
-                    })
+                    }.disabled(category.name == ""))
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 // MARK: Add Categories
     func submit() {

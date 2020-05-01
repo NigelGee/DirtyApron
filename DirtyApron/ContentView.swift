@@ -16,7 +16,7 @@ struct ContentView: View {
 //                    Image(systemName: "exclamationmark.circle")
 //                    Text("Info")
 //                }
-//            
+//
 //            MenuView()
 //                .tabItem {
 //                    Image(systemName: "doc.plaintext")
