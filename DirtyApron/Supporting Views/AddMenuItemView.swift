@@ -133,8 +133,13 @@ struct AddMenuItemView: View {
     func loadImage() {
         guard let inputImage = inputImage else { return }
         image = Image(uiImage: inputImage)
+        let imageData:Data = inputImage.jpegData(compressionQuality: 1.0)!
         let imageURL = ImageHelper.getImageURL()
-        print(imageURL)
+        do {
+            try imageData.write(to: imageURL, options: .atomic)
+        } catch {
+            print("Error loading Image")
+        }
     }
     
     //MARK: Save Menu Item
@@ -150,7 +155,7 @@ struct AddMenuItemView: View {
                 itemRecord["description"] = menuItem.description as CKRecordValue
                 itemRecord["foodType"] = menuItem.foodType as CKRecordValue
                 itemRecord["amount"] = actualAmount as CKRecordValue
-                
+ //MARK: TODO: Error when saving Image Asset
                 let imageURL = ImageHelper.getImageURL()
                 let imageAsset = CKAsset(fileURL: imageURL)
                 itemRecord["image"] = imageAsset
