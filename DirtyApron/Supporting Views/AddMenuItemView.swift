@@ -13,10 +13,12 @@ struct AddMenuItemView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var menuItems: MenuItems
     
+    @State private var image: Image?
+    @State private var inputImage: UIImage?
     @State var menuItem: MenuItem
     @State var height: CGFloat = 0
     @State var amount: String
-    @State private var showingAddType = false
+    @State private var showingImagePicker = false
     @State private var showingAlert = false
     @State private var type = ""
     @State private var title = ""
@@ -26,55 +28,93 @@ struct AddMenuItemView: View {
     
     var body: some View {
         NavigationView {
-            Form {
-                Section {
-                    Toggle(isOn: $menuItem.isEnable) {
-                        Text("Enable")
+            VStack {
+                Form {
+                    Section {
+                        Toggle(isOn: $menuItem.isEnable) {
+                            Text("Enable")
+                        }
                     }
-                }
-                
-                Section {
-                    TextField("Enter Name", text: $menuItem.name)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                    TextField("Enter Description", text: $menuItem.description)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
                     
-                    HStack {
-                        TextField("GF, VE, VG, OR, HL", text: $type)
+                    Section(header: Text("Details of Item")) {
+                        TextField("Enter Name", text: $menuItem.name)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
-                        Button("Add") {
-                            self.menuItem.foodType.append(self.type.uppercased())
-                            self.type = ""
+                        TextField("Enter Description", text: $menuItem.description)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        
+                        HStack {
+                            TextField("GF, VE, VG, OR, HL", text: $type)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                            Button("Add") {
+                                self.menuItem.foodType.append(self.type.uppercased())
+                                self.type = ""
+                            }
+                            .styleButton(colour: type == "" ? .gray : .blue)
+                            .disabled(type == "")
                         }
-                        .styleButton(colour: type == "" ? .gray : .blue)
-                        .disabled(type == "")
-                    }
-                    
-                    HStack {
-                        ForEach(menuItem.foodType, id: \.self) { type in
-                            Text(type)
-                                .badgesStyle(text: type)
+                        
+                        HStack {
+                            ForEach(menuItem.foodType, id: \.self) { type in
+                                Text(type)
+                                    .badgesStyle(text: type)
+                            }
                         }
+                        
+                        TextField("Amount", text: $amount)
+//                            .keyboardType(.decimalPad)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
                     }
+                }
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        self.showingImagePicker = true
+                    }){
+                        Image(systemName: "photo")
+                            .font(.title)
+                    }
+                    .styleButton(colour: .green, padding: 7)
+                    .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
+                        ImagePicker(image: self.$inputImage)
+                    }
+                    Spacer()
+                    Button(action: {
+                        print("Take")
+                        // Action to take picture
+                    }){
+                        Image(systemName: "camera")
+                            .font(.title)
+                    }
+                    .styleButton(colour: .red, padding: 7)
+                    Spacer()
+                }
+                ZStack {
+                    Rectangle()
+                        .fill(Color.secondary)
                     
-                    TextField("Amount", text: $amount)
-                        //                        .keyboardType(.decimalPad)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                    if image != nil {
+                        image?
+                            .resizable()
+                            .scaledToFill()
+                    } else {
+                        Image(systemName: "photo")
+                            .foregroundColor(.white)
+                            .font(.largeTitle)
+                    }
                 }
-                
-                Section(header: Text("Picture")) {
-                    Text("Add Picture here")
-                }
+                .frame(height: 200)
+                .padding()
             }
             .alert(isPresented: $showingAlert) {
                 Alert(title: Text(title), message: Text(message), dismissButton: .default(Text("OK")))
             }
+            
             .navigationBarTitle("\(isEdit ? "Edit" : "Add") \(category.name) item", displayMode: .inline)
             .navigationBarItems(
                 leading:
-                    Button("Dismiss") {
-                        self.presentationMode.wrappedValue.dismiss()
-                    },
+                Button("Dismiss") {
+                    self.presentationMode.wrappedValue.dismiss()
+                },
                 trailing:
                     Button("Submit") {
                         if self.isEdit {
@@ -82,10 +122,21 @@ struct AddMenuItemView: View {
                         } else {
                             self.saveItem()
                         }
-                }.disabled(menuItem.name == ""))
+                    }
+                    .padding()
+                    .disabled(menuItem.name == "")
+            )
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
+    //MARK: Load Image
+    func loadImage() {
+        guard let inputImage = inputImage else { return }
+        image = Image(uiImage: inputImage)
+        let imageURL = ImageHelper.getImageURL()
+        print(imageURL)
+    }
+    
     //MARK: Save Menu Item
     func saveItem() {
         if let actualAmount = Double(self.amount) {
@@ -99,6 +150,10 @@ struct AddMenuItemView: View {
                 itemRecord["description"] = menuItem.description as CKRecordValue
                 itemRecord["foodType"] = menuItem.foodType as CKRecordValue
                 itemRecord["amount"] = actualAmount as CKRecordValue
+                
+                let imageURL = ImageHelper.getImageURL()
+                let imageAsset = CKAsset(fileURL: imageURL)
+                itemRecord["image"] = imageAsset
                 
                 CKContainer.default().publicCloudDatabase.save(itemRecord) { (record, error) in
                     DispatchQueue.main.async {

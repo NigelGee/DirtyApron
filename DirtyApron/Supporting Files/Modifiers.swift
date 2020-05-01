@@ -23,11 +23,13 @@ struct TypeBadges: ViewModifier {
 
 struct Buttons: ViewModifier {
     var colour: Color
+    var padding: CGFloat
     
     func body(content: Content) -> some View{
         content
             .foregroundColor(.white)
-            .padding(5)  
+            .padding(padding)
+            .padding(.horizontal, padding * 2)
             .background(colour)
             .clipShape(Capsule())
     }
@@ -38,7 +40,7 @@ extension View {
         self.modifier(TypeBadges(text: text))
     }
     
-    func styleButton(colour: Color) -> some View {
-        self.modifier(Buttons(colour: colour))
+    func styleButton(colour: Color, padding: CGFloat = 5) -> some View {
+        self.modifier(Buttons(colour: colour, padding: padding))
     }
 }

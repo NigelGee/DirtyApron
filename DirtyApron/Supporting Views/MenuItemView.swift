@@ -58,12 +58,16 @@ struct MenuItemView: View {
         .navigationBarTitle(category.name)
         .navigationBarItems(
             trailing:
-                Button(action: {
-                    self.showingAddMenuItem.toggle()
-                }) {
-                    Image(systemName: "plus")
-                }
-        )
+                HStack {
+                    EditButton()
+                    
+                    Button(action: {
+                        self.showingAddMenuItem.toggle()
+                    }) {
+                        Image(systemName: "plus")
+                    }
+                    .padding()
+                })
     }
     
     func disappear() {
