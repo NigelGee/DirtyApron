@@ -95,7 +95,9 @@ struct AddMenuItemView: View {
                     if image != nil {
                         image?
                             .resizable()
-                            .scaledToFill()
+                            .scaledToFit()
+                        
+                            
                     } else {
                         Image(systemName: "photo")
                             .foregroundColor(.white)
@@ -105,6 +107,7 @@ struct AddMenuItemView: View {
                 .frame(height: 200)
                 .padding()
             }
+            .onAppear(perform: fetchImage)
             .alert(isPresented: $showingAlert) {
                 Alert(title: Text(title), message: Text(message), dismissButton: .default(Text("OK")))
             }
@@ -133,12 +136,35 @@ struct AddMenuItemView: View {
     func loadImage() {
         guard let inputImage = inputImage else { return }
         image = Image(uiImage: inputImage)
-        let imageData:Data = inputImage.jpegData(compressionQuality: 1.0)!
+        let imageData:Data = inputImage.jpegData(compressionQuality: 0.5)!
         let imageURL = ImageHelper.getImageURL()
         do {
-            try imageData.write(to: imageURL, options: .atomic)
+            try imageData.write(to: imageURL)
         } catch {
             print("Error loading Image")
+        }
+    }
+    
+    func fetchImage() {
+        if isEdit {
+            guard let recordID = menuItem.recordID else { return }
+            
+            CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { (record, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    guard let record = record else { return }
+                    guard let asset = record["image"] as? CKAsset else {
+                        print("Image missing")
+                        return }
+                    guard let assetURL = asset.fileURL else { return }
+                    guard let imageData = NSData(contentsOf: assetURL) else { return }
+                    
+                    let uiImage = UIImage(data: imageData as Data)
+                    self.inputImage = uiImage
+                    self.loadImage()
+                }
+            }
         }
     }
     
@@ -155,7 +181,7 @@ struct AddMenuItemView: View {
                 itemRecord["description"] = menuItem.description as CKRecordValue
                 itemRecord["foodType"] = menuItem.foodType as CKRecordValue
                 itemRecord["amount"] = actualAmount as CKRecordValue
- //MARK: TODO: Error when saving Image Asset
+ 
                 let imageURL = ImageHelper.getImageURL()
                 let imageAsset = CKAsset(fileURL: imageURL)
                 itemRecord["image"] = imageAsset
@@ -191,6 +217,10 @@ struct AddMenuItemView: View {
                     itemRecord["description"] = self.menuItem.description as CKRecordValue
                     itemRecord["foodType"] = self.menuItem.foodType as CKRecordValue
                     itemRecord["amount"] = actualAmount as CKRecordValue
+                    
+                    let imageURL = ImageHelper.getImageURL()
+                    let imageAsset = CKAsset(fileURL: imageURL)
+                    itemRecord["image"] = imageAsset
                     
                     CKContainer.default().publicCloudDatabase.save(itemRecord) { (record, error) in
                         if let error = error {

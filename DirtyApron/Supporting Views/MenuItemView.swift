@@ -16,7 +16,6 @@ struct MenuItemView: View {
     @State private var showingAddMenuItem = false
     @State private var isEdit = false
     @State var pickedType = [String]()
-    
     var category: Category!
     
     var body: some View {
