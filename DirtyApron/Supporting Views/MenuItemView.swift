@@ -37,9 +37,15 @@ struct MenuItemView: View {
                     }
                     
                     Spacer()
-                    
-                    Text("£\(menuItem.amount, specifier: "%.2f")")
-                        .styleButton(colour: .blue)
+                    Group {
+                        if menuItem.amount != 0 {
+                            Text("£\(menuItem.amount, specifier: "%.2f")")
+                                .styleButton(colour: .blue)
+                        } else {
+                            Text(" INFO")
+                                .styleButton(colour: .gray)
+                        }
+                    }
                 }
                 .onTapGesture(count: 2) {
                     self.menuItem = menuItem

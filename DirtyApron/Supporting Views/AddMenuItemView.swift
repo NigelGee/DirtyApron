@@ -15,6 +15,7 @@ struct AddMenuItemView: View {
     
     @State private var image: Image?
     @State private var inputImage: UIImage?
+    @State private var source: UIImagePickerController.SourceType = .photoLibrary
     @State var menuItem: MenuItem
     @State var height: CGFloat = 0
     @State var amount: String
@@ -69,43 +70,52 @@ struct AddMenuItemView: View {
                     Spacer()
                     Button(action: {
                         self.showingImagePicker = true
+                        self.source = .photoLibrary
                     }){
                         Image(systemName: "photo")
                             .font(.title)
                     }
                     .styleButton(colour: .green, padding: 7)
                     .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
-                        ImagePicker(image: self.$inputImage)
+                        ImagePicker(image: self.$inputImage, source: self.$source)
                     }
                     Spacer()
-                    Button(action: {
-                        print("Take")
-                        // Action to take picture
-                    }){
-                        Image(systemName: "camera")
-                            .font(.title)
+                    if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                        Button(action: {
+                            self.showingImagePicker = true
+                            self.source = .camera
+                        }){
+                            Image(systemName: "camera")
+                                .font(.title)
+                        }
+                        .styleButton(colour: .red, padding: 7)
+                        Spacer()
                     }
-                    .styleButton(colour: .red, padding: 7)
-                    Spacer()
                 }
-                ZStack {
-                    Rectangle()
+                
+                Group {
+                    ZStack {
+                        Rectangle()
                         .fill(Color.secondary)
-                    
-                    if image != nil {
-                        image?
-                            .resizable()
-                            .scaledToFit()
+                        .frame(height: 200)
                         
-                            
-                    } else {
-                        Image(systemName: "photo")
-                            .foregroundColor(.white)
-                            .font(.largeTitle)
+                        if image != nil {
+                            image?
+                                .resizable()
+                                .frame(minWidth: 200, maxWidth: 250, idealHeight: 200)
+                                .scaledToFit()
+                        } else {
+                            ZStack {
+                             
+                                
+                            Image(systemName: "photo")
+                                .foregroundColor(.white)
+                                .font(.largeTitle)
+                            }
+                        }
                     }
                 }
-                .frame(height: 200)
-                .padding()
+                
             }
             .onAppear(perform: fetchImage)
             .alert(isPresented: $showingAlert) {
