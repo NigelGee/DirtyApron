@@ -60,7 +60,7 @@ struct AddMenuItemView: View {
                             }
                         }
                         
-                        TextField("Amount", text: $amount)
+                        TextField("Enter Amount", text: $amount)
 //                            .keyboardType(.decimalPad)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                     }
@@ -116,7 +116,7 @@ struct AddMenuItemView: View {
                         }
                     }
                     .padding()
-                    .disabled(menuItem.name == "")
+                    .disabled(menuItem.name == "" || image == nil)
             )
         }
         .navigationViewStyle(StackNavigationViewStyle())
