@@ -17,7 +17,6 @@ struct AddMenuItemView: View {
     @State private var inputImage: UIImage?
     @State private var source: UIImagePickerController.SourceType = .photoLibrary
     @State var menuItem: MenuItem
-    @State var height: CGFloat = 0
     @State var amount: String
     @State private var showingImagePicker = false
     @State private var showingAlert = false
@@ -76,9 +75,7 @@ struct AddMenuItemView: View {
                             .font(.title)
                     }
                     .styleButton(colour: .green, padding: 7)
-                    .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
-                        ImagePicker(image: self.$inputImage, source: self.$source)
-                    }
+
                     Spacer()
                     if UIImagePickerController.isSourceTypeAvailable(.camera) {
                         Button(action: {
@@ -93,31 +90,13 @@ struct AddMenuItemView: View {
                     }
                 }
                 
-                Group {
-                    ZStack {
-                        Rectangle()
-                        .fill(Color.secondary)
-                        .frame(height: 200)
-                        
-                        if image != nil {
-                            image?
-                                .resizable()
-                                .frame(minWidth: 200, maxWidth: 250, idealHeight: 200)
-                                .scaledToFit()
-                        } else {
-                            ZStack {
-                             
-                                
-                            Image(systemName: "photo")
-                                .foregroundColor(.white)
-                                .font(.largeTitle)
-                            }
-                        }
-                    }
-                }
+                ItemImageView(image: image, width: 200)
                 
             }
             .onAppear(perform: fetchImage)
+            .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
+                ImagePicker(image: self.$inputImage, source: self.$source)
+            }
             .alert(isPresented: $showingAlert) {
                 Alert(title: Text(title), message: Text(message), dismissButton: .default(Text("OK")))
             }

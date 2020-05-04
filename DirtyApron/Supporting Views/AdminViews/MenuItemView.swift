@@ -21,6 +21,7 @@ struct MenuItemView: View {
     var body: some View {
         List {
             ForEach(menuItems.lists, id: \.id) { menuItem in
+                NavigationLink(destination: DetailItemView(menuItem: menuItem)){
                 HStack {
                     VStack(alignment: .leading, spacing: 5) {
                         Text(menuItem.name)
@@ -43,7 +44,6 @@ struct MenuItemView: View {
                                 .styleButton(colour: .blue)
                         } else {
                             Text(" INFO")
-                                .styleButton(colour: .gray)
                         }
                     }
                 }
@@ -53,10 +53,10 @@ struct MenuItemView: View {
                     self.showingAddMenuItem.toggle()
                 }
             }
+            }
             .onDelete(perform: deleteItem)
         }
         .onAppear(perform: fetchItems)
-        .onDisappear(perform: disappear)
         .sheet(isPresented: $showingAddMenuItem) {
             AddMenuItemView(menuItems: self.menuItems, menuItem: self.menuItem, amount: String(self.menuItem.amount), category: self.category, isEdit: self.isEdit)
         }
@@ -75,9 +75,6 @@ struct MenuItemView: View {
                 })
     }
     
-    func disappear() {
-        self.menuItems.lists = []
-    }
 //MARK: Fetch Menu Items
     func fetchItems() {
         if let recordID = category.recordID {

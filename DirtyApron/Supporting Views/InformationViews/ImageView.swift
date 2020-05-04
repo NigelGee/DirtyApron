@@ -13,8 +13,8 @@ struct ImageView: View {
     
     var body: some View {
         image.resizable()
-        .scaledToFill()
             .frame(width: 200, height: 100)
+            .scaledToFill()
             .clipShape(Capsule())
             .overlay(Capsule().stroke(Color.white, lineWidth: 4))
             .shadow(radius: 10)

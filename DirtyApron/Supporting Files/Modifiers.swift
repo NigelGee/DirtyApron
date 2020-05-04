@@ -28,10 +28,24 @@ struct Buttons: ViewModifier {
     func body(content: Content) -> some View{
         content
             .foregroundColor(.white)
-            .padding(padding)
+            .padding(.vertical, padding)
             .padding(.horizontal, padding * 2)
             .background(colour)
             .clipShape(Capsule())
+    }
+}
+
+struct Images: ViewModifier {
+    var width: CGFloat
+//    var height: CGFloat
+    
+    func body(content: Content) -> some View {
+        content
+            .frame(width: width, height: width)
+            .scaledToFill()
+            .clipShape(Circle())
+            .overlay(Circle().stroke(Color.white, lineWidth: 4))
+            .shadow(radius: 10)
     }
 }
 
@@ -40,7 +54,11 @@ extension View {
         self.modifier(TypeBadges(text: text))
     }
     
-    func styleButton(colour: Color, padding: CGFloat = 5) -> some View {
+    func styleButton(colour: Color, padding: CGFloat = 4) -> some View {
         self.modifier(Buttons(colour: colour, padding: padding))
+    }
+    
+    func styleImage(width: CGFloat) -> some View {
+        self.modifier(Images(width: width))
     }
 }
