@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B158C9B246171C100B9E6AE /* CKHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B158C9A246171C100B9E6AE /* CKHelper.swift */; };
 		8B7A2728243F768A00760F5D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7A2727243F768A00760F5D /* AppDelegate.swift */; };
 		8B7A272A243F768A00760F5D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7A2729243F768A00760F5D /* SceneDelegate.swift */; };
 		8B7A272C243F768A00760F5D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7A272B243F768A00760F5D /* ContentView.swift */; };
@@ -48,6 +49,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8B158C9A246171C100B9E6AE /* CKHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKHelper.swift; sourceTree = "<group>"; };
 		8B7A2724243F768A00760F5D /* DirtyApron.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DirtyApron.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B7A2727243F768A00760F5D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8B7A2729243F768A00760F5D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -152,11 +154,11 @@
 		8B7A273D243F78DA00760F5D /* Supporting Views */ = {
 			isa = PBXGroup;
 			children = (
+				8B9AE019245EC3D7002A2B35 /* ItemImageView.swift */,
 				8B9AE018245EC03C002A2B35 /* MenuViews */,
 				8B9AE012245EBAEE002A2B35 /* InformationViews */,
 				8B9AE011245EBA02002A2B35 /* AdminViews */,
 				8B9AE013245EBB23002A2B35 /* AboutViews */,
-				8B9AE019245EC3D7002A2B35 /* ItemImageView.swift */,
 			);
 			path = "Supporting Views";
 			sourceTree = "<group>";
@@ -166,6 +168,7 @@
 			children = (
 				8BDA4496245887D800F054A0 /* Spinner.swift */,
 				8BA478E2245B089C00BAB7A5 /* ResizableTextField.swift */,
+				8B158C9A246171C100B9E6AE /* CKHelper.swift */,
 				8B9AE00F245C95EE002A2B35 /* ImageHelper.swift */,
 				8BA478E4245B17F900BAB7A5 /* Modifiers.swift */,
 				8B7A2742243F7D4800760F5D /* Extensions Files */,
@@ -333,6 +336,7 @@
 				8B7A275C243FA85200760F5D /* ImageView.swift in Sources */,
 				8B7A275A243F915600760F5D /* Information.swift in Sources */,
 				8B7A2760243FC21500760F5D /* AdminView.swift in Sources */,
+				8B158C9B246171C100B9E6AE /* CKHelper.swift in Sources */,
 				8B7A2750243F809C00760F5D /* StringInterpolation-Number.swift in Sources */,
 				8BA478E5245B17F900BAB7A5 /* Modifiers.swift in Sources */,
 				8BA478DF245AF11400BAB7A5 /* MenuItemView.swift in Sources */,

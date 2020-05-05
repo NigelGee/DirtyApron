@@ -13,6 +13,7 @@ class MenuItems: ObservableObject {
     @Published var lists = [MenuItem]()
     
     static let typeColors: [String: Color] = ["GF": .orange, "VE": .red, "VG": .green, "OR": .blue, "HL": .purple]
+    static let typeFullName: [String: String] = ["GF": "Gluten Free", "VE": "Vegetarian", "VG": "Vegan", "OR": "Organic", "HL": "Halal"]
 }
 
 struct MenuItem: Identifiable {

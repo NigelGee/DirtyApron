@@ -11,7 +11,7 @@ import CloudKit
 
 struct MenuItemView: View {
     @EnvironmentObject var menuItems: MenuItems
-     
+    
     @State var menuItem = MenuItem()
     @State private var showingAddMenuItem = false
     @State private var isEdit = false
@@ -40,12 +40,16 @@ struct MenuItemView: View {
                         Spacer()
                         Group {
                             if menuItem.amount != 0 {
+//                                Text("£\(menuItem.amount, specifier: "%.2f")")
                                 Button(action : {
                                     print("\(menuItem.name) - £\(menuItem.amount)")
                                 }) {
+                                    
                                     Text("£\(menuItem.amount, specifier: "%.2f")")
                                         .styleButton(colour: .blue)
+                                    
                                 }
+                                .padding(.leading)
                                 .buttonStyle(PlainButtonStyle())
                             } else {
                                 Text(" INFO")
@@ -56,70 +60,45 @@ struct MenuItemView: View {
                         self.menuItem = menuItem
                         self.isEdit = true
                         self.showingAddMenuItem.toggle()
+                    }
                 }
-            }
             }
             .onDelete(perform: deleteItem)
         }
-        .onAppear(perform: fetchItems)
+        .onAppear(perform: loadItems)
         .sheet(isPresented: $showingAddMenuItem) {
             AddMenuItemView(menuItems: self.menuItems, menuItem: self.menuItem, amount: (self.menuItem.amount == 0 ? "" : String(self.menuItem.amount)), category: self.category, isEdit: self.isEdit)
         }
         .navigationBarTitle(category.name)
         .navigationBarItems(
             trailing:
-                HStack {
-                    EditButton()
-                    
-                    Button(action: {
-                        self.showingAddMenuItem.toggle()
-                    }) {
-                        Image(systemName: "plus")
-                    }
-                    .padding()
-                })
+            HStack {
+                EditButton()
+                
+                Button(action: {
+                    self.showingAddMenuItem.toggle()
+                }) {
+                    Image(systemName: "plus")
+                }
+                .padding()
+        })
     }
     
-//MARK: Fetch Menu Items
-    func fetchItems() {
+    //MARK: Fetch Menu Items
+    func loadItems() {
         if let recordID = category.recordID {
-            let reference = CKRecord.Reference(recordID: recordID, action: .deleteSelf)
-            let predicate = NSPredicate(format: "owningCategory == %@", reference)
-            let sort = NSSortDescriptor(key: "creationDate", ascending: true)
-            let query = CKQuery(recordType: "Items", predicate: predicate)
-            query.sortDescriptors = [sort]
-            
-            let operation = CKQueryOperation(query: query)
-            operation.desiredKeys = ["isEnable", "name", "description","foodType", "amount"]
-            operation.resultsLimit = 50
-            
-            var newItems = [MenuItem]()
-            
-            operation.recordFetchedBlock = { record in
-                var item = MenuItem()
-                item.recordID = record.recordID
-                item.isEnable = record["isEnable"] as! Bool
-                item.name = record["name"] as! String
-                item.description = record["description"] as! String
-                item.foodType = record["foodType"] as! [String]
-                item.amount = record["amount"] as! Double
-                newItems.append(item)
-            }
-            
-            operation.queryCompletionBlock = { (cursor, error) in
-                DispatchQueue.main.async {
-                    if let error = error {
-                        print(error.localizedDescription)
-                    } else {
-                        self.menuItems.lists = newItems
-                    }
+            CKHelper.fetchItems(recordID: recordID) { (results) in
+                switch results {
+                case .success(let newItems):
+                    self.menuItems.lists = newItems
+                case .failure(let error):
+                    print(error.localizedDescription)
                 }
             }
-            CKContainer.default().publicCloudDatabase.add(operation)
         }
     }
     
-//MARK: Delete Menu Item
+    //MARK: Delete Menu Item
     func deleteItem(indexSet: IndexSet) {
         guard let index = indexSet.first else { return }
         guard let recordID = menuItems.lists[index].recordID else { return }

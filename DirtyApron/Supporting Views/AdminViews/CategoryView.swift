@@ -57,39 +57,17 @@ struct CategoryView: View {
                     })
     }
 // MARK: Fetch Categories
-    func loadCategories() {
-        let predicate = NSPredicate(value: true)
-        let position = NSSortDescriptor(key: "position", ascending: true)
-        let name = NSSortDescriptor(key: "name", ascending: true)
-        let query = CKQuery(recordType: "Categories", predicate: predicate)
-        query.sortDescriptors = [position, name]
-        
-        let operation = CKQueryOperation(query: query)
-        operation.desiredKeys = ["name", "isEnable", "position"]
-        operation.resultsLimit = 50
-        
-        var newCategories = [Category]()
-        
-        operation.recordFetchedBlock = { record in
-            var category = Category()
-            category.recordID = record.recordID
-            category.name = record["name"] as! String
-            category.isEnable = record["isEnable"] as! Bool
-            category.position = record["position"] as! Int
-            newCategories.append(category)
-        }
-        
-        operation.queryCompletionBlock = { (cursor, error) in
+    private func loadCategories() {
+        CKHelper.fetchCategories { (results) in
             DispatchQueue.main.async {
-                if let error = error {
-                    self.message = error.localizedDescription
-                    self.showingAlert.toggle()
-                } else {
-                    self.categories.lists = newCategories
+                switch results {
+                case .success(let newCategories):
+                   self.categories.lists = newCategories
+                case .failure(let error):
+                    print(error.localizedDescription)
                 }
             }
         }
-        CKContainer.default().publicCloudDatabase.add(operation)
     }
 // MARK: Delete Categories
     func delete(indexSet: IndexSet) {
@@ -97,14 +75,14 @@ struct CategoryView: View {
         guard let recordID = categories.lists[index].recordID else { return }
         
         CKContainer.default().publicCloudDatabase.delete(withRecordID: recordID) { (recordID, error) in
-            DispatchQueue.main.async {
+//            DispatchQueue.main.async {
                 if let error = error {
                     self.message = error.localizedDescription
                     self.showingAlert.toggle()
                 } else {
                     self.categories.lists.remove(at: index)
                 }
-            }
+//            }
         }
     }
 //MARK: Move Categories

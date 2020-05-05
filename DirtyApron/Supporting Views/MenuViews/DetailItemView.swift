@@ -41,23 +41,22 @@ struct DetailItemView: View {
                 .padding()
                 VStack(alignment: .leading) {
                     HStack {
-                        ForEach(menuItem.foodType, id: \.self) {
-                            Text($0)
-                                .badgesStyle(text: $0)
+                        ForEach(menuItem.foodType, id: \.self) { type in
+                            Text(MenuItems.typeFullName[type, default: type])
+                                .badgesStyle(text: type)
                         }
                         Spacer()
                     }
                     .padding(.horizontal)
-                }
-                
-                Text(menuItem.description)
+                    
+                    Text(menuItem.description)
                     .padding()
+                }
                 Spacer()
             }
             .onAppear(perform: fetchImage)
             .navigationBarTitle(menuItem.name)
         }
-        
     }
         
     func fetchImage() {

@@ -22,12 +22,13 @@ struct ItemImageView: View {
                 image!
                     .resizable()
                     .styleImage(width: width)
+                    
             } else {
                 Image(systemName: "photo")
                     .font(.title)
                     .foregroundColor(.white)
             }
-        }
+        }        
     }
 }
 

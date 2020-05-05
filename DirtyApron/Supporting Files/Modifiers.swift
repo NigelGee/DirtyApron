@@ -16,7 +16,7 @@ struct TypeBadges: ViewModifier {
             .font(.caption)
             .padding(4)
             .background(MenuItems.typeColors[text, default: .black])
-            .clipShape(Circle())
+            .clipShape(Capsule())
             .foregroundColor(.white)
     }
 }
