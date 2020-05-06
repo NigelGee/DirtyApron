@@ -16,12 +16,18 @@ struct ContentView: View {
 //                    Image(systemName: "exclamationmark.circle")
 //                    Text("Info")
 //                }
-//
-//            MenuView()
+            
+//            LoyaltyView()
 //                .tabItem {
-//                    Image(systemName: "doc.plaintext")
-//                    Text("Menu")
+//                    Image(systemName: "circle.grid.3x3")
+//                    Text("Loyalty")
 //            }
+
+            MenuView()
+                .tabItem {
+                    Image(systemName: "doc.plaintext")
+                    Text("Menu")
+            }
             
             AboutView()
                 .tabItem {

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		8B158C9B246171C100B9E6AE /* CKHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B158C9A246171C100B9E6AE /* CKHelper.swift */; };
+		8B158C9D2462C2A900B9E6AE /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B158C9C2462C2A900B9E6AE /* LoadingView.swift */; };
+		8B158C9F2462C2E300B9E6AE /* BlurBackGround.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B158C9E2462C2E300B9E6AE /* BlurBackGround.swift */; };
+		8B158CA124635C4300B9E6AE /* LoyaltyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B158CA024635C4300B9E6AE /* LoyaltyView.swift */; };
 		8B7A2728243F768A00760F5D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7A2727243F768A00760F5D /* AppDelegate.swift */; };
 		8B7A272A243F768A00760F5D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7A2729243F768A00760F5D /* SceneDelegate.swift */; };
 		8B7A272C243F768A00760F5D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7A272B243F768A00760F5D /* ContentView.swift */; };
@@ -50,6 +53,9 @@
 
 /* Begin PBXFileReference section */
 		8B158C9A246171C100B9E6AE /* CKHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKHelper.swift; sourceTree = "<group>"; };
+		8B158C9C2462C2A900B9E6AE /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoadingView.swift; path = "DirtyApron/Supporting Files/LoadingView.swift"; sourceTree = SOURCE_ROOT; };
+		8B158C9E2462C2E300B9E6AE /* BlurBackGround.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BlurBackGround.swift; path = "DirtyApron/Supporting Views/BlurBackGround.swift"; sourceTree = SOURCE_ROOT; };
+		8B158CA024635C4300B9E6AE /* LoyaltyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoyaltyView.swift; sourceTree = "<group>"; };
 		8B7A2724243F768A00760F5D /* DirtyApron.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DirtyApron.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B7A2727243F768A00760F5D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8B7A2729243F768A00760F5D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -130,6 +136,7 @@
 				8B7A2729243F768A00760F5D /* SceneDelegate.swift */,
 				8B7A272B243F768A00760F5D /* ContentView.swift */,
 				8B7A2753243F82EB00760F5D /* InformationView.swift */,
+				8B158CA024635C4300B9E6AE /* LoyaltyView.swift */,
 				8B7A2765243FCD8C00760F5D /* MenuView.swift */,
 				8B7A2751243F81B700760F5D /* AboutView.swift */,
 				8B7A2740243F7C9000760F5D /* Model */,
@@ -154,6 +161,7 @@
 		8B7A273D243F78DA00760F5D /* Supporting Views */ = {
 			isa = PBXGroup;
 			children = (
+				8B158C9C2462C2A900B9E6AE /* LoadingView.swift */,
 				8B9AE019245EC3D7002A2B35 /* ItemImageView.swift */,
 				8B9AE018245EC03C002A2B35 /* MenuViews */,
 				8B9AE012245EBAEE002A2B35 /* InformationViews */,
@@ -166,6 +174,7 @@
 		8B7A273E243F78FF00760F5D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8B158C9E2462C2E300B9E6AE /* BlurBackGround.swift */,
 				8BDA4496245887D800F054A0 /* Spinner.swift */,
 				8BA478E2245B089C00BAB7A5 /* ResizableTextField.swift */,
 				8B158C9A246171C100B9E6AE /* CKHelper.swift */,
@@ -337,6 +346,7 @@
 				8B7A275A243F915600760F5D /* Information.swift in Sources */,
 				8B7A2760243FC21500760F5D /* AdminView.swift in Sources */,
 				8B158C9B246171C100B9E6AE /* CKHelper.swift in Sources */,
+				8B158C9F2462C2E300B9E6AE /* BlurBackGround.swift in Sources */,
 				8B7A2750243F809C00760F5D /* StringInterpolation-Number.swift in Sources */,
 				8BA478E5245B17F900BAB7A5 /* Modifiers.swift in Sources */,
 				8BA478DF245AF11400BAB7A5 /* MenuItemView.swift in Sources */,
@@ -362,6 +372,8 @@
 				8B7A272C243F768A00760F5D /* ContentView.swift in Sources */,
 				8B7A275E243FAC2A00760F5D /* WebView.swift in Sources */,
 				8BA478E1245AFAE400BAB7A5 /* AddMenuItemView.swift in Sources */,
+				8B158C9D2462C2A900B9E6AE /* LoadingView.swift in Sources */,
+				8B158CA124635C4300B9E6AE /* LoyaltyView.swift in Sources */,
 				8B7A2764243FC6DC00760F5D /* AboutDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

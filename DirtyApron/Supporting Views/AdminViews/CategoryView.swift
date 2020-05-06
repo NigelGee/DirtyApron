@@ -17,23 +17,33 @@ struct CategoryView: View {
     @State private var item = Category()
     @State private var showingAlert = false
     @State private var message = ""
+    @State private var loading = false
     
     var body: some View {
-        List {
-            ForEach(categories.lists, id: \.id) { category in
-                NavigationLink(destination: MenuItemView(category: category)) {
-                    Text(category.name)
-                        .fontWeight(category.isEnable ? .bold : .none)
-                        .foregroundColor(category.isEnable ? .primary : .secondary)
-                        .onTapGesture(count: 2) {
-                            self.item = category
-                            self.isEdit = true
-                            self.addNewCategory.toggle()
+        ZStack {
+            if categories.lists.isEmpty && loading {
+                withAnimation {
+                    LoadingView(text: "Loading...")
+                }
+                .animation(.easeOut(duration: 1))
+            } else {
+                List {
+                    ForEach(categories.lists, id: \.id) { category in
+                        NavigationLink(destination: MenuItemView(category: category)) {
+                            Text(category.name)
+                                .fontWeight(category.isEnable ? .bold : .none)
+                                .foregroundColor(category.isEnable ? .primary : .secondary)
+                                .onTapGesture(count: 2) {
+                                    self.item = category
+                                    self.isEdit = true
+                                    self.addNewCategory.toggle()
+                                }
                         }
+                    }
+                    .onDelete(perform: delete)
+                    .onMove(perform: move)
                 }
             }
-            .onDelete(perform: delete)
-            .onMove(perform: move)
         }
         .onAppear(perform: loadCategories)
         .alert(isPresented: $showingAlert) {
@@ -58,15 +68,16 @@ struct CategoryView: View {
     }
 // MARK: Fetch Categories
     private func loadCategories() {
+        loading.toggle()
         CKHelper.fetchCategories { (results) in
-            DispatchQueue.main.async {
-                switch results {
-                case .success(let newCategories):
-                   self.categories.lists = newCategories
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
+            switch results {
+            case .success(let newCategories):
+                self.categories.lists = newCategories
+            case .failure(let error):
+                self.message = error.localizedDescription
+                self.showingAlert.toggle()
             }
+            self.loading.toggle()
         }
     }
 // MARK: Delete Categories
@@ -75,14 +86,14 @@ struct CategoryView: View {
         guard let recordID = categories.lists[index].recordID else { return }
         
         CKContainer.default().publicCloudDatabase.delete(withRecordID: recordID) { (recordID, error) in
-//            DispatchQueue.main.async {
+            DispatchQueue.main.async {
                 if let error = error {
                     self.message = error.localizedDescription
                     self.showingAlert.toggle()
                 } else {
                     self.categories.lists.remove(at: index)
                 }
-//            }
+            }
         }
     }
 //MARK: Move Categories

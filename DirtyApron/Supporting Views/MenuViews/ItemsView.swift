@@ -9,8 +9,19 @@
 import SwiftUI
 
 struct ItemsView: View {
+    var category: Category!
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+
+        List {
+            Text("Menu Items")
+        }
+        .navigationBarTitle(category.name)
+        .navigationBarItems(trailing: Button(action: {
+            
+        }) {
+            Text("Basket")
+        })
     }
 }
 

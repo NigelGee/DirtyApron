@@ -14,6 +14,8 @@ struct AddCategoryView: View {
     @ObservedObject var categories: Categories
     
     @State var category: Category
+    @State private var showingAlert = false
+    @State private var message = ""
    
     var isEdit: Bool
     
@@ -30,6 +32,9 @@ struct AddCategoryView: View {
                     TextField("Enter Name", text: $category.name)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                 }
+            }
+            .alert(isPresented: $showingAlert) {
+                Alert(title: Text("ERROR"), message: Text(message), dismissButton: .default(Text("OK")))
             }
             .navigationBarTitle("\(isEdit ? "Edit" : "Add New") Category", displayMode: .inline)
             .navigationBarItems(
@@ -61,7 +66,8 @@ struct AddCategoryView: View {
         CKContainer.default().publicCloudDatabase.save(categoryRecord) { (record, error) in
             DispatchQueue.main.async {
                 if let error = error {
-                    print(error.localizedDescription)
+                    self.message = error.localizedDescription
+                    self.showingAlert.toggle()
                 } else {
                     self.categories.lists.append(self.category)
                 }
@@ -74,7 +80,8 @@ struct AddCategoryView: View {
         guard let recordID = category.recordID else { return }
         CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { (record, error) in
             if let error = error {
-                print(error.localizedDescription)
+                self.message = error.localizedDescription
+                self.showingAlert.toggle()
             } else {
                 guard let record = record else { return }
                 record["name"] = self.category.name as CKRecordValue
@@ -83,7 +90,8 @@ struct AddCategoryView: View {
                 
                 CKContainer.default().publicCloudDatabase.save(record) { (record, error) in
                     if let error = error {
-                        print(error.localizedDescription)
+                        self.message = error.localizedDescription
+                        self.showingAlert.toggle()
                     } else {
                         guard let record = record else { return }
                         let recordID = record.recordID

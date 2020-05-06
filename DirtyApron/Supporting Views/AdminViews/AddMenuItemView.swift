@@ -54,7 +54,7 @@ struct AddMenuItemView: View {
                         }
                         
                         HStack {
-                            ForEach(menuItem.foodType, id: \.self) { type in
+                            ForEach(menuItem.foodType.sorted(), id: \.self) { type in
                                 Text(type)
                                     .badgesStyle(text: type)
                             }

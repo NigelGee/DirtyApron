@@ -41,7 +41,7 @@ struct DetailItemView: View {
                 .padding()
                 VStack(alignment: .leading) {
                     HStack {
-                        ForEach(menuItem.foodType, id: \.self) { type in
+                        ForEach(menuItem.foodType.sorted(), id: \.self) { type in
                             Text(MenuItems.typeFullName[type, default: type])
                                 .badgesStyle(text: type)
                         }
