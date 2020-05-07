@@ -60,7 +60,7 @@ struct DetailItemView: View {
             .navigationBarTitle(menuItem.name)
         .navigationBarItems(
             trailing:
-                NavigationLink(destination: OrderView()) {
+                NavigationLink(destination: OrderView(userDetails: UserDetails())) {
                     ZStack {
                         Text("\(orders.list.count)")
                             .font(.callout)

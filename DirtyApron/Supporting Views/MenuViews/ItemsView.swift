@@ -60,7 +60,7 @@ struct ItemsView: View {
         .navigationBarTitle(category.name)
         .navigationBarItems(
             trailing:
-                NavigationLink(destination: OrderView()) {
+                NavigationLink(destination: OrderView(userDetails: UserDetails())) {
                     ZStack {
                         Text("\(orders.list.count)")
                             .font(.callout)
@@ -87,7 +87,6 @@ struct ItemsView: View {
                }
            }
        }
-    
 }
 
 struct ItemsView_Previews: PreviewProvider {

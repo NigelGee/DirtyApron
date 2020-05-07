@@ -11,7 +11,13 @@ import SwiftUI
 struct OrderView: View {
     @EnvironmentObject var orders: Orders
     @Environment(\.presentationMode) var presentationMode
+    
+    @ObservedObject var userDetails: UserDetails
+    
     @State private var takeaway = false
+    @State private var note = ""
+    @State private var height: CGFloat = 0
+    
     
     var totalAmount: Double {
         var total = 0.0
@@ -20,7 +26,6 @@ struct OrderView: View {
         }
         return total
     }
-    
     
     var body: some View {
         VStack {
@@ -32,24 +37,14 @@ struct OrderView: View {
                         Text("£\(order.amount, specifier: "%.2f")")
                     }
                 }
+                .onDelete(perform: deleteOrder)
             }
             
-            Form {
-                Toggle(isOn: $takeaway) {
-                    Text("Take-a-Way")
-                }
-                
-                // Name
-                
-                if takeaway {
-                    // Address
-                }
-                // Note
-                
-                Button("Confirm") {
-                    
-                }
+            NavigationLink(destination: CheckoutView(userDetails: userDetails)) {
+                Text("Confirm")
             }
+            .styleButton(colour: .blue)
+            .padding()
         }
         .navigationBarTitle("Order")
         .navigationBarBackButtonHidden(true)
@@ -67,10 +62,14 @@ struct OrderView: View {
         orders.list = []
         presentationMode.wrappedValue.dismiss()
     }
+    
+    func deleteOrder(at offsets: IndexSet) {
+        self.orders.list.remove(atOffsets: offsets)
+    }
 }
 
 struct OrderView_Previews: PreviewProvider {
     static var previews: some View {
-        OrderView()
+        OrderView(userDetails: UserDetails())
     }
 }

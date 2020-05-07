@@ -24,7 +24,7 @@ struct ResizableTextField: UIViewRepresentable {
         view.isScrollEnabled = true
         view.text = title
         view.font = UIFont.preferredFont(forTextStyle: .body)
-        view.textColor = .placeholderText
+        view.textColor = .placeholderText        
         view.backgroundColor = .clear
         view.delegate = context.coordinator
         return view
