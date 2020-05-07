@@ -28,6 +28,7 @@ struct MenuView: View {
                         ForEach(categories.lists.filter(\.isEnable), id: \.id) { category in
                             NavigationLink(destination: ItemsView(category: category)) {
                                 Text(category.name)
+                                    .font(.headline)
                             }
                         }
                     }

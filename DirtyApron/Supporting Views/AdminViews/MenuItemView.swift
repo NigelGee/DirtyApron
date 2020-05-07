@@ -38,7 +38,6 @@ struct MenuItemView: View {
                                         .fontWeight(menuItem.isEnable ? .bold : .none)
                                         .foregroundColor(menuItem.isEnable ? .primary : .secondary)
                                         .font(.headline)
-                                        .bold()
                                     HStack {
                                         ForEach(menuItem.foodType.sorted(), id: \.self) {
                                             Text($0)
