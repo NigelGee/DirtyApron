@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ItemsView: View {
     @EnvironmentObject var menuItems: MenuItems
+    @EnvironmentObject var orders: Orders
     
     @State var menuItem = MenuItem()
     @State private var loading = false
@@ -27,9 +28,10 @@ struct ItemsView: View {
                         Text(menuItem.name)
                             .font(.headline)
                         HStack {
-                            ForEach(menuItem.foodType.sorted(), id: \.self) {
-                                Text($0)
-                                    .badgesStyle(text: $0)
+                            ForEach(menuItem.foodType.sorted(), id: \.self) { type in
+                                Text(type)
+                                    .badgesStyle(text: type)
+                                    .accessibility(label: Text(MenuItems.typeFullName[type, default: type]))
                             }
                         }
                     }
@@ -37,9 +39,9 @@ struct ItemsView: View {
                     Group {
                         if menuItem.amount != 0 {
                             Button(action : {
-                                print("\(menuItem.name) - £\(menuItem.amount)")
+                                let item = Order(name: menuItem.name, amount: menuItem.amount)
+                                self.orders.list.append(item)
                             }) {
-                                
                                 Text("£\(menuItem.amount, specifier: "%.2f")")
                                     .styleButton(colour: .blue)
                                 
@@ -56,18 +58,18 @@ struct ItemsView: View {
         }
         .onAppear(perform: loadItems)
         .navigationBarTitle(category.name)
-        .navigationBarItems(trailing: Button(action: {
-            
-        }) {
-            ZStack {
-                Text("0")
-                    .font(.callout)
-                    .foregroundColor(.red)
-                    .offset(x: 0, y: 4)
-                Image(systemName: "bag")
-                    .font(.title)
-            }
-        })
+        .navigationBarItems(
+            trailing:
+                NavigationLink(destination: OrderView()) {
+                    ZStack {
+                        Text("\(orders.list.count)")
+                            .font(.callout)
+                            .offset(x: 0, y: 4)
+                        
+                        Image(systemName: "bag")
+                            .font(.title)
+                    }
+                }.disabled(orders.list.isEmpty))
     }
     
     private func loadItems() {

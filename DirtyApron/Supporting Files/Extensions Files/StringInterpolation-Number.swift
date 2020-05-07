@@ -9,9 +9,9 @@
 import Foundation
 
 extension String.StringInterpolation {
-    mutating func appendInterpolation(format number: Int, style: NumberFormatter.Style) {
+    mutating func appendInterpolation(format number: Double, style: NumberFormatter.Style) {
         let formatter = NumberFormatter()
-        formatter.numberStyle = style
+        formatter.numberStyle = .currency
         
         if let result = formatter.string(from: number as NSNumber) {
             appendLiteral(result)

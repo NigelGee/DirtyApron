@@ -10,6 +10,7 @@ import SwiftUI
 import CloudKit
 
 struct DetailItemView: View {
+    @EnvironmentObject var orders: Orders
     @State var menuItem: MenuItem
     @State private var image: Image?
     @State private var inputImage: UIImage?
@@ -33,7 +34,8 @@ struct DetailItemView: View {
                 }
                 .padding(.top)
                 Button(action: {
-                    print("\(self.menuItem.name) - £\(self.menuItem.amount)")
+                    let item = Order(name: self.menuItem.name, amount: self.menuItem.amount)
+                    self.orders.list.append(item)
                 }) {
                     Text("£\(menuItem.amount, specifier: "%.2f")")
                         .styleButton(colour: .blue, padding: 10)
@@ -56,6 +58,18 @@ struct DetailItemView: View {
             }
             .onAppear(perform: fetchImage)
             .navigationBarTitle(menuItem.name)
+        .navigationBarItems(
+            trailing:
+                NavigationLink(destination: OrderView()) {
+                    ZStack {
+                        Text("\(orders.list.count)")
+                            .font(.callout)
+                            .offset(x: 0, y: 4)
+
+                        Image(systemName: "bag")
+                            .font(.title)
+                    }
+                }.disabled(orders.list.isEmpty))
         }
     }
         

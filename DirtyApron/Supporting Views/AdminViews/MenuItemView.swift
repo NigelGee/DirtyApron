@@ -49,17 +49,7 @@ struct MenuItemView: View {
                                 Spacer()
                                 Group {
                                     if menuItem.amount != 0 {
-                                        //                                Text("£\(menuItem.amount, specifier: "%.2f")")
-                                        Button(action : {
-                                            print("\(menuItem.name) - £\(menuItem.amount)")
-                                        }) {
-                                            
-                                            Text("£\(menuItem.amount, specifier: "%.2f")")
-                                                .styleButton(colour: .blue)
-                                            
-                                        }
-                                        .padding(.leading)
-                                        .buttonStyle(PlainButtonStyle())
+                                        Text("£\(menuItem.amount, specifier: "%.2f")")
                                     } else {
                                         Text(" INFO")
                                     }

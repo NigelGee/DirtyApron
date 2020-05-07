@@ -10,6 +10,7 @@ import SwiftUI
 
 struct MenuView: View {
     @EnvironmentObject var categories: Categories
+    @EnvironmentObject var orders: Orders
     
     @State private var message = ""
     @State private var showingAlert = false
