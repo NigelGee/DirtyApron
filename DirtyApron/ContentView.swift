@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var orders: Orders
+    
     var body: some View {
         TabView {
 //            InformationView()
@@ -16,7 +18,7 @@ struct ContentView: View {
 //                    Image(systemName: "exclamationmark.circle")
 //                    Text("Info")
 //                }
-            
+    
 //            LoyaltyView()
 //                .tabItem {
 //                    Image(systemName: "circle.grid.3x3")
@@ -27,6 +29,13 @@ struct ContentView: View {
                 .tabItem {
                     Image(systemName: "doc.plaintext")
                     Text("Menu")
+            }
+            
+
+            OrderView(user: UserDetails())
+                .tabItem {
+                    Image(systemName: "bag")
+                    Text("Order")
             }
             
             AboutView()

@@ -53,6 +53,7 @@
 		8BDA4495245871C100F054A0 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BDA4494245871C100F054A0 /* CloudKit.framework */; };
 		8BDA4497245887D800F054A0 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDA4496245887D800F054A0 /* Spinner.swift */; };
 		8BDA449924588E5A00F054A0 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDA449824588E5A00F054A0 /* Category.swift */; };
+		8BEDBA9D2465B1B8004298D8 /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEDBA9C2465B1B8004298D8 /* MailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -105,6 +106,7 @@
 		8BDA4494245871C100F054A0 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		8BDA4496245887D800F054A0 /* Spinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
 		8BDA449824588E5A00F054A0 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		8BEDBA9C2465B1B8004298D8 /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +171,7 @@
 		8B7A273D243F78DA00760F5D /* Supporting Views */ = {
 			isa = PBXGroup;
 			children = (
+				8BEDBA9C2465B1B8004298D8 /* MailView.swift */,
 				8B158C9C2462C2A900B9E6AE /* LoadingView.swift */,
 				8B9AE019245EC3D7002A2B35 /* ItemImageView.swift */,
 				8B9AE018245EC03C002A2B35 /* MenuViews */,
@@ -377,6 +380,7 @@
 				8BDA449924588E5A00F054A0 /* Category.swift in Sources */,
 				8B7A2752243F81B700760F5D /* AboutView.swift in Sources */,
 				8B158CA92464AD0B00B9E6AE /* CheckoutView.swift in Sources */,
+				8BEDBA9D2465B1B8004298D8 /* MailView.swift in Sources */,
 				8B7A2728243F768A00760F5D /* AppDelegate.swift in Sources */,
 				8B9AE01A245EC3D7002A2B35 /* ItemImageView.swift in Sources */,
 				8B7A274E243F7E8E00760F5D /* Bundle-Decodable.swift in Sources */,

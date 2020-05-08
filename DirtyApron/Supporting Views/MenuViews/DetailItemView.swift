@@ -60,16 +60,15 @@ struct DetailItemView: View {
             .navigationBarTitle(menuItem.name)
         .navigationBarItems(
             trailing:
-                NavigationLink(destination: OrderView(userDetails: UserDetails())) {
-                    ZStack {
-                        Text("\(orders.list.count)")
-                            .font(.callout)
-                            .offset(x: 0, y: 4)
-
-                        Image(systemName: "bag")
-                            .font(.title)
-                    }
-                }.disabled(orders.list.isEmpty))
+                ZStack {
+                    Text("\(orders.list.count)")
+                        .font(.callout)
+                        .offset(x: 0, y: 4)
+                    
+                    Image(systemName: "bag")
+                        .font(.title)
+                }
+            )
         }
     }
         

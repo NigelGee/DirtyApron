@@ -10,10 +10,10 @@ import SwiftUI
 
 struct OrderView: View {
     @EnvironmentObject var orders: Orders
-    @Environment(\.presentationMode) var presentationMode
     
-    @ObservedObject var userDetails: UserDetails
+    @ObservedObject var user: UserDetails
     
+    @State private var showingCheckout = false
     @State private var takeaway = false
     @State private var note = ""
     @State private var height: CGFloat = 0
@@ -28,41 +28,54 @@ struct OrderView: View {
     }
     
     var body: some View {
-        VStack {
-            List {
-                ForEach(orders.list, id: \.id) { order in
-                    HStack {
-                        Text(order.name)
-                        Spacer()
-                        Text("£\(order.amount, specifier: "%.2f")")
+        NavigationView {
+            VStack {
+                if orders.list.isEmpty {
+                    Group {
+                        Image(systemName: "bag")
+                            .font(.largeTitle)
+                        Text("No Orders")
+                        Text("Your entered order will appear here")
+                            .font(.body)
+                            .padding(10)
                     }
+                    .font(.largeTitle)
+                    .foregroundColor(.secondary)
+                } else {
+                    List {
+                        ForEach(orders.list, id: \.id) { order in
+                            HStack {
+                                Text(order.name)
+                                Spacer()
+                                Text("£\(order.amount, specifier: "%.2f")")
+                            }
+                        }
+                        .onDelete(perform: deleteOrder)
+                    }
+                    Button("Confirm") {
+                        self.showingCheckout.toggle()
+                    }
+                    .styleButton(colour: .blue)
+                    .padding()
                 }
-                .onDelete(perform: deleteOrder)
             }
-            
-            NavigationLink(destination: CheckoutView(userDetails: userDetails)) {
-                Text("Confirm")
+            .navigationBarTitle("Order", displayMode: .inline)
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(
+                leading:
+                    Button("Cancel") {
+                        self.orders.list = []
+                    },
+                trailing:
+                    Text("Total: £\(totalAmount, specifier: "%.2f")")
+                )
             }
-            .styleButton(colour: .blue)
-            .padding()
-        }
-        .navigationBarTitle("Order")
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(
-            leading:
-                Button("Cancel") {
-                    self.cancel()
-                },
-            trailing:
-                Text("Total: £\(totalAmount, specifier: "%.2f")")
-            )
+            .sheet(isPresented: $showingCheckout) {
+                CheckoutView(orders: self.orders, userDetails: self.user)
+            }
+        
     }
-    
-    func cancel() {
-        orders.list = []
-        presentationMode.wrappedValue.dismiss()
-    }
-    
+        
     func deleteOrder(at offsets: IndexSet) {
         self.orders.list.remove(atOffsets: offsets)
     }
@@ -70,6 +83,6 @@ struct OrderView: View {
 
 struct OrderView_Previews: PreviewProvider {
     static var previews: some View {
-        OrderView(userDetails: UserDetails())
+        OrderView(user: UserDetails())
     }
 }
