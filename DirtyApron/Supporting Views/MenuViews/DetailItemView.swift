@@ -33,14 +33,23 @@ struct DetailItemView: View {
                     }
                 }
                 .padding(.top)
+                
                 Button(action: {
                     let item = Order(name: self.menuItem.name, amount: self.menuItem.amount)
                     self.orders.list.append(item)
                 }) {
-                    Text("£\(menuItem.amount, specifier: "%.2f")")
-                        .styleButton(colour: .blue, padding: 10)
+                    if menuItem.amount == 0 {
+                        Text("£\(menuItem.amount, specifier: "%.2f")")
+                            .styleButton(colour: .blue, padding: 10)
+                    } else {
+                        Text("INFO")
+                            .styleButton(colour: .blue, padding: 10)
+                    }
+                    
                 }
+                .disabled(menuItem.amount == 0)
                 .padding()
+                
                 VStack(alignment: .leading) {
                     HStack {
                         ForEach(menuItem.foodType.sorted(), id: \.self) { type in

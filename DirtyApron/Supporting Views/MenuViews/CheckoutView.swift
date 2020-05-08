@@ -97,7 +97,7 @@ struct CheckoutView: View {
                     }
                     .disabled(isDisable)
                     .sheet(isPresented: $isShowingMailView) {
-                        MailView(userDetails: self.userDetails, result: self.$result, mailStatus: self.$mailStatus, method: self.delivery, note: self.note)
+                        MailView(orders: self.orders, userDetails: self.userDetails, result: self.$result, mailStatus: self.$mailStatus, method: self.delivery, note: self.note)
                     }
                 } else {
                     Text("Device not configured to send Email for confirmation")

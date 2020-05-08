@@ -11,7 +11,7 @@ import UIKit
 import MessageUI
 
 struct MailView: UIViewControllerRepresentable {
-    @EnvironmentObject var orders: Orders
+    @ObservedObject var orders: Orders
     @ObservedObject var userDetails: UserDetails
     @Environment(\.presentationMode) var presentationMode
     @Binding var result: Result<MFMailComposeResult, Error>?
@@ -32,8 +32,36 @@ struct MailView: UIViewControllerRepresentable {
     }
     
     var mailBody: String {
-        let body = ""
+        var items = ""
+        var totalAmount = 0.0
+        for order in orders.list {
+            items += "\n\(order.name) - \(format: order.amount, style: .currency)"
+            totalAmount += order.amount
+        }
         
+        var addressDetails = ""
+        if method {
+            addressDetails = """
+            Delivery Address:-
+            \(userDetails.user.street1)
+            \(userDetails.user.street2)
+            \(userDetails.user.city)
+            \(userDetails.user.zip)
+            """
+        }
+        
+        let body = """
+        My order for:-
+        \(items)
+        
+        Total Amount: \(format: totalAmount, style: .currency)
+        
+        \(addressDetails)
+        
+        \(note)
+        
+        Pay on \(method ? "Delivery" : "Collection")
+        """
         return body
     }
     
