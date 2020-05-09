@@ -114,6 +114,8 @@ struct CheckoutView: View {
 //                    }
 //            )
         }
+        .navigationViewStyle(StackNavigationViewStyle())
+        
     }
     
     func checkout() {

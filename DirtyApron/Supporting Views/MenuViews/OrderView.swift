@@ -59,6 +59,9 @@ struct OrderView: View {
                     .padding()
                 }
             }
+            .sheet(isPresented: $showingCheckout) {
+                CheckoutView(orders: self.orders, userDetails: self.user)
+            }
             .navigationBarTitle("Order", displayMode: .inline)
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(
@@ -69,11 +72,9 @@ struct OrderView: View {
                 trailing:
                     Text("Total: £\(totalAmount, specifier: "%.2f")")
                 )
-            }
-            .sheet(isPresented: $showingCheckout) {
-                CheckoutView(orders: self.orders, userDetails: self.user)
-            }
-        
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+            
     }
         
     func deleteOrder(at offsets: IndexSet) {
