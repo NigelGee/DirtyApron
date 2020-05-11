@@ -80,7 +80,7 @@ struct DetailItemView: View {
             )
         }
     }
-        
+//MARK: Fetch Image
     func fetchImage() {
         loading.toggle()
         if let recordID = menuItem.recordID {
@@ -105,7 +105,7 @@ struct DetailItemView: View {
                 }
             }
         }
-    }
+    }    
 }
 
 struct DetailItemView_Previews: PreviewProvider {

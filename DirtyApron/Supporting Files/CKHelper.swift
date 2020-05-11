@@ -10,7 +10,6 @@ import Foundation
 import CloudKit
 
 class CKHelper {
-
 //MARK: Category CKHelpers
     class func fetchCategories(completion: @escaping (Result<[Category], Error>) -> ()) {
         let predicate = NSPredicate(value: true)
@@ -43,7 +42,6 @@ class CKHelper {
                 }
             }
         }
-        
         CKContainer.default().publicCloudDatabase.add(operation)
     }
 
@@ -51,7 +49,7 @@ class CKHelper {
     class func fetchItems(recordID: CKRecord.ID, completion: @escaping (Result<[MenuItem], Error>) -> ()) {
         let reference = CKRecord.Reference(recordID: recordID, action: .deleteSelf)
         let predicate = NSPredicate(format: "owningCategory == %@", reference)
-        let sort = NSSortDescriptor(key: "creationDate", ascending: true)
+        let sort = NSSortDescriptor(key: "creationDate", ascending: false)
         let query = CKQuery(recordType: "Items", predicate: predicate)
         query.sortDescriptors = [sort]
         

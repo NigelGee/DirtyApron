@@ -16,7 +16,7 @@ struct CheckoutView: View {
     
     @State private var result: Result<MFMailComposeResult, Error>? = nil
     @State private var mailStatus: MFMailComposeResult? = nil
-    @State private var delivery = false
+    @State private var method = "Dine-in"
     @State private var isShowingMailView = false
     @State private var note = ""
     @State private var message = ""
@@ -25,7 +25,7 @@ struct CheckoutView: View {
     @State private var value: CGFloat = 0
     
     var isDisable: Bool {
-        if delivery {
+        if method == "Delivery" {
             if userDetails.user.name == "" || userDetails.user.street1 == "" || userDetails.user.zip == "" {
                 return true
             }
@@ -65,19 +65,22 @@ struct CheckoutView: View {
         
         return NavigationView {
             Form {
-                Toggle(isOn: $delivery) {
-                    Text("Delivery")
+                Picker("Method", selection: $method) {
+                    ForEach(Orders.methods, id: \.self) {
+                        Text($0)
+                    }
                 }
+                .pickerStyle(SegmentedPickerStyle())
                 
                 DatePicker(selection: $userDetails.user.time, displayedComponents: .hourAndMinute) {
-                    Text("Time of \(delivery ? "Delivery" : "Collection")")
+                    Text("Time of \(method)")
                 }
                 
                 Section(header: Text("Name")) {
                     TextField("Enter Name", text: $userDetails.user.name)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                 
-                    if delivery {
+                    if method == "Delivery" {
                         Group {
                             TextField("Street", text: $userDetails.user.street1)
                             TextField("", text: $userDetails.user.street2)
@@ -97,7 +100,7 @@ struct CheckoutView: View {
                     }
                     .disabled(isDisable)
                     .sheet(isPresented: $isShowingMailView) {
-                        MailView(orders: self.orders, userDetails: self.userDetails, result: self.$result, mailStatus: self.$mailStatus, method: self.delivery, note: self.note)
+                        MailView(orders: self.orders, userDetails: self.userDetails, result: self.$result, mailStatus: self.$mailStatus, method: self.method, note: self.note)
                     }
                 } else {
                     Text("Device not configured to send Email for confirmation")
@@ -105,14 +108,12 @@ struct CheckoutView: View {
                         .foregroundColor(.secondary)
                 }
             }
+            .alert(isPresented: $showingAlert) {
+                Alert(title: Text("Not Ordered"), message: Text(message), dismissButton: .default(Text("OK")))
+            }
+            .navigationBarTitle("Checkout")
             .onAppear(perform: onLoad)
             .offset(y: -self.value)
-//            .navigationBarItems(
-//                trailing:
-//                    Button("Dismiss") {
-//                        self.presentationMode.wrappedValue.dismiss()
-//                    }
-//            )
         }
         .navigationViewStyle(StackNavigationViewStyle())
         
@@ -120,7 +121,6 @@ struct CheckoutView: View {
     
     func checkout() {
         UIApplication.shared.endEditing()
-//        self.presentationMode.wrappedValue.dismiss()
         isShowingMailView = true
     }
     

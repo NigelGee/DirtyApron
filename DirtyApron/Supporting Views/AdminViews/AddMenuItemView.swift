@@ -180,7 +180,7 @@ struct AddMenuItemView: View {
                         if let error = error {
                             print(error.localizedDescription)
                         } else {
-                            self.menuItems.lists.append(item)
+                            self.menuItems.lists.insert(item, at: 0)
                         }
                     }
                 }

@@ -21,12 +21,13 @@ struct ItemsView: View {
     
     var body: some View {
         List {
-            ForEach(menuItems.lists, id: \.id) { menuItem in
+            ForEach(menuItems.lists.filter(\.isEnable), id: \.id) { menuItem in
                 NavigationLink(destination: DetailItemView(menuItem: menuItem)) {
                     HStack {
                     VStack(alignment: .leading, spacing: 5) {
                         Text(menuItem.name)
                             .font(.headline)
+                            .foregroundColor(.purple)
                         HStack {
                             ForEach(menuItem.foodType.sorted(), id: \.self) { type in
                                 Text(type)

@@ -7,9 +7,10 @@
 //
 
 import SwiftUI
+import CloudKit
 
 struct ContentView: View {
-    @EnvironmentObject var orders: Orders
+    @EnvironmentObject var categories: Categories
     
     var body: some View {
         TabView {

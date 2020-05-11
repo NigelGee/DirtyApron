@@ -17,13 +17,13 @@ struct MailView: UIViewControllerRepresentable {
     @Binding var result: Result<MFMailComposeResult, Error>?
     @Binding var mailStatus: MFMailComposeResult?
     
-    var method: Bool
+    var method: String
     var note: String
     
     var mailSubject: String {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
-        let delivery = "\(method ? "Delivery for" : "Collection for")"
+        let delivery = "\(method) for"
         let time = formatter.string(from: userDetails.user.time)
         
         let subject = "\(delivery) \(userDetails.user.name) at \(time)"
@@ -39,20 +39,28 @@ struct MailView: UIViewControllerRepresentable {
             totalAmount += order.amount
         }
         
-        var addressDetails = ""
-        if method {
-            addressDetails = """
-            Delivery Address:-
-            
-            \(userDetails.user.street1)
-            \(userDetails.user.street2)
-            \(userDetails.user.city)
-            \(userDetails.user.zip)
-            
-            """
+        var wrappedStreet2: String {
+            var wrapped = ""
+            if userDetails.user.street2 != "" {
+                wrapped = "\n\(userDetails.user.street2)"
+            }
+            return wrapped
         }
         
-        let body = "My order for:-\n\(items)\n\nTotal Amount: \(format: totalAmount, style: .currency)\n\(addressDetails)\(note)\n\nPay on \(method ? "Delivery" : "Collection")"
+        var wrappedCity: String {
+                   var wrapped = ""
+                   if userDetails.user.city != "" {
+                       wrapped = "\n\(userDetails.user.city)"
+                   }
+                   return wrapped
+               }
+        
+        var addressDetails = ""
+        if method == "Delivery" {
+            addressDetails = "\nDelivery Address:-\n\(userDetails.user.street1)\(wrappedStreet2)\(wrappedCity)\n\(userDetails.user.zip)\n"
+        }
+        
+        let body = "My order for:-\n\(items)\n\nTotal Amount: \(format: totalAmount, style: .currency)\n\(addressDetails)\(note)\nPay on \(method)"
         return body
     }
     
