@@ -39,12 +39,13 @@ struct DetailItemView: View {
                     self.orders.list.append(item)
                 }) {
                     if menuItem.amount == 0 {
-                        Text("£\(menuItem.amount, specifier: "%.2f")")
-                            .styleButton(colour: .blue, padding: 10)
-                    } else {
                         Text("INFO")
                             .styleButton(colour: .blue, padding: 10)
+                    } else {
+                        Text("£\(menuItem.amount, specifier: "%.2f")")
+                            .styleButton(colour: .blue, padding: 10)
                     }
+                    
                     
                 }
                 .disabled(menuItem.amount == 0)

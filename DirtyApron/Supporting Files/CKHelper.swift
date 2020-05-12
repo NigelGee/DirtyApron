@@ -82,4 +82,60 @@ class CKHelper {
         CKContainer.default().publicCloudDatabase.add(operation)
     }
     
+    
+// MARK: Notifications
+    class func saveNotification(for categories: Categories) {
+        let database = CKContainer.default().publicCloudDatabase
+
+        database.fetchAllSubscriptions { subscriptions, error in
+            if error == nil {
+                if let subscriptions = subscriptions {
+                    for subscription in subscriptions {
+                        database.delete(withSubscriptionID: subscription.subscriptionID) { (str, error) in
+                            if error != nil {
+                                print(error!.localizedDescription)
+                            }
+                        }
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        for category in categories.lists {
+                            guard let recordID = category.recordID else { return }
+                            let reference = CKRecord.Reference(recordID: recordID, action: .deleteSelf)
+                            let predicate = NSPredicate(format: "owningCategory == %@", reference)
+                            let subscription = CKQuerySubscription(recordType: "Items", predicate: predicate, options: .firesOnRecordCreation)
+                            let subscriptionUpdate = CKQuerySubscription(recordType: "Items", predicate: predicate, options: .firesOnRecordUpdate)
+
+                            let notification = CKSubscription.NotificationInfo()
+                            notification.subtitle = "New \(category.name) Menu"
+                            notification.alertBody = "There are new items to the \(category.name) Menu. Check them out 😋"
+                            notification.soundName = "default"
+                            
+                            let notificationUpdate = CKQuerySubscription.NotificationInfo()
+                            notificationUpdate.subtitle = "Update \(category.name) Menu"
+                            notificationUpdate.alertBody = "Check out the changes to the \(category.name) Menu. 👍🏻"
+                            notificationUpdate.soundName = "default"
+
+                            subscription.notificationInfo = notification
+                            subscriptionUpdate.notificationInfo = notificationUpdate
+                            
+                            database.save(subscription) { (result, error) in
+                                if let error = error {
+                                    print(error.localizedDescription)
+                                }
+                            }
+                            
+                            database.save(subscriptionUpdate) { (result, error) in
+                                if let error = error {
+                                    print(error.localizedDescription)
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                print(error!.localizedDescription)
+            }
+        }
+    }
 }

@@ -20,30 +20,30 @@ struct ContentView: View {
 //                    Text("Info")
 //                }
     
-//            LoyaltyView()
+            LoyaltyView()
+                .tabItem {
+                    Image(systemName: "circle.grid.3x3")
+                    Text("Loyalty")
+            }
+
+//            MenuView()
 //                .tabItem {
-//                    Image(systemName: "circle.grid.3x3")
-//                    Text("Loyalty")
+//                    Image(systemName: "doc.plaintext")
+//                    Text("Menu")
 //            }
-
-            MenuView()
-                .tabItem {
-                    Image(systemName: "doc.plaintext")
-                    Text("Menu")
-            }
-            
-
-            OrderView(user: UserDetails())
-                .tabItem {
-                    Image(systemName: "bag")
-                    Text("Order")
-            }
-            
-            AboutView()
-                .tabItem {
-                    Image(systemName: "ellipsis")
-                    Text("About")
-                }
+//            
+//
+//            OrderView(user: UserDetails())
+//                .tabItem {
+//                    Image(systemName: "bag")
+//                    Text("Order")
+//            }
+//            
+//            AboutView()
+//                .tabItem {
+//                    Image(systemName: "ellipsis")
+//                    Text("About")
+//                }
         }
     }
 }
