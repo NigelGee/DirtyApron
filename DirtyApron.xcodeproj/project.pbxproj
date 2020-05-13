@@ -48,6 +48,7 @@
 		8B9EFE1C246AB8580018E969 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9EFE1B246AB8580018E969 /* CardView.swift */; };
 		8B9EFE1E246AF4B30018E969 /* NoStampView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9EFE1D246AF4B30018E969 /* NoStampView.swift */; };
 		8B9EFE20246AF5F60018E969 /* LoyaltyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9EFE1F246AF5F60018E969 /* LoyaltyCard.swift */; };
+		8B9EFE22246C380D0018E969 /* Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9EFE21246C380D0018E969 /* Reader.swift */; };
 		8BA478DD245AED4800BAB7A5 /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA478DC245AED4800BAB7A5 /* MenuItem.swift */; };
 		8BA478DF245AF11400BAB7A5 /* MenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA478DE245AF11400BAB7A5 /* MenuItemView.swift */; };
 		8BA478E1245AFAE400BAB7A5 /* AddMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA478E0245AFAE400BAB7A5 /* AddMenuItemView.swift */; };
@@ -106,6 +107,7 @@
 		8B9EFE1B246AB8580018E969 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		8B9EFE1D246AF4B30018E969 /* NoStampView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoStampView.swift; sourceTree = "<group>"; };
 		8B9EFE1F246AF5F60018E969 /* LoyaltyCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoyaltyCard.swift; sourceTree = "<group>"; };
+		8B9EFE21246C380D0018E969 /* Reader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reader.swift; sourceTree = "<group>"; };
 		8BA478DC245AED4800BAB7A5 /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
 		8BA478DE245AF11400BAB7A5 /* MenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemView.swift; sourceTree = "<group>"; };
 		8BA478E0245AFAE400BAB7A5 /* AddMenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMenuItemView.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				8B158C9A246171C100B9E6AE /* CKHelper.swift */,
 				8B9AE00F245C95EE002A2B35 /* ImageHelper.swift */,
 				8BA478E4245B17F900BAB7A5 /* Modifiers.swift */,
+				8B9EFE21246C380D0018E969 /* Reader.swift */,
 				8B7A2742243F7D4800760F5D /* Extensions Files */,
 				8B7A2741243F7D1400760F5D /* JSON Files */,
 			);
@@ -418,6 +421,7 @@
 				8B9AE017245EC026002A2B35 /* ItemsView.swift in Sources */,
 				8B9EFE1E246AF4B30018E969 /* NoStampView.swift in Sources */,
 				8B7A272C243F768A00760F5D /* ContentView.swift in Sources */,
+				8B9EFE22246C380D0018E969 /* Reader.swift in Sources */,
 				8B7A275E243FAC2A00760F5D /* WebView.swift in Sources */,
 				8BA478E1245AFAE400BAB7A5 /* AddMenuItemView.swift in Sources */,
 				8B158C9D2462C2A900B9E6AE /* LoadingView.swift in Sources */,

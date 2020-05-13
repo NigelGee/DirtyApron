@@ -9,11 +9,17 @@
 import SwiftUI
 
 struct NoStampView: View {
+    var stampNumber: Int
+    
     var body: some View {
-        VStack {
+        ZStack {
+            Text("\(stampNumber + 1)")
+                .font(.title)
+                .foregroundColor(.secondary)
+            
             Circle()
                 .foregroundColor(.clear)
-                .frame(height: 70)
+                .frame(height: 65)
                 .overlay(Circle().stroke(Color.secondary, lineWidth: 4))
                 .padding()
         }
@@ -22,6 +28,6 @@ struct NoStampView: View {
 
 struct NoStampView_Previews: PreviewProvider {
     static var previews: some View {
-        NoStampView()
+        NoStampView(stampNumber: 1)
     }
 }

@@ -7,18 +7,21 @@
 //
 
 import SwiftUI
+
 enum StampState {
     case stamped, noStamp
 }
 
 struct LoyaltyView: View {
+     @ObservedObject var reader = Reader()
     
-    @State private var earnedStamp = 0
-    
-    let numberStamps = 12
     let columnCount = 3
     var rowCount: Int {
-       return numberStamps/columnCount
+       return reader.maxStamps/columnCount
+    }
+    
+    var freeStamps: Int {
+        return reader.collectedStamps / reader.maxStamps
     }
     
     var body: some View {
@@ -30,26 +33,34 @@ struct LoyaltyView: View {
                 
                 Spacer()
                 
-                Button("\(earnedStamp) Free Drink") {
-                    
+                Button("\(freeStamps == 0 ? "No" : "\(freeStamps)") Free Drink\(freeStamps < 2 ? "" : "s")") {
+                    self.reader.addStamp(redeem: true)
                 }
-                .disabled(earnedStamp <= numberStamps)
-                .styleButton(colour: earnedStamp <= numberStamps ? .gray : .red, padding: 20)
+                .disabled(reader.collectedStamps <= reader.maxStamps - 1)
+                .styleButton(colour: reader.collectedStamps <= reader.maxStamps - 1 ? .gray : .yellow, padding: 10)
                 
-                Button("Add Stamp") {
-                    self.earnedStamp += 1
+                Button(" Add   Stamp ") {
+                    self.reader.addStamp(redeem: false)
                 }
-                .styleButton(colour: .blue, padding: 20)
+                .styleButton(colour: .purple, padding: 10)
                 .padding()
+            }
+            .alert(isPresented: $reader.showingAlert) {
+                Alert(title: Text(reader.title), message: Text(reader.message), dismissButton: .default(Text("OK")))
             }
             .navigationBarTitle("Loyalty Card", displayMode: .inline)
         }
     }
     
     func card(atRow row: Int, column: Int) -> some View {
-        let stampState = StampState.noStamp
-
-        return CardView(stampPart: StampPart(id: UUID(), state: stampState))
+        var stampState = StampState.noStamp
+        let index = (row * columnCount) + column
+        withAnimation {
+            if index <= reader.adjustedStamp - 1 {
+                stampState = StampState.stamped
+            }
+        }
+        return CardView(loyaltyCard: LoyaltyCard(index: index, state: stampState))
     }
     
 }

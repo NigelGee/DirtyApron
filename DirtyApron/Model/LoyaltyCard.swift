@@ -9,7 +9,7 @@
 import SwiftUI
 
 
-struct StampPart {
-    let id: UUID
+struct LoyaltyCard {
+    let index: Int
     var state = StampState.noStamp
 }

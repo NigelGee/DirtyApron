@@ -8,42 +8,44 @@
 
 import SwiftUI
 import CloudKit
+import CoreNFC
 
 struct ContentView: View {
     @EnvironmentObject var categories: Categories
     
     var body: some View {
         TabView {
-//            InformationView()
-//                .tabItem {
-//                    Image(systemName: "exclamationmark.circle")
-//                    Text("Info")
-//                }
-    
-            LoyaltyView()
+            InformationView()
                 .tabItem {
-                    Image(systemName: "circle.grid.3x3")
-                    Text("Loyalty")
+                    Image(systemName: "exclamationmark.circle")
+                    Text("Info")
+                }
+            if NFCReaderSession.readingAvailable {
+                LoyaltyView()
+                    .tabItem {
+                        Image(systemName: "circle.grid.3x3")
+                        Text("Loyalty")
+                }
             }
 
-//            MenuView()
-//                .tabItem {
-//                    Image(systemName: "doc.plaintext")
-//                    Text("Menu")
-//            }
-//            
-//
-//            OrderView(user: UserDetails())
-//                .tabItem {
-//                    Image(systemName: "bag")
-//                    Text("Order")
-//            }
-//            
-//            AboutView()
-//                .tabItem {
-//                    Image(systemName: "ellipsis")
-//                    Text("About")
-//                }
+            MenuView()
+                .tabItem {
+                    Image(systemName: "doc.plaintext")
+                    Text("Menu")
+            }
+            
+
+            OrderView(user: UserDetails())
+                .tabItem {
+                    Image(systemName: "bag")
+                    Text("Order")
+            }
+            
+            AboutView()
+                .tabItem {
+                    Image(systemName: "ellipsis")
+                    Text("About")
+                }
         }
     }
 }

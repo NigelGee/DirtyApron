@@ -9,23 +9,23 @@
 import SwiftUI
 
 struct CardView: View {
-    var stampPart: StampPart
+    var loyaltyCard: LoyaltyCard
     
     var body: some View {
         ZStack {
-            NoStampView()
-                .rotation3DEffect(.degrees(stampPart.state == .noStamp ? 0 : 180), axis: (x: 0, y: 1, z: 0))
-                .opacity(stampPart.state == .noStamp ? 1 : 0)
+            NoStampView(stampNumber: loyaltyCard.index)
+                .rotation3DEffect(.degrees(loyaltyCard.state == .noStamp ? 0 : 180), axis: (x: 0, y: 1, z: 0))
+                .opacity(loyaltyCard.state == .noStamp ? 1 : 0)
             
             StampView()
-                .rotation3DEffect(.degrees(stampPart.state != .noStamp ? 0 : -180), axis: (x: 0, y: 1, z: 0))
-                .opacity(stampPart.state != .noStamp ? 1 : -1)
+                .rotation3DEffect(.degrees(loyaltyCard.state == .stamped ? 0 : -180), axis: (x: 0, y: 1, z: 0))
+                .opacity(loyaltyCard.state != .noStamp ? 1 : -1)
         }
     }
 }
 
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
-        CardView(stampPart: StampPart(id: UUID(), state: StampState.noStamp))
+        CardView(loyaltyCard: LoyaltyCard(index: 1, state: StampState.noStamp))
     }
 }
