@@ -10,6 +10,7 @@ import SwiftUI
 
 struct LoadingView: View {
     var text: String
+    var spinner: Bool
     
     var body: some View {
         ZStack {
@@ -17,8 +18,15 @@ struct LoadingView: View {
             BlurBackGroundView()
             
             VStack {
-                Spinner(isAnimating: true, style: .large, color: .white)
-                .padding()
+                if spinner {
+                    Spinner(isAnimating: true, style: .large, color: .white)
+                        .padding()
+                } else {
+                    Image(systemName: "checkmark.circle")
+                        .font(.largeTitle)
+                        .foregroundColor(.white)
+                        .padding()
+                }
                 Text(text)
                     .font(.system(size: 15))
                     .foregroundColor(.white)
@@ -32,6 +40,6 @@ struct LoadingView: View {
 
 struct LoadingView_Previews: PreviewProvider {
     static var previews: some View {
-        LoadingView(text: "Getting a Menu")
+        LoadingView(text: "Getting a Menu", spinner: false)
     }
 }

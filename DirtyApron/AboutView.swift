@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct AboutView: View {
+        
     let about: [AboutList] = Bundle.main.decode("about")
     
     var body: some View {

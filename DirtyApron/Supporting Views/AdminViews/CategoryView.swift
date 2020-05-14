@@ -23,7 +23,7 @@ struct CategoryView: View {
         ZStack {
             if categories.lists.isEmpty && loading {
                 withAnimation {
-                    LoadingView(text: "Loading...")
+                    LoadingView(text: "Loading...", spinner: true)
                 }
                 .animation(.easeOut(duration: 1))
             } else {

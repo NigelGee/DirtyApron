@@ -15,73 +15,87 @@ struct DetailItemView: View {
     @State private var image: Image?
     @State private var inputImage: UIImage?
     @State private var loading = false
+    @State private var showingAdded = false
     var width: CGFloat = 200
     
     var body: some View {
-        ScrollView(.vertical) {
-            VStack {
-                ZStack {
-                    ItemImageView(image: image, width: width)
-                    
-                    if loading {
-                        ZStack {
-                            Circle()
-                                .fill(Color.secondary)
-                                .frame(width: width - 2)
-                            Spinner(isAnimating: loading, style: .large, color: .white)
+        ZStack {
+            ScrollView(.vertical) {
+                VStack {
+                    ZStack {
+                        ItemImageView(image: image, width: width)
+                        
+                        if loading {
+                            ZStack {
+                                Circle()
+                                    .fill(Color.secondary)
+                                    .frame(width: width - 2)
+                                Spinner(isAnimating: loading, style: .large, color: .white)
+                            }
                         }
                     }
-                }
-                .padding(.top)
-                
-                Button(action: {
-                    let item = Order(name: self.menuItem.name, amount: self.menuItem.amount)
-                    self.orders.list.append(item)
-                }) {
-                    if menuItem.amount == 0 {
-                        Text("INFO")
-                            .styleButton(colour: .blue, padding: 10)
-                    } else {
-                        Text("£\(menuItem.amount, specifier: "%.2f")")
-                            .styleButton(colour: .blue, padding: 10)
-                    }
+                    .padding(.top)
                     
-                    
-                }
-                .disabled(menuItem.amount == 0)
-                .padding()
-                
-                VStack(alignment: .leading) {
-                    HStack {
-                        ForEach(menuItem.foodType.sorted(), id: \.self) { type in
-                            Text(MenuItems.typeFullName[type, default: type])
-                                .badgesStyle(text: type)
+                    Button(action: {
+                        let item = Order(name: self.menuItem.name, amount: self.menuItem.amount)
+                        self.orders.list.append(item)
+                        self.showingAdded.toggle()
+                    }) {
+                        if menuItem.amount == 0 {
+                            Text("INFO")
+                                .styleButton(colour: .blue, padding: 10)
+                        } else {
+                            Text("£\(menuItem.amount, specifier: "%.2f")")
+                                .styleButton(colour: .blue, padding: 10)
                         }
-                        Spacer()
+                        
+                        
                     }
-                    .padding(.horizontal)
-                    
-                    Text(menuItem.description)
+                    .disabled(menuItem.amount == 0)
                     .padding()
-                }
-                Spacer()
-            }
-            .onAppear(perform: fetchImage)
-            .navigationBarTitle(menuItem.name)
-        .navigationBarItems(
-            trailing:
-                ZStack {
-                    Text("\(orders.list.count)")
-                        .font(.callout)
-                        .offset(x: 0, y: 4)
                     
-                    Image(systemName: "bag")
-                        .font(.title)
+                    VStack(alignment: .leading) {
+                        HStack {
+                            ForEach(menuItem.foodType.sorted(), id: \.self) { type in
+                                Text(MenuItems.typeFullName[type, default: type])
+                                    .badgesStyle(text: type)
+                            }
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        
+                        Text(menuItem.description)
+                            .padding()
+                    }
+                    Spacer()
                 }
-            )
+                .onAppear(perform: fetchImage)
+                .navigationBarTitle(menuItem.name)
+                .navigationBarItems(
+                    trailing:
+                    ZStack {
+                        Text("\(orders.list.count)")
+                            .font(.callout)
+                            .offset(x: 0, y: 4)
+                        
+                        Image(systemName: "bag")
+                            .font(.title)
+                    }
+                )
+            }
+            .blur(radius: showingAdded ? 3 : 0)
+            
+            if showingAdded {
+                LoadingView(text: "Added", spinner: false)
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.showingAdded.toggle()
+                        }
+                }
+            }
         }
     }
-//MARK: Fetch Image
+    //MARK: Fetch Image
     func fetchImage() {
         loading.toggle()
         if let recordID = menuItem.recordID {

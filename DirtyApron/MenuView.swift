@@ -23,7 +23,7 @@ struct MenuView: View {
         ZStack {
             if categories.lists.isEmpty && loading {
                 withAnimation {
-                    LoadingView(text: "Getting A Menu")
+                    LoadingView(text: "Getting A Menu", spinner: true)
                 }
                 .animation(.easeInOut(duration: 1))
             } else {

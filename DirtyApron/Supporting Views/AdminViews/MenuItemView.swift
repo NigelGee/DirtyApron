@@ -25,7 +25,7 @@ struct MenuItemView: View {
         ZStack {
             if menuItems.lists.isEmpty && loading {
                 withAnimation {
-                    LoadingView(text: "Loading...")
+                    LoadingView(text: "Loading...", spinner: true)
                 }
                 .animation(.easeOut)
             } else {
