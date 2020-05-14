@@ -11,7 +11,7 @@ import CloudKit
 
 struct CategoryView: View {
     @EnvironmentObject var categories: Categories
-     
+    
     @State private var isEdit = false
     @State private var addNewCategory = false
     @State private var item = Category()
@@ -22,34 +22,34 @@ struct CategoryView: View {
     
     var body: some View {
         ZStack {
+            List {
+                ForEach(categories.lists, id: \.id) { category in
+                    NavigationLink(destination: MenuItemView(category: category)) {
+                        Text(category.name)
+                            .fontWeight(category.isEnable ? .bold : .none)
+                            .foregroundColor(category.isEnable ? .primary : .secondary)
+                            .onTapGesture(count: 2) {
+                                self.item = category
+                                self.isEdit = true
+                                self.addNewCategory.toggle()
+                        }
+                    }
+                }
+                .onDelete(perform: delete)
+                .onMove(perform: move)
+            }
+            
             if categories.lists.isEmpty && loading {
                 withAnimation {
                     LoadingView(text: "Loading...", spinner: true)
                 }
                 .animation(.easeOut(duration: 1))
-            } else {
-                ZStack {
-                    List {
-                        ForEach(categories.lists, id: \.id) { category in
-                            NavigationLink(destination: MenuItemView(category: category)) {
-                                Text(category.name)
-                                    .fontWeight(category.isEnable ? .bold : .none)
-                                    .foregroundColor(category.isEnable ? .primary : .secondary)
-                                    .onTapGesture(count: 2) {
-                                        self.item = category
-                                        self.isEdit = true
-                                        self.addNewCategory.toggle()
-                                    }
-                            }
-                        }
-                        .onDelete(perform: delete)
-                        .onMove(perform: move)
-                    }
-                    if change {
-                        LoadingView(text: "Saving...", spinner: true)
-                    }
-                }
             }
+            
+            if change {
+                LoadingView(text: "Saving...", spinner: true)
+            }
+            
         }
         .onAppear(perform: loadCategories)
         .alert(isPresented: $showingAlert) {
@@ -60,19 +60,19 @@ struct CategoryView: View {
         }
         .navigationBarTitle("Categories", displayMode: .inline)
         .navigationBarItems(
-                trailing:
-                    HStack {
-                        EditButton()
-                        
-                        Button(action: {
-                            self.addNewCategory.toggle()
-                        }){
-                            Image(systemName: "plus")
-                        }
-                        .padding()
-                    })
+            trailing:
+            HStack {
+                EditButton()
+                
+                Button(action: {
+                    self.addNewCategory.toggle()
+                }){
+                    Image(systemName: "plus")
+                }
+                .padding()
+        })
     }
-// MARK: Fetch Categories
+    // MARK: Fetch Categories
     private func loadCategories() {
         loading.toggle()
         CKHelper.fetchCategories { (results) in
@@ -86,7 +86,7 @@ struct CategoryView: View {
             self.loading.toggle()
         }
     }
-// MARK: Delete Categories
+    // MARK: Delete Categories
     func delete(indexSet: IndexSet) {
         guard let index = indexSet.first else { return }
         guard let recordID = categories.lists[index].recordID else { return }
@@ -102,7 +102,7 @@ struct CategoryView: View {
             }
         }
     }
-//MARK: Move Categories
+    //MARK: Move Categories
     func move(indexSet: IndexSet, destination: Int) {
         guard let source = indexSet.first else { return }
         
