@@ -82,7 +82,7 @@ struct CheckoutView: View {
                 
                     if method == "Delivery" {
                         Group {
-                            TextField("PHone Number", text: $userDetails.user.phone)
+                            TextField("Phone Number", text: $userDetails.user.phone)
                             TextField("Street", text: $userDetails.user.street1)
                             TextField("", text: $userDetails.user.street2)
                             TextField("City", text: $userDetails.user.city)

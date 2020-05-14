@@ -18,6 +18,7 @@ struct CategoryView: View {
     @State private var showingAlert = false
     @State private var message = ""
     @State private var loading = false
+    @State private var change = false
     
     var body: some View {
         ZStack {
@@ -27,21 +28,26 @@ struct CategoryView: View {
                 }
                 .animation(.easeOut(duration: 1))
             } else {
-                List {
-                    ForEach(categories.lists, id: \.id) { category in
-                        NavigationLink(destination: MenuItemView(category: category)) {
-                            Text(category.name)
-                                .fontWeight(category.isEnable ? .bold : .none)
-                                .foregroundColor(category.isEnable ? .primary : .secondary)
-                                .onTapGesture(count: 2) {
-                                    self.item = category
-                                    self.isEdit = true
-                                    self.addNewCategory.toggle()
-                                }
+                ZStack {
+                    List {
+                        ForEach(categories.lists, id: \.id) { category in
+                            NavigationLink(destination: MenuItemView(category: category)) {
+                                Text(category.name)
+                                    .fontWeight(category.isEnable ? .bold : .none)
+                                    .foregroundColor(category.isEnable ? .primary : .secondary)
+                                    .onTapGesture(count: 2) {
+                                        self.item = category
+                                        self.isEdit = true
+                                        self.addNewCategory.toggle()
+                                    }
+                            }
                         }
+                        .onDelete(perform: delete)
+                        .onMove(perform: move)
                     }
-                    .onDelete(perform: delete)
-                    .onMove(perform: move)
+                    if change {
+                        LoadingView(text: "Saving...", spinner: true)
+                    }
                 }
             }
         }
@@ -146,6 +152,7 @@ struct CategoryView: View {
     }
     
     func saveMove(item: Category) {
+        change.toggle()
         guard let recordID = item.recordID else { return }
         CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { (record, error) in
             if let error = error {
@@ -175,6 +182,7 @@ struct CategoryView: View {
                                 let currentItem = self.categories.lists[i]
                                 if currentItem.recordID == editItem.recordID {
                                     self.categories.lists[i] = editItem
+                                    self.change.toggle()
                                 }
                             }
                         }

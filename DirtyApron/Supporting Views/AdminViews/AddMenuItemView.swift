@@ -61,7 +61,7 @@ struct AddMenuItemView: View {
                         }
                         
                         TextField("Enter Amount", text: $amount)
-//                            .keyboardType(.decimalPad)
+                            .keyboardType(.decimalPad)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                     }
                 }
