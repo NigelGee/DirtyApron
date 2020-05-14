@@ -57,7 +57,7 @@ struct MailView: UIViewControllerRepresentable {
         
         var addressDetails = ""
         if method == "Delivery" {
-            addressDetails = "\nDelivery Address:-\n\(userDetails.user.street1)\(wrappedStreet2)\(wrappedCity)\n\(userDetails.user.zip)\n"
+            addressDetails = "\nDelivery Address:-\n\(userDetails.user.street1)\(wrappedStreet2)\(wrappedCity)\n\(userDetails.user.zip)\n\(userDetails.user.phone)"
         }
         
         let body = "My order for:-\n\(items)\n\nTotal Amount: \(format: totalAmount, style: .currency)\n\(addressDetails)\(note)\nPay on \(method)"

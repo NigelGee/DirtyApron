@@ -26,7 +26,7 @@ struct CheckoutView: View {
     
     var isDisable: Bool {
         if method == "Delivery" {
-            if userDetails.user.name == "" || userDetails.user.street1 == "" || userDetails.user.zip == "" {
+            if userDetails.user.name == "" || userDetails.user.street1 == "" || userDetails.user.zip == "" || userDetails.user.phone == "" {
                 return true
             }
         } else {
@@ -82,6 +82,7 @@ struct CheckoutView: View {
                 
                     if method == "Delivery" {
                         Group {
+                            TextField("PHone Number", text: $userDetails.user.phone)
                             TextField("Street", text: $userDetails.user.street1)
                             TextField("", text: $userDetails.user.street2)
                             TextField("City", text: $userDetails.user.city)

@@ -36,7 +36,6 @@ struct AdminView: View {
                     .font(.title)
                     .multilineTextAlignment(.center)
                     
-                    
                     Spacer()
                     
                     TextField("User ID", text: $userID)
@@ -54,6 +53,10 @@ struct AdminView: View {
                     }
                     .styleButton(colour: .blue, padding: 10)
                     .padding()
+                    
+                    Spacer()
+                    Spacer()
+                    Spacer()
                 }
                 .alert(isPresented: $showingAlert) {
                     Alert(title: Text("Wrong ID or Passcode"), message: Text("Please try again!"), dismissButton: .default(Text("OK")))
