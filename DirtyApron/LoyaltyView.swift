@@ -30,6 +30,9 @@ struct LoyaltyView: View {
                 
                 GridStack(rows: rowCount, columns: columnCount, content: card)
                         .padding()
+                        .accessibilityElement(children: .ignore)
+                        .accessibility(label: Text("\(reader.adjustedStamp) stamp\(reader.adjustedStamp > 1 ? "s" : "")"))
+                
                 
                 Spacer()
                 

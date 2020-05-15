@@ -27,10 +27,13 @@ struct AdminView: View {
                         Text("We update all the yummies food item here.")
                             .padding(.top)
                         Text("Go to menu to see them!")
-                        Image(systemName: "doc.plaintext")
-                            .font(.largeTitle)
-                        Text("Menu")
-                            .font(.body)
+                        Group {
+                            Image(systemName: "doc.plaintext")
+                                .font(.largeTitle)
+                            Text("Menu")
+                                .font(.body)
+                            }
+                        .accessibilityElement(children: .ignore)
                     }
                     .foregroundColor(.secondary)
                     .font(.title)

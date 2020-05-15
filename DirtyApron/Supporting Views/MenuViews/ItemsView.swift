@@ -91,6 +91,8 @@ struct ItemsView: View {
                 Image(systemName: "bag")
                     .font(.title)
             }
+            .accessibilityElement(children: .ignore)
+            .accessibility(label: Text("\(orders.list.count) in bag"))
         )
     }
     
