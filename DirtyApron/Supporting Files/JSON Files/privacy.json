@@ -7,6 +7,11 @@
  {
    "id": 2,
    "title": "Email Address",
-   "description": "Addresses are only used to indentify user for their order. No addresses are stored or passes on to third parties"
+   "description": "Addresses are only used to identify user for their order. No addresses are stored or passes on to third parties"
+ },
+ {
+   "id": 3,
+   "title": "Phone Number",
+   "description": "Numbers are used to contact you regarding your order or unable to find address. No numbers are stored or passes on to third parties"
  }
 ]

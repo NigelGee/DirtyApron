@@ -157,33 +157,19 @@ struct AddMenuItemView: View {
     }
     
     //MARK: Save Menu Item
-    func saveItem() {
+    private func saveItem() {
         if let actualAmount = Double(self.amount) {
-            let itemRecord = CKRecord(recordType: "Items")
             let item = MenuItem(name: menuItem.name, description: menuItem.description, amount: actualAmount, isEnable: menuItem.isEnable, foodType: menuItem.foodType)
-            if let recordID = category.recordID {
-                let reference = CKRecord.Reference(recordID: recordID, action: .deleteSelf)
-                itemRecord["owningCategory"] = reference as CKRecordValue
-                itemRecord["isEnable"] = menuItem.isEnable as CKRecordValue
-                itemRecord["name"] = menuItem.name as CKRecordValue
-                itemRecord["description"] = menuItem.description as CKRecordValue
-                itemRecord["foodType"] = menuItem.foodType as CKRecordValue
-                itemRecord["amount"] = actualAmount as CKRecordValue
- 
-                let imageURL = ImageHelper.getImageURL()
-                let imageAsset = CKAsset(fileURL: imageURL)
-                itemRecord["image"] = imageAsset
-                
-                CKContainer.default().publicCloudDatabase.save(itemRecord) { (record, error) in
-                    DispatchQueue.main.async {
-                        if let error = error {
-                            print(error.localizedDescription)
-                        } else {
-                            self.menuItems.lists.insert(item, at: 0)
-                        }
-                    }
+            
+            CKHelper.saveItem(menuItem: item, recordID: category.recordID) { (result) in
+                switch result {
+                case .success(let item):
+                    self.menuItems.lists.insert(item, at: 0)
+                case .failure(let error):
+                    print(error)
                 }
             }
+
             presentationMode.wrappedValue.dismiss()
         } else {
             title = "Incorrect Amount!"
@@ -192,48 +178,21 @@ struct AddMenuItemView: View {
         }
     }
     //MARK: Modify Menu Item
-    func modifyItem() {
+    private func modifyItem() {
         if let actualAmount = Double(amount) {
-            guard let recordID = menuItem.recordID else { return }
-            CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { (itemRecord, error) in
-                if let error = error {
-                    print(error.localizedDescription)
-                } else {
-                    guard let itemRecord = itemRecord else { return }
-                    itemRecord["isEnable"] = self.menuItem.isEnable as CKRecordValue
-                    itemRecord["name"] = self.menuItem.name as CKRecordValue
-                    itemRecord["description"] = self.menuItem.description as CKRecordValue
-                    itemRecord["foodType"] = self.menuItem.foodType as CKRecordValue
-                    itemRecord["amount"] = actualAmount as CKRecordValue
-                    
-                    let imageURL = ImageHelper.getImageURL()
-                    let imageAsset = CKAsset(fileURL: imageURL)
-                    itemRecord["image"] = imageAsset
-                    
-                    CKContainer.default().publicCloudDatabase.save(itemRecord) { (record, error) in
-                        if let error = error {
-                            print(error.localizedDescription)
-                        } else {
-                            guard let record = record else { return }
-                            let recordID = record.recordID
-                            guard let isEnable = record["isEnable"] as? Bool else { return }
-                            guard let name = record["name"] as? String else { return }
-                            guard let description = record["description"] as? String else { return }
-                            guard let foodType = record["foodType"] as? [String] else { return }
-                            guard let amount = record["amount"] as? Double else { return }
-                            
-                            let editItem = MenuItem(recordID: recordID, name: name, description: description, amount: amount, isEnable: isEnable, foodType: foodType)
-                            
-                            DispatchQueue.main.async {
-                                for i in 0..<self.menuItems.lists.count {
-                                    let currentItem = self.menuItems.lists[i]
-                                    if currentItem.recordID == editItem.recordID {
-                                        self.menuItems.lists[i] = editItem
-                                    }
-                                }
-                            }
+            let item = MenuItem(recordID: menuItem.recordID, name: menuItem.name, description: menuItem.description, amount: actualAmount, isEnable: menuItem.isEnable, foodType: menuItem.foodType)
+            
+            CKHelper.modifyItem(menuItem: item) { (result) in
+                switch result {
+                case .success(let editItem):
+                    for i in 0..<self.menuItems.lists.count {
+                        let currentItem = self.menuItems.lists[i]
+                        if currentItem.recordID == editItem.recordID {
+                            self.menuItems.lists[i] = editItem
                         }
                     }
+                case .failure(let error):
+                    print(error)
                 }
             }
             presentationMode.wrappedValue.dismiss()

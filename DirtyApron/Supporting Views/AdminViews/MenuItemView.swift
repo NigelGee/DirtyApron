@@ -87,6 +87,7 @@ struct MenuItemView: View {
     
     //MARK: Fetch Menu Items
     private func loadItems() {
+        print("Load")
         loading.toggle()
         if let recordID = category.recordID {
             CKHelper.fetchItems(recordID: recordID) { (results) in

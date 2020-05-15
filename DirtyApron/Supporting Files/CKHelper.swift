@@ -10,7 +10,7 @@ import Foundation
 import CloudKit
 
 class CKHelper {
-//MARK: Category CKHelpers
+//MARK: Category CKHelper
     class func fetchCategories(completion: @escaping (Result<[Category], Error>) -> ()) {
         let predicate = NSPredicate(value: true)
         let position = NSSortDescriptor(key: "position", ascending: true)
@@ -45,7 +45,7 @@ class CKHelper {
         CKContainer.default().publicCloudDatabase.add(operation)
     }
 
-//MARK: MenuItems CKHelpers
+//MARK: MenuItems CKHelper
     class func fetchItems(recordID: CKRecord.ID, completion: @escaping (Result<[MenuItem], Error>) -> ()) {
         let reference = CKRecord.Reference(recordID: recordID, action: .deleteSelf)
         let predicate = NSPredicate(format: "owningCategory == %@", reference)
@@ -80,6 +80,74 @@ class CKHelper {
             }
         }
         CKContainer.default().publicCloudDatabase.add(operation)
+    }
+    
+    class func saveItem(menuItem: MenuItem, recordID: CKRecord.ID?, completion: @escaping (Result<MenuItem, Error>) -> ()) {
+        let itemRecord = CKRecord(recordType: "Items")
+        if let recordID = recordID {
+            let reference = CKRecord.Reference(recordID: recordID, action: .deleteSelf)
+            itemRecord["owningCategory"] = reference as CKRecordValue
+            itemRecord["isEnable"] = menuItem.isEnable as CKRecordValue
+            itemRecord["name"] = menuItem.name as CKRecordValue
+            itemRecord["description"] = menuItem.description as CKRecordValue
+            itemRecord["foodType"] = menuItem.foodType as CKRecordValue
+            itemRecord["amount"] = menuItem.amount as CKRecordValue
+            
+            let imageURL = ImageHelper.getImageURL()
+            let imageAsset = CKAsset(fileURL: imageURL)
+            itemRecord["image"] = imageAsset
+            
+            CKContainer.default().publicCloudDatabase.save(itemRecord) { (record, error) in
+                DispatchQueue.main.async {
+                    if let error = error {
+                        completion(.failure(error))
+                    } else {
+                        completion(.success(menuItem))
+                    }
+                }
+            }
+        }
+    }
+    
+    class func modifyItem(menuItem: MenuItem, completion: @escaping (Result<MenuItem, Error>) -> ()) {
+        guard let recordID = menuItem.recordID else { return }
+        
+        CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { (itemRecord, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                guard let itemRecord = itemRecord else { return }
+                itemRecord["isEnable"] = menuItem.isEnable as CKRecordValue
+                itemRecord["name"] = menuItem.name as CKRecordValue
+                itemRecord["description"] = menuItem.description as CKRecordValue
+                itemRecord["foodType"] = menuItem.foodType as CKRecordValue
+                itemRecord["amount"] = menuItem.amount as CKRecordValue
+                
+                let imageURL = ImageHelper.getImageURL()
+                let imageAsset = CKAsset(fileURL: imageURL)
+                itemRecord["image"] = imageAsset
+                
+                CKContainer.default().publicCloudDatabase.save(itemRecord) { (record, error) in
+                    DispatchQueue.main.async {
+                        if let error = error {
+                            completion(.failure(error))
+                        } else {
+                            guard let record = record else { return }
+                            let recordID = record.recordID
+                            guard let isEnable = record["isEnable"] as? Bool else { return }
+                            guard let name = record["name"] as? String else { return }
+                            guard let description = record["description"] as? String else { return }
+                            guard let foodType = record["foodType"] as? [String] else { return }
+                            guard let amount = record["amount"] as? Double else { return }
+                            
+                            let editItem = MenuItem(recordID: recordID, name: name, description: description, amount: amount, isEnable: isEnable, foodType: foodType)
+                            
+                            completion(.success(editItem))
+                        }
+                    }
+                }
+            }
+        }
     }
     
     
