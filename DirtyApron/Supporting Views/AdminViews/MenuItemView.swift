@@ -59,7 +59,7 @@ struct MenuItemView: View {
                 .onDelete(perform: deleteItem)
             }
             
-            if menuItems.lists.isEmpty && loading {
+            if loading {
                 withAnimation {
                     LoadingView(text: "Loading...", spinner: true)
                 }
@@ -77,6 +77,7 @@ struct MenuItemView: View {
                 EditButton()
                 
                 Button(action: {
+                    self.isEdit = false
                     self.showingAddMenuItem.toggle()
                 }) {
                     Image(systemName: "plus")
@@ -87,7 +88,6 @@ struct MenuItemView: View {
     
     //MARK: Fetch Menu Items
     private func loadItems() {
-        print("Load")
         loading.toggle()
         if let recordID = category.recordID {
             CKHelper.fetchItems(recordID: recordID) { (results) in

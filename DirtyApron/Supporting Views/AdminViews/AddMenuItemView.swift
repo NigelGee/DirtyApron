@@ -20,6 +20,7 @@ struct AddMenuItemView: View {
     @State var amount: String
     @State private var showingImagePicker = false
     @State private var showingAlert = false
+    @State private var loading = false
     @State private var type = ""
     @State private var title = ""
     @State private var message = ""
@@ -28,42 +29,43 @@ struct AddMenuItemView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                Form {
-                    Section {
-                        Toggle(isOn: $menuItem.isEnable) {
-                            Text("Enable")
+            ZStack  {
+                VStack {
+                    Form {
+                        Section {
+                            Toggle(isOn: $menuItem.isEnable) {
+                                Text("Enable")
+                            }
                         }
-                    }
-                    
-                    Section(header: Text("Details of Item")) {
-                        TextField("Enter Name", text: $menuItem.name)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                        TextField("Enter Description", text: $menuItem.description)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
                         
-                        HStack {
-                            TextField("GF, VE, VG, OR, HL", text: $type)
+                        Section(header: Text("Details of Item")) {
+                            TextField("Enter Name", text: $menuItem.name)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                            Button("Add") {
-                                self.menuItem.foodType.append(self.type.uppercased())
-                                self.type = ""
+                            TextField("Enter Description", text: $menuItem.description)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                            
+                            HStack {
+                                TextField("GF, VE, VG, OR, HL", text: $type)
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                Button("Add") {
+                                    self.menuItem.foodType.append(self.type.uppercased())
+                                    self.type = ""
+                                }
+                                .styleButton(colour: type == "" ? .gray : .blue)
+                                .disabled(type == "")
                             }
-                            .styleButton(colour: type == "" ? .gray : .blue)
-                            .disabled(type == "")
-                        }
-                        
-                        HStack {
-                            ForEach(menuItem.foodType.sorted(), id: \.self) { type in
-                                Text(type)
-                                    .badgesStyle(text: type)
+                            
+                            HStack {
+                                ForEach(menuItem.foodType.sorted(), id: \.self) { type in
+                                    Text(type)
+                                        .badgesStyle(text: type)
+                                }
                             }
+                            
+                            TextField("Enter Amount", text: $amount)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
                         }
-                        
-                        TextField("Enter Amount", text: $amount)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
                     }
-                }
                 HStack {
                     Spacer()
                     Button(action: {
@@ -91,6 +93,11 @@ struct AddMenuItemView: View {
                 
                 ItemImageView(image: image, width: 200)
                 
+            }
+                
+                if loading {
+                    LoadingView(text: "Saving...", spinner: true)
+                }
             }
             .onAppear(perform: fetchImage)
             .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
@@ -158,6 +165,7 @@ struct AddMenuItemView: View {
     
     //MARK: Save Menu Item
     private func saveItem() {
+        loading.toggle()
         if let actualAmount = Double(self.amount) {
             let item = MenuItem(name: menuItem.name, description: menuItem.description, amount: actualAmount, isEnable: menuItem.isEnable, foodType: menuItem.foodType)
             
@@ -169,8 +177,11 @@ struct AddMenuItemView: View {
                     print(error)
                 }
             }
-
-            presentationMode.wrappedValue.dismiss()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.loading.toggle()
+                self.presentationMode.wrappedValue.dismiss()
+            }
+            
         } else {
             title = "Incorrect Amount!"
             message = "You must enter a valid amount"
@@ -179,6 +190,7 @@ struct AddMenuItemView: View {
     }
     //MARK: Modify Menu Item
     private func modifyItem() {
+        loading.toggle()
         if let actualAmount = Double(amount) {
             let item = MenuItem(recordID: menuItem.recordID, name: menuItem.name, description: menuItem.description, amount: actualAmount, isEnable: menuItem.isEnable, foodType: menuItem.foodType)
             
@@ -195,7 +207,10 @@ struct AddMenuItemView: View {
                     print(error)
                 }
             }
-            presentationMode.wrappedValue.dismiss()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.loading.toggle()
+                self.presentationMode.wrappedValue.dismiss()
+            }
         } else {
             title = "Incorrect Amount!"
             message = "You must enter a valid amount"
