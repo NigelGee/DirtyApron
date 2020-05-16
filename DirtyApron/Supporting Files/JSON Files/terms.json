@@ -11,17 +11,22 @@
  },
  {
      "id": 3,
+     "title": "Redemption Drinks",
+     "description": "Drink that can be redeem do not include alcohol drinks"
+ },
+ {
+     "id": 4,
      "title": "Venue Rights",
      "description": "The venue reserves the right to terminate, discontinue, cancel or amend the Loyalty Card Scheme at any time and in its sole discretion without notice to you."
  },
  {
-     "id": 4,
+     "id": 5,
      "title": "Challenge 21",
      "description": "You may be asked for ID if you purchase alcohol and look under 21 years. Under the provisions of the Licensing Act 2003, it is an offence for persons under 18 years to purchase or attempt to purchase alcohol. It is also an offence for anyone to purchase or attempt to purchase alcohol for someone under 18 years"
  },
  {
-     "id": 5,
+     "id": 6,
      "title": "Governing Law and Jurisdiction",
-     "description": "These Terms are governed by the laws of England and Wales. The United Nations Convention on Contacts for International Sale of Goods shall have no applicabity. The User irrevocably consents to exclusive jurisdiction of the courts of England and Wales, for purposes of any legal action arising out of or related to use of the Application or these Terms."
+     "description": "These Terms are governed by the laws of England and Wales. The United Nations Convention on Contacts for International Sale of Goods shall have no applicability. The User irrevocably consents to exclusive jurisdiction of the courts of England and Wales, for purposes of any legal action arising out of or related to use of the Application or these Terms."
  }
 ]

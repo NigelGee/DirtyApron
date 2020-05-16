@@ -24,12 +24,11 @@ struct MapView: UIViewRepresentable {
         let region = MKCoordinateRegion(center: coordinate, span: span)
         
         view.setRegion(region, animated: true)
-    }
-    
+    } 
 }
 
 struct MapView_Previews: PreviewProvider {
     static var previews: some View {
-        MapView(latitude: 51.4874, longitude: 0.0015, deltaSpan: 0.002)
+        MapView(latitude: 51.478333, longitude: -0.026930, deltaSpan: 0.0005)
     }
 }

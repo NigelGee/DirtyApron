@@ -14,90 +14,73 @@ struct DetailItemView: View {
     @State var menuItem: MenuItem
     @State private var image: Image?
     @State private var inputImage: UIImage?
-    @State private var loading = false
-    @State private var showingAdded = false
     var width: CGFloat = 200
     
     var body: some View {
-        ZStack {
-            ScrollView(.vertical) {
-                VStack {
-                    ZStack {
-                        ItemImageView(image: image, width: width)
-                        
-                        if loading {
-                            ZStack {
-                                Circle()
-                                    .fill(Color.secondary)
-                                    .frame(width: width - 2)
-                                Spinner(isAnimating: loading, style: .large, color: .white)
-                            }
-                        }
-                    }
-                    .padding(.top)
+        ScrollView(.vertical) {
+            VStack {
+                ZStack {
                     
-                    Button(action: {
-                        let item = Order(name: self.menuItem.name, amount: self.menuItem.amount)
-                        self.orders.list.append(item)
-                        self.showingAdded.toggle()
-                    }) {
-                        if menuItem.amount == 0 {
-                            Text("INFO")
-                                .styleButton(colour: .blue, padding: 10)
-                        } else {
-                            Text("£\(menuItem.amount, specifier: "%.2f")")
-                                .styleButton(colour: .blue, padding: 10)
-                        }
-                        
-                        
-                    }
-                    .disabled(menuItem.amount == 0)
-                    .padding()
+                    ItemImageView(image: image, width: width)
                     
-                    VStack(alignment: .leading) {
-                        HStack {
-                            ForEach(menuItem.foodType.sorted(), id: \.self) { type in
-                                Text(MenuItems.typeFullName[type, default: type])
-                                    .badgesStyle(text: type)
-                            }
-                            Spacer()
+                    if image == nil {
+                        ZStack {
+                            Circle()
+                                .fill(Color.secondary)
+                                .frame(width: width - 2)
+                            Spinner(isAnimating: true, style: .large, color: .white)
                         }
-                        .padding(.horizontal)
-                        
-                        Text(menuItem.description)
-                            .padding()
                     }
-                    Spacer()
                 }
-                .onAppear(perform: fetchImage)
-                .navigationBarTitle(menuItem.name)
-                .navigationBarItems(
-                    trailing:
-                    ZStack {
-                        Text("\(orders.list.count)")
-                            .font(.callout)
-                            .offset(x: 0, y: 4)
-                        
-                        Image(systemName: "bag")
-                            .font(.title)
+                .padding(.top)
+                
+                Button(action: {
+                    let item = Order(name: self.menuItem.name, amount: self.menuItem.amount)
+                    self.orders.list.append(item)
+                }) {
+                    if menuItem.amount == 0 {
+                        Text("Information")
+                            .styleButton(colour: .secondary, padding: 10)
+                    } else {
+                        Text("£\(menuItem.amount, specifier: "%.2f")")
+                            .styleButton(colour: .blue, padding: 10)
                     }
-                )
-            }
-            .blur(radius: showingAdded ? 3 : 0)
-            
-            if showingAdded {
-                LoadingView(text: "Added", spinner: false)
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            self.showingAdded.toggle()
+                }
+                .disabled(menuItem.amount == 0)
+                .padding()
+                
+                VStack(alignment: .leading) {
+                    HStack {
+                        ForEach(menuItem.foodType.sorted(), id: \.self) { type in
+                            Text(MenuItems.typeFullName[type, default: type])
+                                .badgesStyle(text: type)
                         }
+                        Spacer()
+                    }
+                    .padding(.horizontal)
+                    
+                    Text(menuItem.description)
+                        .padding()
                 }
+                Spacer()
             }
+            .onAppear(perform: fetchImage)
+            .navigationBarTitle(menuItem.name)
+            .navigationBarItems(
+                trailing:
+                ZStack {
+                    Text("\(orders.list.count)")
+                        .font(.callout)
+                        .offset(x: 0, y: 4)
+                    
+                    Image(systemName: "bag")
+                        .font(.title)
+                }
+            )
         }
     }
     //MARK: Fetch Image
     func fetchImage() {
-        loading.toggle()
         if let recordID = menuItem.recordID {
             CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { (record, error) in
                 if let error = error {
@@ -113,7 +96,6 @@ struct DetailItemView: View {
                                 guard let uiImage = UIImage(data: imageData as Data) else { return }
                                 
                                 self.image = Image(uiImage: uiImage)
-                                self.loading.toggle()
                             }
                         }
                     }

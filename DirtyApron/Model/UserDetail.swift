@@ -41,3 +41,4 @@ class UserDetails: ObservableObject {
         self.user = UserDetail(name: "", time: Date(), phone: "", street1: "", street2: "", city: "", zip: "")
     }
 }
+

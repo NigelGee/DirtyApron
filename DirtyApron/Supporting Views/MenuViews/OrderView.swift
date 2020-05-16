@@ -66,17 +66,16 @@ struct OrderView: View {
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(
                 leading:
-                    Button("Cancel") {
-                        self.orders.list = []
-                    },
+                Button("Cancel") {
+                    self.orders.list = []
+                },
                 trailing:
-                    Text("Total: £\(totalAmount, specifier: "%.2f")")
-                )
+                Text("Total: £\(totalAmount, specifier: "%.2f")")
+            )
         }
         .navigationViewStyle(StackNavigationViewStyle())
-            
     }
-        
+    
     func deleteOrder(at offsets: IndexSet) {
         self.orders.list.remove(atOffsets: offsets)
     }

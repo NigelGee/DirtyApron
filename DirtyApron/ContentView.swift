@@ -13,6 +13,7 @@ import CoreNFC
 struct ContentView: View {
     @EnvironmentObject var categories: Categories
     
+    
     var body: some View {
         TabView {
             InformationView()
@@ -35,7 +36,7 @@ struct ContentView: View {
                     Text("Menu")
             }
             
-
+            
             OrderView(user: UserDetails())
                 .tabItem {
                     Image(systemName: "bag")

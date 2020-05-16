@@ -47,7 +47,10 @@ struct CategoryView: View {
             }
             
             if change {
-                LoadingView(text: "Saving...", spinner: true)
+                withAnimation {
+                    LoadingView(text: "Saving...", spinner: true)
+                }
+                .animation(.easeOut(duration: 1))
             }
             
         }
@@ -65,6 +68,8 @@ struct CategoryView: View {
                 EditButton()
                 
                 Button(action: {
+                    self.item = Category()
+                    self.isEdit = false
                     self.addNewCategory.toggle()
                 }){
                     Image(systemName: "plus")

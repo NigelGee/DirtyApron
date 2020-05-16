@@ -78,6 +78,7 @@ struct MenuItemView: View {
                 
                 Button(action: {
                     self.isEdit = false
+                    self.menuItem = MenuItem()
                     self.showingAddMenuItem.toggle()
                 }) {
                     Image(systemName: "plus")

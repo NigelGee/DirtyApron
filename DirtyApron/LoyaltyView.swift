@@ -65,7 +65,6 @@ struct LoyaltyView: View {
         }
         return CardView(loyaltyCard: LoyaltyCard(index: index, state: stampState))
     }
-    
 }
 
 struct LoyaltyView_Previews: PreviewProvider {

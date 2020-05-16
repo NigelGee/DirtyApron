@@ -16,9 +16,12 @@ struct InformationView: View {
             ScrollView(.vertical) {
                 VStack {
                     ZStack {
+                        NavigationLink(destination: MapView(latitude: info.coordinates.latitude, longitude: info.coordinates.longitude, deltaSpan: 0.003)) {
                         MapView(latitude: info.coordinates.latitude, longitude: info.coordinates.longitude, deltaSpan: info.coordinates.deltaSpan)
+                        }
                             .frame(height: 180)
-                            .accessibilityElement(children: .ignore)
+                            .accessibility(label: Text("Map"))
+                            .accessibility(addTraits: .isButton)
                         
                         ImageView(image: info.wrappedImage)
                             .offset(y: 90)

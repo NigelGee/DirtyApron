@@ -9,8 +9,8 @@
 import CoreNFC
 import UIKit
 
+
 class Reader: NSObject, NFCNDEFReaderSessionDelegate, ObservableObject {
-    
     var session: NFCNDEFReaderSession?
     
     @Published var collectedStamps = UserDefaults.standard.integer(forKey: "CollectedStamps")
@@ -79,3 +79,4 @@ class Reader: NSObject, NFCNDEFReaderSessionDelegate, ObservableObject {
         print("Active")
     }
 }
+
