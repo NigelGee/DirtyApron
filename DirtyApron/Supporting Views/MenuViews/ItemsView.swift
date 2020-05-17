@@ -60,7 +60,6 @@ struct ItemsView: View {
                     }
                 }
             }
-            .blur(radius: showingAdded ? 3 : 0)
             
             if loading {
                 withAnimation {

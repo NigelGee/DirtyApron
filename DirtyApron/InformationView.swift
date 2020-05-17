@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct InformationView: View {
     let info: Information = Bundle.main.decode("information")
@@ -16,12 +17,12 @@ struct InformationView: View {
             ScrollView(.vertical) {
                 VStack {
                     ZStack {
-                        NavigationLink(destination: MapView(latitude: info.coordinates.latitude, longitude: info.coordinates.longitude, deltaSpan: 0.003)) {
-                        MapView(latitude: info.coordinates.latitude, longitude: info.coordinates.longitude, deltaSpan: info.coordinates.deltaSpan)
+                        NavigationLink(destination: MapView(title: info.name, deltaSpan: 0.003, venueCoordinate: CLLocationCoordinate2D(latitude: info.coordinates.latitude, longitude: info.coordinates.longitude))) {
+                            MapView(title: info.name, deltaSpan: info.coordinates.deltaSpan, venueCoordinate: CLLocationCoordinate2D(latitude: info.coordinates.latitude, longitude: info.coordinates.longitude))
                         }
-                            .frame(height: 180)
-                            .accessibility(label: Text("Map"))
-                            .accessibility(addTraits: .isButton)
+                        .frame(height: 180)
+                        .accessibility(label: Text("Map"))
+                        .accessibility(addTraits: .isButton)
                         
                         ImageView(image: info.wrappedImage)
                             .offset(y: 90)

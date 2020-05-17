@@ -113,6 +113,9 @@ struct CheckoutView: View {
                 Alert(title: Text("Not Ordered"), message: Text(message), dismissButton: .default(Text("OK")))
             }
             .navigationBarTitle("Checkout")
+            .navigationBarItems(trailing: Button("Dismiss") {
+                self.presentationMode.wrappedValue.dismiss()
+            })
             .onAppear(perform: onLoad)
             .offset(y: -self.value)
         }

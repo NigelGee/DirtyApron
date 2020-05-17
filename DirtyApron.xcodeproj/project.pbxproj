@@ -15,6 +15,7 @@
 		8B158CA524647C6900B9E6AE /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B158CA424647C6900B9E6AE /* OrderView.swift */; };
 		8B158CA72464926200B9E6AE /* UserDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B158CA62464926200B9E6AE /* UserDetail.swift */; };
 		8B158CA92464AD0B00B9E6AE /* CheckoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B158CA82464AD0B00B9E6AE /* CheckoutView.swift */; };
+		8B7572812471B7DC00ED32A3 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7572802471B7DC00ED32A3 /* LocationManager.swift */; };
 		8B7A2728243F768A00760F5D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7A2727243F768A00760F5D /* AppDelegate.swift */; };
 		8B7A272A243F768A00760F5D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7A2729243F768A00760F5D /* SceneDelegate.swift */; };
 		8B7A272C243F768A00760F5D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7A272B243F768A00760F5D /* ContentView.swift */; };
@@ -71,6 +72,7 @@
 		8B158CA424647C6900B9E6AE /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
 		8B158CA62464926200B9E6AE /* UserDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetail.swift; sourceTree = "<group>"; };
 		8B158CA82464AD0B00B9E6AE /* CheckoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutView.swift; sourceTree = "<group>"; };
+		8B7572802471B7DC00ED32A3 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		8B7A2724243F768A00760F5D /* DirtyApron.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DirtyApron.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B7A2727243F768A00760F5D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8B7A2729243F768A00760F5D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				8B9AE00F245C95EE002A2B35 /* ImageHelper.swift */,
 				8BA478E4245B17F900BAB7A5 /* Modifiers.swift */,
 				8B9EFE21246C380D0018E969 /* Reader.swift */,
+				8B7572802471B7DC00ED32A3 /* LocationManager.swift */,
 				8B7A2742243F7D4800760F5D /* Extensions Files */,
 				8B7A2741243F7D1400760F5D /* JSON Files */,
 			);
@@ -400,6 +403,7 @@
 				8BDA44922458645400F054A0 /* CategoryView.swift in Sources */,
 				8B9AE015245EBFCF002A2B35 /* DetailItemView.swift in Sources */,
 				8B9EFE20246AF5F60018E969 /* LoyaltyCard.swift in Sources */,
+				8B7572812471B7DC00ED32A3 /* LocationManager.swift in Sources */,
 				8BA478DD245AED4800BAB7A5 /* MenuItem.swift in Sources */,
 				8BA478E3245B089C00BAB7A5 /* ResizableTextField.swift in Sources */,
 				8B9EFE19246AB3E40018E969 /* StampView.swift in Sources */,

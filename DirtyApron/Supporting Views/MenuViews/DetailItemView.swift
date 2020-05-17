@@ -14,70 +14,91 @@ struct DetailItemView: View {
     @State var menuItem: MenuItem
     @State private var image: Image?
     @State private var inputImage: UIImage?
+    @State private var added = false
     var width: CGFloat = 200
     
     var body: some View {
         ScrollView(.vertical) {
-            VStack {
-                ZStack {
+            ZStack {
+                VStack {
+                    // Image load
+                    ZStack {
+                        
+                        ItemImageView(image: image, width: width)
+                        
+                        if image == nil {
+                            ZStack {
+                                Circle()
+                                    .fill(Color.secondary)
+                                    .frame(width: width - 2)
+                                Spinner(isAnimating: true, style: .large, color: .white)
+                            }
+                        }
+                    }
+                    .padding(.top)
                     
-                    ItemImageView(image: image, width: width)
+                    Button(action: {
+                        let item = Order(name: self.menuItem.name, amount: self.menuItem.amount)
+                        self.orders.list.append(item)
+                        self.added.toggle()
+                    }) {
+                        if menuItem.amount == 0 {
+                            Text("Information")
+                                .styleButton(colour: .secondary, padding: 10)
+                        } else {
+                            Text("£\(menuItem.amount, specifier: "%.2f")")
+                                .styleButton(colour: .blue, padding: 10)
+                        }
+                    }
+                    .disabled(menuItem.amount == 0)
+                    .padding()
+                    // food types and description
+                    VStack(alignment: .leading) {
+                        HStack {
+                            ForEach(menuItem.foodType.sorted(), id: \.self) { type in
+                                Text(MenuItems.typeFullName[type, default: type])
+                                    .badgesStyle(text: type)
+                            }
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        
+                        Text(menuItem.description)
+                            .padding()
+                    }
                     
-                    if image == nil {
-                        ZStack {
-                            Circle()
-                                .fill(Color.secondary)
-                                .frame(width: width - 2)
-                            Spinner(isAnimating: true, style: .large, color: .white)
+                    Spacer()
+                }
+                // added notification
+                if added {
+                    withAnimation {
+                        VStack {
+                            Spacer()
+                            LoadingView(text: "Added...", spinner: false)
+                        }
+                    }
+                    .animation(.easeOut, value: 1)
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.added.toggle()
                         }
                     }
                 }
-                .padding(.top)
-                
-                Button(action: {
-                    let item = Order(name: self.menuItem.name, amount: self.menuItem.amount)
-                    self.orders.list.append(item)
-                }) {
-                    if menuItem.amount == 0 {
-                        Text("Information")
-                            .styleButton(colour: .secondary, padding: 10)
-                    } else {
-                        Text("£\(menuItem.amount, specifier: "%.2f")")
-                            .styleButton(colour: .blue, padding: 10)
-                    }
-                }
-                .disabled(menuItem.amount == 0)
-                .padding()
-                
-                VStack(alignment: .leading) {
-                    HStack {
-                        ForEach(menuItem.foodType.sorted(), id: \.self) { type in
-                            Text(MenuItems.typeFullName[type, default: type])
-                                .badgesStyle(text: type)
-                        }
-                        Spacer()
-                    }
-                    .padding(.horizontal)
-                    
-                    Text(menuItem.description)
-                        .padding()
-                }
-                Spacer()
             }
-            .onAppear(perform: fetchImage)
-            .navigationBarTitle(menuItem.name)
-            .navigationBarItems(
-                trailing:
-                ZStack {
-                    Text("\(orders.list.count)")
-                        .font(.callout)
-                        .offset(x: 0, y: 4)
-                    
-                    Image(systemName: "bag")
-                        .font(.title)
-                }
-            )
         }
+        .onAppear(perform: fetchImage)
+        .navigationBarTitle(menuItem.name)
+        .navigationBarItems(
+            trailing:
+            ZStack {
+                Text("\(orders.list.count)")
+                    .font(.callout)
+                    .offset(x: 0, y: 4)
+                
+                Image(systemName: "bag")
+                    .font(.title)
+            }
+        )
     }
     //MARK: Fetch Image
     func fetchImage() {

@@ -62,15 +62,15 @@ struct OrderView: View {
             .sheet(isPresented: $showingCheckout) {
                 CheckoutView(orders: self.orders, userDetails: self.user)
             }
-            .navigationBarTitle("Order", displayMode: .inline)
+            .navigationBarTitle("Total: £\(totalAmount, specifier: "%.2f")", displayMode: .inline)
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(
                 leading:
-                Button("Cancel") {
-                    self.orders.list = []
-                },
+                    Button("Cancel") {
+                        self.orders.list = []
+                    },
                 trailing:
-                Text("Total: £\(totalAmount, specifier: "%.2f")")
+                    EditButton()
             )
         }
         .navigationViewStyle(StackNavigationViewStyle())

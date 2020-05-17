@@ -1,7 +1,7 @@
 {
    "id": 1,
    "image": "DirtyApronLogo",
-   "name": "Welcome",
+   "name": "Dirty Apron Café",
    "webAddress": "instagram.com/dirtyapronuk",
    "address": {
        "street": "133 Deptford High St. Arch 9",
@@ -47,8 +47,8 @@
    ],
    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
    "coordinates": {
-       "latitude": 51.478333,
-       "longitude": -0.026930,
+       "latitude": 51.478476,
+       "longitude": -0.026857,
        "deltaSpan": 0.0005
    }
 
