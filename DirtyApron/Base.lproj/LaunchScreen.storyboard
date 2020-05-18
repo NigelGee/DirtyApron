@@ -22,10 +22,21 @@
                                     <constraint firstAttribute="height" constant="150" id="MzR-eT-ypE"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Made by" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2R3-ZH-Nxz">
+                                <rect key="frame" x="174" y="344" width="66" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="2R3-ZH-Nxz" secondAttribute="height" multiplier="22:7" id="ge3-rp-WZ3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="mWE-Wr-fda" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="1ZI-B1-RUk"/>
+                            <constraint firstItem="mWE-Wr-fda" firstAttribute="top" secondItem="2R3-ZH-Nxz" secondAttribute="bottom" constant="8" id="2cr-eN-Eh3"/>
+                            <constraint firstItem="2R3-ZH-Nxz" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ZbV-Pm-21Q"/>
                             <constraint firstItem="mWE-Wr-fda" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="qh4-va-S85"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -33,7 +44,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="-388.40579710144931" y="337.5"/>
         </scene>
     </scenes>
     <resources>

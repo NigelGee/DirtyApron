@@ -1,7 +1,7 @@
 [
  {
    "id": 1,
-   "title": "Near Field Comuication (NFC)",
+   "title": "Near Field Communication (NFC)",
    "description": "This app does not collect any data device. Only use NFC to vefify that a correct 'Stamp' has been used."
  },
  {
@@ -13,5 +13,10 @@
    "id": 3,
    "title": "Phone Number",
    "description": "Numbers are used to contact you regarding your order or unable to find address. No numbers are stored or passes on to third parties"
+ },
+ {
+   "id": 4,
+   "title": "Location",
+   "description": "Need your location to find your route to Venue. No Locations are stored or passes on to third parties"
  }
 ]

@@ -156,6 +156,9 @@
 			isa = PBXGroup;
 			children = (
 				8B7A273F243F7A1F00760F5D /* DirtyApron.entitlements */,
+				8B7A272D243F769000760F5D /* Assets.xcassets */,
+				8B7A2732243F769000760F5D /* LaunchScreen.storyboard */,
+				8B7A2735243F769000760F5D /* Info.plist */,
 				8B7A2727243F768A00760F5D /* AppDelegate.swift */,
 				8B7A2729243F768A00760F5D /* SceneDelegate.swift */,
 				8B7A272B243F768A00760F5D /* ContentView.swift */,
@@ -166,9 +169,6 @@
 				8B7A2740243F7C9000760F5D /* Model */,
 				8B7A273D243F78DA00760F5D /* Supporting Views */,
 				8B7A273E243F78FF00760F5D /* Supporting Files */,
-				8B7A272D243F769000760F5D /* Assets.xcassets */,
-				8B7A2732243F769000760F5D /* LaunchScreen.storyboard */,
-				8B7A2735243F769000760F5D /* Info.plist */,
 				8B7A272F243F769000760F5D /* Preview Content */,
 			);
 			path = DirtyApron;

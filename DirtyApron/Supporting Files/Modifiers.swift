@@ -49,6 +49,25 @@ struct Images: ViewModifier {
     }
 }
 
+struct Watermark: ViewModifier {
+    var text: String
+    var place: Alignment
+    
+    func body(content: Content) -> some View {
+        ZStack(alignment: place) {
+            content
+            
+            Text(text)
+                .font(.system(size: 8))
+                .foregroundColor(.white)
+                .padding(5)
+                .background(Color.black)
+                .clipShape(RoundedRectangle(cornerRadius: 5))
+                .padding(5)
+        }
+    }
+}
+
 extension View {
     func badgesStyle(text: String) -> some View {
         self.modifier(TypeBadges(text: text))
@@ -60,5 +79,9 @@ extension View {
     
     func styleImage(width: CGFloat) -> some View {
         self.modifier(Images(width: width))
+    }
+    
+    func watermarked(with text: String, in place: Alignment) -> some View {
+        self.modifier(Watermark(text: text, place: place))
     }
 }

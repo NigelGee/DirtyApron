@@ -94,7 +94,7 @@ struct DetailItemView: View {
                 Text("\(orders.list.count)")
                     .font(.callout)
                     .offset(x: 0, y: 4)
-                
+
                 Image(systemName: "bag")
                     .font(.title)
             }

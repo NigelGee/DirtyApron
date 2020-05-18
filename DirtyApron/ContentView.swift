@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import CloudKit
 import CoreNFC
 
 struct ContentView: View {

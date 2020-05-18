@@ -17,12 +17,13 @@ struct InformationView: View {
             ScrollView(.vertical) {
                 VStack {
                     ZStack {
-                        NavigationLink(destination: MapView(title: info.name, deltaSpan: 0.003, venueCoordinate: CLLocationCoordinate2D(latitude: info.coordinates.latitude, longitude: info.coordinates.longitude))) {
-                            MapView(title: info.name, deltaSpan: info.coordinates.deltaSpan, venueCoordinate: CLLocationCoordinate2D(latitude: info.coordinates.latitude, longitude: info.coordinates.longitude))
+                        NavigationLink(destination: MapView(title: info.name, deltaSpan: 0.003, venueCoordinate: CLLocationCoordinate2D(latitude: info.coordinates.latitude, longitude: info.coordinates.longitude), header: true)) {
+                            MapView(title: info.name, deltaSpan: info.coordinates.deltaSpan, venueCoordinate: CLLocationCoordinate2D(latitude: info.coordinates.latitude, longitude: info.coordinates.longitude), header: false)
                         }
                         .frame(height: 180)
                         .accessibility(label: Text("Map"))
                         .accessibility(addTraits: .isButton)
+                        .watermarked(with: "Tap for directions", in: .topLeading)
                         
                         ImageView(image: info.wrappedImage)
                             .offset(y: 90)
