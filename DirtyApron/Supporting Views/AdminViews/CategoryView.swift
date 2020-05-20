@@ -20,6 +20,9 @@ struct CategoryView: View {
     @State private var loading = false
     @State private var change = false
     
+    var adminUsers: AdminUsers
+    @State var allAccess: Bool
+    
     var body: some View {
         ZStack {
             List {
@@ -62,20 +65,30 @@ struct CategoryView: View {
             AddCategoryView(categories: self.categories, category: self.item, isEdit: self.isEdit)
         }
         .navigationBarTitle("Categories", displayMode: .inline)
+        .navigationBarBackButtonHidden(true)
         .navigationBarItems(
-            trailing:
-            HStack {
-                EditButton()
-                
-                Button(action: {
-                    self.item = Category()
-                    self.isEdit = false
-                    self.addNewCategory.toggle()
-                }){
-                    Image(systemName: "plus")
+            leading:
+            Group{
+                if allAccess {
+                    NavigationLink(destination: AdminUserView(adminUsers: self.adminUsers)) {
+                        Text("Admin Users")
+                    }
                 }
-                .padding()
-        })
+            },
+            trailing:
+                HStack {
+                    EditButton()
+                    
+                    Button(action: {
+                        self.item = Category()
+                        self.isEdit = false
+                        self.addNewCategory.toggle()
+                    }){
+                        Image(systemName: "plus")
+                    }
+                    .padding()
+                }
+            )
     }
     // MARK: Fetch Categories
     private func loadCategories() {
@@ -200,6 +213,6 @@ struct CategoryView: View {
 
 struct CategoryView_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryView()
+        CategoryView(adminUsers: AdminUsers(), allAccess: true)
     }
 }

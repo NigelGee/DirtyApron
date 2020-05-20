@@ -10,6 +10,7 @@ import Foundation
 import CloudKit
 
 class CKHelper {
+    static let database = CKContainer.default().publicCloudDatabase
 //MARK: Category CKHelper
     class func fetchCategories(completion: @escaping (Result<[Category], Error>) -> ()) {
         let predicate = NSPredicate(value: true)
@@ -42,7 +43,7 @@ class CKHelper {
                 }
             }
         }
-        CKContainer.default().publicCloudDatabase.add(operation)
+        database.add(operation)
     }
 
 //MARK: MenuItems CKHelper
@@ -79,7 +80,7 @@ class CKHelper {
                 }
             }
         }
-        CKContainer.default().publicCloudDatabase.add(operation)
+        database.add(operation)
     }
     
     class func saveItem(menuItem: MenuItem, recordID: CKRecord.ID?, completion: @escaping (Result<MenuItem, Error>) -> ()) {
@@ -97,7 +98,7 @@ class CKHelper {
             let imageAsset = CKAsset(fileURL: imageURL)
             itemRecord["image"] = imageAsset
             
-            CKContainer.default().publicCloudDatabase.save(itemRecord) { (record, error) in
+            database.save(itemRecord) { (record, error) in
                 DispatchQueue.main.async {
                     if let error = error {
                         completion(.failure(error))
@@ -112,7 +113,7 @@ class CKHelper {
     class func modifyItem(menuItem: MenuItem, completion: @escaping (Result<MenuItem, Error>) -> ()) {
         guard let recordID = menuItem.recordID else { return }
         
-        CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { (itemRecord, error) in
+        database.fetch(withRecordID: recordID) { (itemRecord, error) in
             if let error = error {
                 print(error.localizedDescription)
             } else {
@@ -127,7 +128,7 @@ class CKHelper {
                 let imageAsset = CKAsset(fileURL: imageURL)
                 itemRecord["image"] = imageAsset
                 
-                CKContainer.default().publicCloudDatabase.save(itemRecord) { (record, error) in
+                database.save(itemRecord) { (record, error) in
                     DispatchQueue.main.async {
                         if let error = error {
                             completion(.failure(error))
@@ -149,11 +150,73 @@ class CKHelper {
             }
         }
     }
+// MARK: CKHelper AdminUsers
+    class func saveAdminUsers(adminUser: AdminUser, completion: @escaping (Result<AdminUser, Error>) -> ()) {
+        let adminRecord = CKRecord(recordType: "AdminUser")
+        
+        adminRecord["name"] = adminUser.name as CKRecordValue
+        adminRecord["password"] = adminUser.password as CKRecordValue
+        adminRecord["allAccess"] = adminUser.allAccess as CKRecordValue
+        
+        database.save(adminRecord) { (record, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    completion(.success(adminUser))
+                }
+            }
+        }
+    }
+    
+    class func fetchAdminUsers(completion: @escaping (Result<[AdminUser], Error>) -> ()) {
+        let predicate = NSPredicate(value: true)
+        let sort = NSSortDescriptor(key: "creationDate", ascending: true)
+        let query = CKQuery(recordType: "AdminUser", predicate: predicate)
+        query.sortDescriptors = [sort]
+        
+        let operation = CKQueryOperation(query: query)
+        operation.desiredKeys = ["name", "password", "allAccess"]
+        operation.resultsLimit = 50
+        
+        var newAdminUser = [AdminUser]()
+        
+        operation.recordFetchedBlock = { record in
+            var adminUser = AdminUser()
+            adminUser.recordID = record.recordID
+            adminUser.name = record["name"] as! String
+            adminUser.password = record["password"] as! String
+            adminUser.allAccess = record["allAccess"] as! Bool
+            newAdminUser.append(adminUser)
+        }
+        
+        operation.queryCompletionBlock = { (cursor, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    completion(.success(newAdminUser))
+                }
+            }
+        }
+        database.add(operation)
+    }
+    
+    class func deleteAdminUser(index: Int, recordID: CKRecord.ID, completion: @escaping (Result<Int, Error>) -> ()) {
+        database.delete(withRecordID: recordID) { (record, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    completion(.success(index))
+                }
+            }
+        }
+    }
     
     
 // MARK: Notifications
     class func saveNotification(for categories: Categories) {
-        let database = CKContainer.default().publicCloudDatabase
 
         database.fetchAllSubscriptions { subscriptions, error in
             if error == nil {
@@ -177,6 +240,7 @@ class CKHelper {
                             let notification = CKSubscription.NotificationInfo()
                             notification.subtitle = "New \(category.name) Menu"
                             notification.alertBody = "There are new items to the \(category.name) Menu. Check them out 😋"
+                            notification.shouldSendContentAvailable = true
                             notification.soundName = "default"
                             
                             let notificationUpdate = CKQuerySubscription.NotificationInfo()

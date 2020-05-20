@@ -9,18 +9,17 @@
 import SwiftUI
 
 struct AdminView: View {
+    @State private var adminUsers = AdminUsers()
     @State private var showingCategory = false
     @State private var showingAlert = false
-    @State private var userID = ""
-    @State private var password = ""
-    
-    let id = "Admin"
-    let pass = "Admin1"
-    
+    @State private var enteredName = ""
+    @State private var enteredPassword = ""
+    @State private var allAccess = false
+        
     var body: some View {
         ZStack {
             if showingCategory {
-                CategoryView()
+                CategoryView(adminUsers: adminUsers, allAccess: self.allAccess)
             } else {
                 VStack {
                     Group {
@@ -41,31 +40,52 @@ struct AdminView: View {
                     
                     Spacer()
                     
-                    TextField("User ID", text: $userID)
+                    TextField("User Name", text: $enteredName)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding(.horizontal)
-                    SecureField("Password", text: $password)
+                    SecureField("Password", text: $enteredPassword)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
+                    
                     Button("Enter") {
-                        if self.userID == self.id && self.password == self.pass {
-                            self.showingCategory.toggle()
-                        } else {
-                            self.showingAlert.toggle()
-                        }
+                        self.checkID()
                     }
                     .styleButton(colour: .blue, padding: 10)
                     .padding()
+                    
                     
                     Spacer()
                     Spacer()
                     Spacer()
                 }
                 .alert(isPresented: $showingAlert) {
-                    Alert(title: Text("Wrong ID or Passcode"), message: Text("Please try again!"), dismissButton: .default(Text("OK")))
+                    Alert(title: Text("Wrong Name or Password"), message: Text("Please try again!"), dismissButton: .default(Text("OK")))
                 }
             }
         }
+        .onAppear(perform: onLoad)
+    }
+    
+    func onLoad() {
+        CKHelper.fetchAdminUsers { (result) in
+            switch result {
+            case .success(let adminUsers):
+                self.adminUsers.list = adminUsers
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func checkID() {
+        for user in adminUsers.list {
+            if user.name == enteredName && user.password == enteredPassword {
+                self.allAccess = user.allAccess
+                showingCategory.toggle()
+                return
+            }
+        }
+        showingAlert.toggle()
     }
 }
 

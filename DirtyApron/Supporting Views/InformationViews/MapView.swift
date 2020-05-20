@@ -33,13 +33,13 @@ struct MapView: UIViewRepresentable {
         venueLocation.coordinate = venueCoordinate
         venueLocation.title = title
         
-        let request = MKDirections.Request()
-        request.source = .forCurrentLocation()
-        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: venueCoordinate))
-        request.requestsAlternateRoutes = true
-        request.transportType = .walking
-        
         if header {
+            let request = MKDirections.Request()
+            request.source = .forCurrentLocation()
+            request.destination = MKMapItem(placemark: MKPlacemark(coordinate: venueCoordinate))
+            request.requestsAlternateRoutes = false
+            request.transportType = .walking
+            
             let directions = MKDirections(request: request)
             directions.calculate { response, error in
                 guard let unwrappedResponse = response else { return }
@@ -64,10 +64,13 @@ struct MapView: UIViewRepresentable {
         
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
             let renderer = MKPolylineRenderer(polyline: overlay as! MKPolyline)
-            renderer.strokeColor = UIColor.systemBlue
+            renderer.strokeColor = UIColor.systemPurple
+            renderer.lineCap = .round
             renderer.lineWidth = 3
             return renderer
         }
+        
+        
         
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             let identifier = "placemark"
