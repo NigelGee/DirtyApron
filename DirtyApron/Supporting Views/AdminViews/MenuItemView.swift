@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import CloudKit
 
 struct MenuItemView: View {
     @EnvironmentObject var menuItems: MenuItems
@@ -109,17 +108,15 @@ struct MenuItemView: View {
         guard let index = indexSet.first else { return }
         guard let recordID = menuItems.lists[index].recordID else { return }
         
-        CKContainer.default().publicCloudDatabase.delete(withRecordID: recordID) { (recordID, error) in
-            DispatchQueue.main.async {
-                if let error = error {
-                    self.message = error.localizedDescription
-                    self.showingAlert.toggle()
-                } else {
-                    self.menuItems.lists.remove(at: index)
-                }
+        CKHelper.delete(index: index, recordID: recordID) { (result) in
+            switch result {
+            case .success(let index):
+                self.menuItems.lists.remove(at: index)
+            case .failure(let error):
+                self.message = error.localizedDescription
+                self.showingAlert.toggle()
             }
         }
-        
     }
 }
 

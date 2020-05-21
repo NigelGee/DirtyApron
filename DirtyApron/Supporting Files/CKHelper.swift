@@ -11,6 +11,19 @@ import CloudKit
 
 class CKHelper {
     static let database = CKContainer.default().publicCloudDatabase
+    
+    class func delete(index: Int, recordID: CKRecord.ID, completion: @escaping (Result<Int, Error>) -> ()) {
+        database.delete(withRecordID: recordID) { (record, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    completion(.success(index))
+                }
+            }
+        }
+    }
+    
 //MARK: Category CKHelper
     class func fetchCategories(completion: @escaping (Result<[Category], Error>) -> ()) {
         let predicate = NSPredicate(value: true)
@@ -202,17 +215,7 @@ class CKHelper {
         database.add(operation)
     }
     
-    class func deleteAdminUser(index: Int, recordID: CKRecord.ID, completion: @escaping (Result<Int, Error>) -> ()) {
-        database.delete(withRecordID: recordID) { (record, error) in
-            DispatchQueue.main.async {
-                if let error = error {
-                    completion(.failure(error))
-                } else {
-                    completion(.success(index))
-                }
-            }
-        }
-    }
+    
     
     
 // MARK: Notifications

@@ -109,14 +109,13 @@ struct CategoryView: View {
         guard let index = indexSet.first else { return }
         guard let recordID = categories.lists[index].recordID else { return }
         
-        CKContainer.default().publicCloudDatabase.delete(withRecordID: recordID) { (recordID, error) in
-            DispatchQueue.main.async {
-                if let error = error {
-                    self.message = error.localizedDescription
-                    self.showingAlert.toggle()
-                } else {
-                    self.categories.lists.remove(at: index)
-                }
+        CKHelper.delete(index: index, recordID: recordID) { (result) in
+            switch result {
+            case .success(let index):
+                self.categories.lists.remove(at: index)
+            case .failure(let error):
+                self.message = error.localizedDescription
+                self.showingAlert.toggle()
             }
         }
     }

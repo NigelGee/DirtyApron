@@ -39,7 +39,7 @@ struct AdminUserView: View {
         guard let index = indexSet.first else { return }
         guard let recordID = adminUsers.list[index].recordID else { return }
         
-        CKHelper.deleteAdminUser(index: index, recordID: recordID) { (result) in
+        CKHelper.delete(index: index, recordID: recordID) { (result) in
             switch result {
             case .success(let index):
                 self.adminUsers.list.remove(at: index)
