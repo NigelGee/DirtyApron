@@ -151,7 +151,8 @@ struct AddMenuItemView: View {
                     guard let record = record else { return }
                     guard let asset = record["image"] as? CKAsset else {
                         print("Image missing")
-                        return }
+                        return
+                    }
                     guard let assetURL = asset.fileURL else { return }
                     guard let imageData = NSData(contentsOf: assetURL) else { return }
                     
@@ -169,7 +170,7 @@ struct AddMenuItemView: View {
         if let actualAmount = Double(self.amount) {
             let item = MenuItem(name: menuItem.name, description: menuItem.description, amount: actualAmount, isEnable: menuItem.isEnable, foodType: menuItem.foodType)
             
-            CKHelper.saveItem(menuItem: item, recordID: category.recordID) { (result) in
+            CKItems.save(menuItem: item, recordID: category.recordID) { (result) in
                 switch result {
                 case .success(let item):
                     self.menuItems.lists.insert(item, at: 0)
@@ -194,7 +195,7 @@ struct AddMenuItemView: View {
         if let actualAmount = Double(amount) {
             let item = MenuItem(recordID: menuItem.recordID, name: menuItem.name, description: menuItem.description, amount: actualAmount, isEnable: menuItem.isEnable, foodType: menuItem.foodType)
             
-            CKHelper.modifyItem(menuItem: item) { (result) in
+            CKItems.modify(menuItem: item) { (result) in
                 switch result {
                 case .success(let editItem):
                     for i in 0..<self.menuItems.lists.count {

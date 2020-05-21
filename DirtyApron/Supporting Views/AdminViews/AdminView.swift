@@ -67,7 +67,7 @@ struct AdminView: View {
     }
     
     func onLoad() {
-        CKHelper.fetchAdminUsers { (result) in
+        CKAdmin.fetch { (result) in
             switch result {
             case .success(let adminUsers):
                 self.adminUsers.list = adminUsers

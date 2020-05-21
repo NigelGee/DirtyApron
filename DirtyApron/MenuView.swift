@@ -45,7 +45,7 @@ struct MenuView: View {
     
     private func loadCategories() {
         loading.toggle()
-        CKHelper.fetchCategories { (results) in
+        CKCategory.fetch { (results) in
             switch results {
             case .success(let newCategories):
                 self.categories.lists = newCategories

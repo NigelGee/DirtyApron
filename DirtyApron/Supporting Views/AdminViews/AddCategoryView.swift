@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import CloudKit
 
 struct AddCategoryView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -54,63 +53,34 @@ struct AddCategoryView: View {
         .navigationViewStyle(StackNavigationViewStyle())
     }
 // MARK: Add Categories
-    func submit() {
+    private func submit() {
         category.position = (categories.lists.last?.position ?? 0) + 1
         
-        let categoryRecord = CKRecord(recordType: "Categories")
-        
-        categoryRecord["name"] = category.name as CKRecordValue
-        categoryRecord["isEnable"] = category.isEnable as CKRecordValue
-        categoryRecord["position"] = category.position as CKRecordValue
-        
-        CKContainer.default().publicCloudDatabase.save(categoryRecord) { (record, error) in
-            DispatchQueue.main.async {
-                if let error = error {
-                    self.message = error.localizedDescription
-                    self.showingAlert.toggle()
-                } else {
-                    self.categories.lists.append(self.category)
-                }
+        CKCategory.save(category: self.category) { (result) in
+            switch result {
+            case .success(let newCategory):
+                self.categories.lists.append(newCategory)
+            case .failure(let error):
+                self.message = error.localizedDescription
+                self.showingAlert.toggle()
             }
         }
         presentationMode.wrappedValue.dismiss()
     }
 // MARK: Modify Categories
-    func modify() {
-        guard let recordID = category.recordID else { return }
-        CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { (record, error) in
-            if let error = error {
-                self.message = error.localizedDescription
-                self.showingAlert.toggle()
-            } else {
-                guard let record = record else { return }
-                record["name"] = self.category.name as CKRecordValue
-                record["isEnable"] = self.category.isEnable as CKRecordValue
-                record["position"] = self.category.position as CKRecordValue
-                
-                CKContainer.default().publicCloudDatabase.save(record) { (record, error) in
-                    if let error = error {
-                        self.message = error.localizedDescription
-                        self.showingAlert.toggle()
-                    } else {
-                        guard let record = record else { return }
-                        let recordID = record.recordID
-                        guard let name = record["name"] as? String else { return }
-                        guard let isEnable = record["isEnable"] as? Bool else { return }
-                        guard let position = record["position"] as? Int else { return }
-                        
-                        let editItem = Category(recordID: recordID, position: position, name: name, isEnable: isEnable)
-                        
-                        DispatchQueue.main.async {
-                            for i in 0..<self.categories.lists.count {
-                                let currentItem = self.categories.lists[i]
-                                if currentItem.recordID == editItem.recordID {
-                                    self.categories.lists[i] = editItem
-                                }
-                            }
-                        }
+    private func modify() {
+        CKCategory.modify(category: category) { (result) in
+            switch result {
+            case .success(let editItem):
+                for i in 0..<self.categories.lists.count {
+                    let currentItem = self.categories.lists[i]
+                    if currentItem.recordID == editItem.recordID {
+                        self.categories.lists[i] = editItem
                     }
                 }
+            case .failure(let error):
+                self.message = error.localizedDescription
+                self.showingAlert.toggle()
             }
         }
         presentationMode.wrappedValue.dismiss()

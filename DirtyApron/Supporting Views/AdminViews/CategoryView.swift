@@ -93,7 +93,7 @@ struct CategoryView: View {
     // MARK: Fetch Categories
     private func loadCategories() {
         loading.toggle()
-        CKHelper.fetchCategories { (results) in
+        CKCategory.fetch { (results) in
             switch results {
             case .success(let newCategories):
                 self.categories.lists = newCategories
@@ -105,7 +105,7 @@ struct CategoryView: View {
         }
     }
     // MARK: Delete Categories
-    func delete(indexSet: IndexSet) {
+    private func delete(indexSet: IndexSet) {
         guard let index = indexSet.first else { return }
         guard let recordID = categories.lists[index].recordID else { return }
         

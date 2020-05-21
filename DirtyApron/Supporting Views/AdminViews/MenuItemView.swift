@@ -90,7 +90,7 @@ struct MenuItemView: View {
     private func loadItems() {
         loading.toggle()
         if let recordID = category.recordID {
-            CKHelper.fetchItems(recordID: recordID) { (results) in
+            CKItems.fetch(recordID: recordID) { (results) in
                 switch results {
                 case .success(let newItems):
                     self.menuItems.lists = newItems

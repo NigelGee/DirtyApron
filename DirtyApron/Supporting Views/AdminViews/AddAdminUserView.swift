@@ -43,7 +43,7 @@ struct AddAdminUserView: View {
     private func saveAdminUser() {
         let adminUser = AdminUser(name: name, password: password, allAccess: allAccess)
         
-        CKHelper.saveAdminUsers(adminUser: adminUser) { (result) in
+        CKAdmin.save(adminUser: adminUser) { (result) in
             switch result {
             case .success(let adminUser):
                 self.adminUsers.list.append(adminUser)

@@ -66,8 +66,7 @@ struct InformationView: View {
                             .padding(.horizontal)
                         }
                     }
-                    .foregroundColor(.secondary)
-    
+                    
                     Spacer()
                 }
             }
