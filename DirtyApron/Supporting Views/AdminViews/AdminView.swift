@@ -66,7 +66,7 @@ struct AdminView: View {
         .onAppear(perform: onLoad)
     }
     
-    func onLoad() {
+    private func onLoad() {
         CKAdmin.fetch { (result) in
             switch result {
             case .success(let adminUsers):
@@ -77,7 +77,7 @@ struct AdminView: View {
         }
     }
     
-    func checkID() {
+    private func checkID() {
         for user in adminUsers.list {
             if user.name == enteredName && user.password == enteredPassword {
                 self.allAccess = user.allAccess

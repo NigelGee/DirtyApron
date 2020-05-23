@@ -12,6 +12,7 @@ import CloudKit
 struct DetailItemView: View {
     @EnvironmentObject var orders: Orders
     @State var menuItem: MenuItem
+    @State private var detailOrder: [Order] = []
     @State private var image: Image?
     @State private var inputImage: UIImage?
     @State private var added = false
@@ -39,7 +40,7 @@ struct DetailItemView: View {
                     
                     Button(action: {
                         let item = Order(name: self.menuItem.name, amount: self.menuItem.amount)
-                        self.orders.list.append(item)
+                        self.detailOrder.append(item)
                         self.added.toggle()
                     }) {
                         if menuItem.amount == 0 {
@@ -87,11 +88,12 @@ struct DetailItemView: View {
             }
         }
         .onAppear(perform: fetchImage)
+        .onDisappear { self.orders.list.append(contentsOf: self.detailOrder) }
         .navigationBarTitle(menuItem.name)
         .navigationBarItems(
             trailing:
             ZStack {
-                Text("\(orders.list.count)")
+                Text("\(orders.list.count + detailOrder.count)")
                     .font(.callout)
                     .offset(x: 0, y: 4)
 
@@ -123,7 +125,7 @@ struct DetailItemView: View {
                 }
             }
         }
-    }    
+    }
 }
 
 struct DetailItemView_Previews: PreviewProvider {

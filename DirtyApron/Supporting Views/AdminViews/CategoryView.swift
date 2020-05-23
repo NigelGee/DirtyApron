@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import CloudKit
 
 struct CategoryView: View {
     @EnvironmentObject var categories: Categories
@@ -120,7 +119,7 @@ struct CategoryView: View {
         }
     }
     //MARK: Move Categories
-    func move(indexSet: IndexSet, destination: Int) {
+    private func move(indexSet: IndexSet, destination: Int) {
         guard let source = indexSet.first else { return }
         
         if source < destination {
@@ -168,44 +167,22 @@ struct CategoryView: View {
         }
     }
     
-    func saveMove(item: Category) {
-        change.toggle()
-        guard let recordID = item.recordID else { return }
-        CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { (record, error) in
-            if let error = error {
-                self.message = error.localizedDescription
-                self.showingAlert.toggle()
-            } else {
-                guard let record = record else { return }
-                record["name"] = item.name as CKRecordValue
-                record["isEnable"] = item.isEnable as CKRecordValue
-                record["position"] = item.position as CKRecordValue
-                
-                CKContainer.default().publicCloudDatabase.save(record) { (record, error) in
-                    if let error = error {
-                        self.message = error.localizedDescription
-                        self.showingAlert.toggle()
-                    } else {
-                        guard let record = record else { return }
-                        let recordID = record.recordID
-                        guard let name = record["name"] as? String else { return }
-                        guard let isEnable = record["isEnable"] as? Bool else { return }
-                        guard let position = record["position"] as? Int else { return }
-                        
-                        let editItem = Category(recordID: recordID, position: position, name: name, isEnable: isEnable)
-                        
-                        DispatchQueue.main.async {
-                            for i in 0..<self.categories.lists.count {
-                                let currentItem = self.categories.lists[i]
-                                if currentItem.recordID == editItem.recordID {
-                                    self.categories.lists[i] = editItem
-                                    self.change.toggle()
-                                }
-                            }
-                        }
+    private func saveMove(item: Category) {
+        change = true
+        CKCategory.modify(category: item) { (result) in
+            switch result {
+            case .success(let editItem):
+                for i in 0..<self.categories.lists.count {
+                    let currentItem = self.categories.lists[i]
+                    if currentItem.recordID == editItem.recordID {
+                        self.categories.lists[i] = editItem
                     }
                 }
+            case .failure(let error):
+                self.message = error.localizedDescription
+                self.showingAlert.toggle()
             }
+            self.change = false
         }
     }
 }

@@ -13,6 +13,7 @@ struct AddCategoryView: View {
     @ObservedObject var categories: Categories
     
     @State var category: Category
+    @State private var loading = false
     @State private var showingAlert = false
     @State private var message = ""
    
@@ -20,16 +21,21 @@ struct AddCategoryView: View {
     
     var body: some View {
         NavigationView {
-            Form {
-                Section {
-                    Toggle(isOn: $category.isEnable) {
-                        Text("Enable")
+            ZStack {
+                Form {
+                    Section {
+                        Toggle(isOn: $category.isEnable) {
+                            Text("Enable")
+                        }
+                    }
+                    
+                    Section(header: Text("Category Name")){
+                        TextField("Enter Name", text: $category.name)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
                     }
                 }
-                
-                Section(header: Text("Category Name")){
-                    TextField("Enter Name", text: $category.name)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                if loading {
+                    LoadingView(text: "Saving...", spinner: true)
                 }
             }
             .alert(isPresented: $showingAlert) {
@@ -54,6 +60,7 @@ struct AddCategoryView: View {
     }
 // MARK: Add Categories
     private func submit() {
+        loading.toggle()
         category.position = (categories.lists.last?.position ?? 0) + 1
         
         CKCategory.save(category: self.category) { (result) in
@@ -64,11 +71,15 @@ struct AddCategoryView: View {
                 self.message = error.localizedDescription
                 self.showingAlert.toggle()
             }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.loading.toggle()
+                self.presentationMode.wrappedValue.dismiss()
+            }
         }
-        presentationMode.wrappedValue.dismiss()
     }
 // MARK: Modify Categories
     private func modify() {
+        loading.toggle()
         CKCategory.modify(category: category) { (result) in
             switch result {
             case .success(let editItem):
@@ -82,8 +93,12 @@ struct AddCategoryView: View {
                 self.message = error.localizedDescription
                 self.showingAlert.toggle()
             }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.loading.toggle()
+                self.presentationMode.wrappedValue.dismiss()
+            }
+            
         }
-        presentationMode.wrappedValue.dismiss()
     }
 }
 

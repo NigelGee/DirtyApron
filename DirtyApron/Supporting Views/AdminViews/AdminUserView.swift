@@ -35,7 +35,7 @@ struct AdminUserView: View {
         })
     }
     
-    func delete(indexSet: IndexSet) {
+    private func delete(indexSet: IndexSet) {
         guard let index = indexSet.first else { return }
         guard let recordID = adminUsers.list[index].recordID else { return }
         

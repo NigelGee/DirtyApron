@@ -104,7 +104,7 @@ struct MenuItemView: View {
     }
     
     //MARK: Delete Menu Item
-    func deleteItem(indexSet: IndexSet) {
+    private func deleteItem(indexSet: IndexSet) {
         guard let index = indexSet.first else { return }
         guard let recordID = menuItems.lists[index].recordID else { return }
         

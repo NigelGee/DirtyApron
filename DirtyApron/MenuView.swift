@@ -33,6 +33,8 @@ struct MenuView: View {
                             NavigationLink(destination: ItemsView(category: category)) {
                                 Text(category.name)
                                     .font(.headline)
+                                    .foregroundColor(.red)
+                                
                             }
                         }
                     }

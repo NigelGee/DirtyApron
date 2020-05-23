@@ -151,9 +151,9 @@
 			isa = PBXGroup;
 			children = (
 				8B158C9A246171C100B9E6AE /* CKHelper.swift */,
-				8B20192C24772BC600281D77 /* CKAdmin.swift */,
-				8B20192A24772AE800281D77 /* CKItems.swift */,
 				8B2019282477298100281D77 /* CKCategory.swift */,
+				8B20192A24772AE800281D77 /* CKItems.swift */,
+				8B20192C24772BC600281D77 /* CKAdmin.swift */,
 			);
 			path = "CloudKit Helpers";
 			sourceTree = "<group>";

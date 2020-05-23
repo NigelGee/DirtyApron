@@ -66,7 +66,7 @@ class CKCategory {
         }
     }
     
-    class func modify(category:Category, completion: @escaping (Result<Category, Error>) -> ()) {
+    class func modify(category: Category, completion: @escaping (Result<Category, Error>) -> ()) {
         guard let recordID = category.recordID else { return }
         
         database.fetch(withRecordID: recordID) { (record, error) in

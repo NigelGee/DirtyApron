@@ -95,9 +95,10 @@ struct AddMenuItemView: View {
                 
             }
                 
-                if loading {
-                    LoadingView(text: "Saving...", spinner: true)
-                }
+            if loading {
+                LoadingView(text: "Saving...", spinner: true)
+            }
+                
             }
             .onAppear(perform: fetchImage)
             .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
