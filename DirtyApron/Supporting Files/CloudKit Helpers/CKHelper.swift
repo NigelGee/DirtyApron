@@ -9,10 +9,10 @@
 import Foundation
 import CloudKit
 
-// MARK: Delete CKHelper
 class CKHelper {
     static let database = CKContainer.default().publicCloudDatabase
-    
+ 
+// MARK: Delete for list Category and Items
     class func delete(index: Int, recordID: CKRecord.ID, completion: @escaping (Result<Int, Error>) -> ()) {
         database.delete(withRecordID: recordID) { (record, error) in
             DispatchQueue.main.async {

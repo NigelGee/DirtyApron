@@ -136,7 +136,9 @@ struct AddMenuItemView: View {
         do {
             try imageData.write(to: imageURL)
         } catch {
-            print("Error loading Image")
+            title = "ERROR!"
+            message = "Loading Image. Please try again"
+            showingAlert.toggle()
         }
     }
     
@@ -150,7 +152,9 @@ struct AddMenuItemView: View {
                     self.inputImage = uiImage
                     self.loadImage()
                 case .failure(let error):
-                    print(error.localizedDescription)
+                    self.title = "ERROR"
+                    self.message = error.localizedDescription
+                    self.showingAlert.toggle()
                 }
             }
         }
@@ -167,7 +171,9 @@ struct AddMenuItemView: View {
                 case .success(let item):
                     self.menuItems.lists.insert(item, at: 0)
                 case .failure(let error):
-                    print(error)
+                    self.title = "ERROR"
+                    self.message = error.localizedDescription
+                    self.showingAlert.toggle()
                 }
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -197,7 +203,9 @@ struct AddMenuItemView: View {
                         }
                     }
                 case .failure(let error):
-                    print(error)
+                    self.title = "ERROR"
+                    self.message = error.localizedDescription
+                    self.showingAlert.toggle()
                 }
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

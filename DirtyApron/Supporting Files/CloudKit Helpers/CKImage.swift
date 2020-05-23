@@ -12,6 +12,7 @@ import CloudKit
 class CKImage {
     static let database = CKContainer.default().publicCloudDatabase
     
+// MARK: Fetch Image for DetailView and AddMenuItemView
     class func fetch(recordID: CKRecord.ID, completion: @escaping (Result<UIImage, Error>) ->()) {
         database.fetch(withRecordID: recordID) { (record, error) in
             DispatchQueue.main.async {
@@ -23,7 +24,6 @@ class CKImage {
                             guard let assetURL = asset.fileURL else { return }
                             guard let imageData = NSData(contentsOf: assetURL) else { return }
                             guard let uiImage = UIImage(data: imageData as Data) else { return }
-//                            let image = Image(uiImage: uiImage)
                             
                             completion(.success(uiImage))
                         }

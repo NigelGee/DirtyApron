@@ -15,6 +15,8 @@ struct DetailItemView: View {
     @State private var image: Image?
     @State private var inputImage: UIImage?
     @State private var added = false
+    @State private var message = ""
+    @State private var showingAlert = false
     var width: CGFloat = 200
     
     var body: some View {
@@ -89,6 +91,9 @@ struct DetailItemView: View {
         .onAppear(perform: fetchImage)
         .onDisappear { self.orders.list.append(contentsOf: self.detailOrder) }
         .navigationBarTitle(menuItem.name)
+        .alert(isPresented: $showingAlert) {
+            Alert(title: Text("ERROR!"), message: Text(message), dismissButton: .default(Text("OK")))
+        }
         .navigationBarItems(
             trailing:
             ZStack {
@@ -109,7 +114,8 @@ struct DetailItemView: View {
                 case .success(let uiImage):
                     self.image = Image(uiImage: uiImage)
                 case .failure(let error):
-                    print(error.localizedDescription)
+                    self.message = error.localizedDescription
+                    self.showingAlert.toggle()
                 }
             }
         }

@@ -80,7 +80,7 @@ class CKItems {
         
         database.fetch(withRecordID: recordID) { (itemRecord, error) in
             if let error = error {
-                print(error.localizedDescription)
+                completion(.failure(error))
             } else {
                 guard let itemRecord = itemRecord else { return }
                 itemRecord["isEnable"] = menuItem.isEnable as CKRecordValue

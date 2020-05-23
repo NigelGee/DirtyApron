@@ -9,9 +9,11 @@
 import Foundation
 import CloudKit
 
+
 class CKAdmin {
     static let database = CKContainer.default().publicCloudDatabase
-    
+
+//MARK: Save for AddAdminUserView
     class func save(adminUser: AdminUser, completion: @escaping (Result<AdminUser, Error>) -> ()) {
         let adminRecord = CKRecord(recordType: "AdminUser")
         
@@ -29,7 +31,8 @@ class CKAdmin {
             }
         }
     }
-    
+ 
+//MARK: Fetch for AdminUserView
     class func fetch(completion: @escaping (Result<[AdminUser], Error>) -> ()) {
         let predicate = NSPredicate(value: true)
         let sort = NSSortDescriptor(key: "creationDate", ascending: true)

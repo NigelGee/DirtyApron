@@ -14,6 +14,9 @@ struct AddAdminUserView: View {
     @State private var name = ""
     @State private var password = ""
     @State private var allAccess = false
+    @State private var showingAlert = false
+    @State private var message = ""
+    
     
     var body: some View {
         NavigationView {
@@ -26,6 +29,9 @@ struct AddAdminUserView: View {
                     
                     SecureField("Password", text: $password)
                 }
+            }
+            .alert(isPresented: $showingAlert) {
+                Alert(title: Text("ERROR"), message: Text(message), dismissButton: .default(Text("OK")))
             }
             .navigationBarTitle("Add New User", displayMode: .inline)
             .navigationBarItems(
@@ -49,7 +55,8 @@ struct AddAdminUserView: View {
                 self.adminUsers.list.append(adminUser)
                 self.presentationMode.wrappedValue.dismiss()
             case .failure(let error):
-                print(error.localizedDescription)
+                self.message = error.localizedDescription
+                self.showingAlert.toggle()
             }
         }
     }

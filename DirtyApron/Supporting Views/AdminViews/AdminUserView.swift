@@ -10,6 +10,8 @@ import SwiftUI
 
 struct AdminUserView: View {
     @State private var showingAddAdmin = false
+    @State private var showingAlert = false
+    @State private var message = ""
     
     @ObservedObject var adminUsers: AdminUsers
     
@@ -26,6 +28,9 @@ struct AdminUserView: View {
         }
         .sheet(isPresented: $showingAddAdmin) {
             AddAdminUserView(adminUsers: self.adminUsers)
+        }
+        .alert(isPresented: $showingAlert) {
+            Alert(title: Text("ERROR"), message: Text(message), dismissButton: .default(Text("OK")))
         }
         .navigationBarTitle("Admin Users")
         .navigationBarItems(trailing: Button(action: {
@@ -44,7 +49,8 @@ struct AdminUserView: View {
             case .success(let index):
                 self.adminUsers.list.remove(at: index)
             case .failure(let error):
-                print(error.localizedDescription)
+                self.message = error.localizedDescription
+                self.showingAlert.toggle()
             }
         }
     }

@@ -12,6 +12,8 @@ struct AdminView: View {
     @State private var adminUsers = AdminUsers()
     @State private var showingCategory = false
     @State private var showingAlert = false
+    @State private var title = ""
+    @State private var message = ""
     @State private var enteredName = ""
     @State private var enteredPassword = ""
     @State private var allAccess = false
@@ -38,8 +40,6 @@ struct AdminView: View {
                     .font(.title)
                     .multilineTextAlignment(.center)
                     
-                    Spacer()
-                    
                     TextField("User Name", text: $enteredName)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding(.horizontal)
@@ -55,11 +55,10 @@ struct AdminView: View {
                     
                     
                     Spacer()
-                    Spacer()
-                    Spacer()
+                    
                 }
                 .alert(isPresented: $showingAlert) {
-                    Alert(title: Text("Wrong Name or Password"), message: Text("Please try again!"), dismissButton: .default(Text("OK")))
+                    Alert(title: Text(title), message: Text(message), dismissButton: .default(Text("OK")))
                 }
             }
         }
@@ -72,7 +71,9 @@ struct AdminView: View {
             case .success(let adminUsers):
                 self.adminUsers.list = adminUsers
             case .failure(let error):
-                print(error.localizedDescription)
+                self.title = "ERROR!"
+                self.message = error.localizedDescription
+                self.showingAlert.toggle()
             }
         }
     }
@@ -85,6 +86,8 @@ struct AdminView: View {
                 return
             }
         }
+        title = "Wrong Name or Password"
+        message = "Please try again!"
         showingAlert.toggle()
     }
 }

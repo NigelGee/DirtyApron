@@ -82,7 +82,6 @@ struct MailView: UIViewControllerRepresentable {
             }
             guard error == nil else {
                 self.result = .failure(error!)
-                print(error!.localizedDescription)
                 return
             }
             self.result = .success(result)

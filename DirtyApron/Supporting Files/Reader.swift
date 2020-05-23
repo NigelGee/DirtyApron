@@ -76,7 +76,7 @@ class Reader: NSObject, NFCNDEFReaderSessionDelegate, ObservableObject {
     }
     
     func readerSessionDidBecomeActive(_ session: NFCNDEFReaderSession) {
-        print("Active")
+        
     }
 }
 
