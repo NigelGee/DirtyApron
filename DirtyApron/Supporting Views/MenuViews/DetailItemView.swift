@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import CloudKit
 
 struct DetailItemView: View {
     @EnvironmentObject var orders: Orders
@@ -105,23 +104,12 @@ struct DetailItemView: View {
     //MARK: Fetch Image
     func fetchImage() {
         if let recordID = menuItem.recordID {
-            CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { (record, error) in
-                if let error = error {
-                    DispatchQueue.main.async {
-                        print(error.localizedDescription)
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        if let record = record {
-                            if let asset = record["image"] as? CKAsset {
-                                guard let assetURL = asset.fileURL else { return }
-                                guard let imageData = NSData(contentsOf: assetURL) else { return }
-                                guard let uiImage = UIImage(data: imageData as Data) else { return }
-                                
-                                self.image = Image(uiImage: uiImage)
-                            }
-                        }
-                    }
+            CKImage.fetch(recordID: recordID) { (result) in
+                switch result {
+                case .success(let uiImage):
+                    self.image = Image(uiImage: uiImage)
+                case .failure(let error):
+                    print(error.localizedDescription)
                 }
             }
         }

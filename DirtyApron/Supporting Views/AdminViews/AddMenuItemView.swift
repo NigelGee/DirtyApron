@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import CloudKit
 
 struct AddMenuItemView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -145,21 +144,13 @@ struct AddMenuItemView: View {
         if isEdit {
             guard let recordID = menuItem.recordID else { return }
             
-            CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { (record, error) in
-                if let error = error {
-                    print(error.localizedDescription)
-                } else {
-                    guard let record = record else { return }
-                    guard let asset = record["image"] as? CKAsset else {
-                        print("Image missing")
-                        return
-                    }
-                    guard let assetURL = asset.fileURL else { return }
-                    guard let imageData = NSData(contentsOf: assetURL) else { return }
-                    
-                    let uiImage = UIImage(data: imageData as Data)
+            CKImage.fetch(recordID: recordID) { (result) in
+                switch result {
+                case .success(let uiImage):
                     self.inputImage = uiImage
                     self.loadImage()
+                case .failure(let error):
+                    print(error.localizedDescription)
                 }
             }
         }

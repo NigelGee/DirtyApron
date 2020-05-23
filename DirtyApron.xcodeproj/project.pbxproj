@@ -18,6 +18,7 @@
 		8B2019292477298100281D77 /* CKCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2019282477298100281D77 /* CKCategory.swift */; };
 		8B20192B24772AE800281D77 /* CKItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B20192A24772AE800281D77 /* CKItems.swift */; };
 		8B20192D24772BC600281D77 /* CKAdmin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B20192C24772BC600281D77 /* CKAdmin.swift */; };
+		8B3D58562479269800B5A238 /* CKImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3D58552479269800B5A238 /* CKImage.swift */; };
 		8B7572812471B7DC00ED32A3 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7572802471B7DC00ED32A3 /* LocationManager.swift */; };
 		8B7A2728243F768A00760F5D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7A2727243F768A00760F5D /* AppDelegate.swift */; };
 		8B7A272A243F768A00760F5D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7A2729243F768A00760F5D /* SceneDelegate.swift */; };
@@ -81,6 +82,7 @@
 		8B2019282477298100281D77 /* CKCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKCategory.swift; sourceTree = "<group>"; };
 		8B20192A24772AE800281D77 /* CKItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKItems.swift; sourceTree = "<group>"; };
 		8B20192C24772BC600281D77 /* CKAdmin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKAdmin.swift; sourceTree = "<group>"; };
+		8B3D58552479269800B5A238 /* CKImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKImage.swift; sourceTree = "<group>"; };
 		8B7572802471B7DC00ED32A3 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		8B7A2724243F768A00760F5D /* DirtyApron.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DirtyApron.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B7A2727243F768A00760F5D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				8B2019282477298100281D77 /* CKCategory.swift */,
 				8B20192A24772AE800281D77 /* CKItems.swift */,
 				8B20192C24772BC600281D77 /* CKAdmin.swift */,
+				8B3D58552479269800B5A238 /* CKImage.swift */,
 			);
 			path = "CloudKit Helpers";
 			sourceTree = "<group>";
@@ -417,6 +420,7 @@
 				8B7A2760243FC21500760F5D /* AdminView.swift in Sources */,
 				8B158C9B246171C100B9E6AE /* CKHelper.swift in Sources */,
 				8B158CA524647C6900B9E6AE /* OrderView.swift in Sources */,
+				8B3D58562479269800B5A238 /* CKImage.swift in Sources */,
 				8B158C9F2462C2E300B9E6AE /* BlurBackGround.swift in Sources */,
 				8B7A2750243F809C00760F5D /* StringInterpolation-Number.swift in Sources */,
 				8B158CA324646AB200B9E6AE /* Order.swift in Sources */,
