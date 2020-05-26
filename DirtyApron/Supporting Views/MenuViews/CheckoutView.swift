@@ -72,7 +72,7 @@ struct CheckoutView: View {
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 
-                DatePicker(selection: $userDetails.user.time, displayedComponents: .hourAndMinute) {
+                DatePicker(selection: $userDetails.user.time, displayedComponents: [.date, .hourAndMinute]) {
                     Text("Time of \(method)")
                 }
                 

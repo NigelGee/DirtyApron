@@ -22,6 +22,7 @@ struct MailView: UIViewControllerRepresentable {
     
     var mailSubject: String {
         let formatter = DateFormatter()
+        formatter.dateStyle = .short
         formatter.timeStyle = .short
         let delivery = "\(method) for"
         let time = formatter.string(from: userDetails.user.time)
