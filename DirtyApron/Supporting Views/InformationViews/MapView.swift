@@ -13,19 +13,18 @@ struct MapView: UIViewRepresentable {
     var title: String
     var deltaSpan: Double
     var venueCoordinate: CLLocationCoordinate2D
-    var header: Bool
-    @ObservedObject var locationManager = LocationManager()
-   
+    var showingRoute: Bool
+    @ObservedObject var locationManger = LocationManager()
+    
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
         mapView.delegate = context.coordinator
-        mapView.showsUserLocation = true
-
+        mapView.showsUserLocation = false
         return mapView
     }
     
     func updateUIView(_ view: MKMapView, context: Context) {
-
+        
         let span = MKCoordinateSpan(latitudeDelta: deltaSpan, longitudeDelta: deltaSpan)
         let region = MKCoordinateRegion(center: venueCoordinate, span: span)
         
@@ -33,13 +32,18 @@ struct MapView: UIViewRepresentable {
         venueLocation.coordinate = venueCoordinate
         venueLocation.title = title
         
-        if header {
+        view.addAnnotation(venueLocation)
+        view.setRegion(region, animated: true)
+        
+        if showingRoute {
+            view.showsUserLocation = true
+            
             let request = MKDirections.Request()
             request.source = .forCurrentLocation()
             request.destination = MKMapItem(placemark: MKPlacemark(coordinate: venueCoordinate))
             request.requestsAlternateRoutes = false
             request.transportType = .walking
-            
+
             let directions = MKDirections(request: request)
             directions.calculate { response, error in
                 guard let unwrappedResponse = response else { return }
@@ -50,15 +54,12 @@ struct MapView: UIViewRepresentable {
                 }
             }
         }
-        
-        view.addAnnotation(venueLocation)
-        view.setRegion(region, animated: true)
     }
     
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-        
+     
     class Coordinator: NSObject, MKMapViewDelegate {
         var parent: MapView
         
@@ -70,8 +71,6 @@ struct MapView: UIViewRepresentable {
             return renderer
         }
         
-        
-        
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             let identifier = "placemark"
             
@@ -80,7 +79,6 @@ struct MapView: UIViewRepresentable {
             if annotationView == nil {
                 annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
                 annotationView?.canShowCallout = true
-//                annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
             } else {
                 annotationView?.annotation = annotation
             }
@@ -95,7 +93,7 @@ struct MapView: UIViewRepresentable {
 
 struct MapView_Previews: PreviewProvider {
     static var previews: some View {
-        MapView(title: "Dirty Apron", deltaSpan: 0.003, venueCoordinate: MKPointAnnotation.example.coordinate, header: true)
+        MapView(title: "Dirty Apron", deltaSpan: 0.003, venueCoordinate: MKPointAnnotation.example.coordinate, showingRoute: true)
     }
 }
 
@@ -103,7 +101,7 @@ struct MapView_Previews: PreviewProvider {
 extension MKPointAnnotation {
     static var example: MKPointAnnotation {
         let annotation = MKPointAnnotation()
-        annotation.title = "Dirty Apron"
+        annotation.title = "Dirty Apron Café"
         annotation.subtitle = "Bring home the bacon"
         annotation.coordinate = CLLocationCoordinate2D(latitude: 51.478476, longitude: -0.026857)
         return annotation

@@ -1,6 +1,6 @@
 {
    "id": 1,
-   "image": "DirtyApronLogo",
+   "image": "DALogo",
    "name": "Dirty Apron Café",
    "webAddress": "instagram.com/dirtyapronuk",
    "address": {
@@ -16,36 +16,35 @@
         },
         {
           "day": "Tuesday",
-          "open": "10:30",
-          "close": "16:00"
+          
         },
         {
           "day": "Wednesday",
-          "open": "10:30",
-          "close": "16:00"
+          "open": "10:00",
+          "close": "17:00"
         },
         {
           "day": "Thursday",
-          "open": "10:30",
-          "close": "16:00"
+          "open": "10:00",
+          "close": "17:00"
         },
         {
           "day": "Friday",
-          "open": "10:30",
-          "close": "16:00"
+          "open": "10:00",
+          "close": "17:00"
         },
         {
           "day": "Saturday",
-          "open": "10:30",
-          "close": "16:00"
+          "open": "10:00",
+          "close": "17:00"
         },
         {
           "day": "Sunday",
-          "open": "10:30",
-          "close": "16:00"
+          "open": "10:00",
+          "close": "17:00"
         }
    ],
-   "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+   "description": "A local neighbourhood cafe, selling great quality breakfast, lunch and dinner options, coffees and cocktails.",
    "coordinates": {
        "latitude": 51.478476,
        "longitude": -0.026857,

@@ -17,8 +17,8 @@ struct InformationView: View {
             ScrollView(.vertical) {
                 VStack {
                     ZStack {
-                        NavigationLink(destination: MapView(title: info.name, deltaSpan: 0.003, venueCoordinate: CLLocationCoordinate2D(latitude: info.coordinates.latitude, longitude: info.coordinates.longitude), header: true)) {
-                            MapView(title: info.name, deltaSpan: info.coordinates.deltaSpan, venueCoordinate: CLLocationCoordinate2D(latitude: info.coordinates.latitude, longitude: info.coordinates.longitude), header: false)
+                        NavigationLink(destination: MapView(title: info.name, deltaSpan: 0.003, venueCoordinate: CLLocationCoordinate2D(latitude: info.coordinates.latitude, longitude: info.coordinates.longitude), showingRoute: true)) {
+                            MapView(title: info.name, deltaSpan: info.coordinates.deltaSpan, venueCoordinate: CLLocationCoordinate2D(latitude: info.coordinates.latitude, longitude: info.coordinates.longitude), showingRoute: false)
                         }
                         .frame(height: 180)
                         .accessibility(label: Text("Map"))
@@ -69,6 +69,9 @@ struct InformationView: View {
                     
                     Spacer()
                 }
+            }
+            .onAppear {
+                UserDefaults.standard.set(1, forKey: "SelectedView")
             }
             .navigationBarTitle("Information", displayMode: .inline)
         }

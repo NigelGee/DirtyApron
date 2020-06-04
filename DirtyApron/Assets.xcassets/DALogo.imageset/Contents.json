@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "DirtyApronLogo.jpeg",
+      "filename" : "DALogo.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "DirtyApronLogo@2x.jpeg",
+      "filename" : "DALogo@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "DirtyApronLogo@3x.jpeg",
+      "filename" : "DALogo@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

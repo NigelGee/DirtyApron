@@ -11,7 +11,7 @@ import SwiftUI
 struct StampView: View {
     var body: some View {
         VStack {
-            Image(decorative: "logo").resizable()
+            Image(decorative: "DAStamp").resizable()
                 .scaledToFit()
                 .clipShape(Circle())
                 .overlay(Circle().stroke(Color.secondary, lineWidth: 4))

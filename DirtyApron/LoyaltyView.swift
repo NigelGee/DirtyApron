@@ -15,7 +15,7 @@ enum StampState {
 struct LoyaltyView: View {
      @ObservedObject var reader = Reader()
     
-    let columnCount = 3
+    let columnCount = 2
     var rowCount: Int {
        return reader.maxStamps/columnCount
     }

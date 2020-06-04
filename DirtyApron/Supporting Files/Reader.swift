@@ -22,7 +22,7 @@ class Reader: NSObject, NFCNDEFReaderSessionDelegate, ObservableObject {
         collectedStamps % maxStamps
     }
     
-    let maxStamps = 9
+    let maxStamps = 8
     
     private var isRedeemed = false
     private let addStampTag = "\u{2}enaddStampRGC"

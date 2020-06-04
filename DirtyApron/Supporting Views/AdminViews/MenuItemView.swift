@@ -24,35 +24,33 @@ struct MenuItemView: View {
         ZStack {
             List {
                 ForEach(menuItems.lists, id: \.id) { menuItem in
-                    NavigationLink(destination: DetailItemView(menuItem: menuItem)){
-                        HStack {
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text(menuItem.name)
-                                    .fontWeight(menuItem.isEnable ? .bold : .none)
-                                    .foregroundColor(menuItem.isEnable ? .primary : .secondary)
-                                    .font(.headline)
-                                HStack {
-                                    ForEach(menuItem.foodType.sorted(), id: \.self) {
-                                        Text($0)
-                                            .badgesStyle(text: $0)
-                                    }
-                                }
-                            }
-                            
-                            Spacer()
-                            Group {
-                                if menuItem.amount != 0 {
-                                    Text("£\(menuItem.amount, specifier: "%.2f")")
-                                } else {
-                                    Text(" INFO")
+                    HStack {
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(menuItem.name)
+                                .fontWeight(menuItem.isEnable ? .bold : .none)
+                                .foregroundColor(menuItem.isEnable ? .primary : .secondary)
+                                .font(.headline)
+                            HStack {
+                                ForEach(menuItem.foodType.sorted(), id: \.self) {
+                                    Text($0)
+                                        .badgesStyle(text: $0)
                                 }
                             }
                         }
-                        .onTapGesture(count: 2) {
-                            self.menuItem = menuItem
-                            self.isEdit = true
-                            self.showingAddMenuItem.toggle()
+                        
+                        Spacer()
+                        Group {
+                            if menuItem.amount != 0 {
+                                Text("£\(menuItem.amount, specifier: "%.2f")")
+                            } else {
+                                Text(" INFO")
+                            }
                         }
+                    }
+                    .onTapGesture(count: 2) {
+                        self.menuItem = menuItem
+                        self.isEdit = true
+                        self.showingAddMenuItem.toggle()
                     }
                 }
                 .onDelete(perform: deleteItem)

@@ -16,7 +16,7 @@ struct CheckoutView: View {
     
     @State private var result: Result<MFMailComposeResult, Error>? = nil
     @State private var mailStatus: MFMailComposeResult? = nil
-    @State private var method = "Dine-in"
+    @State private var method = "Collection"
     @State private var isShowingMailView = false
     @State private var note = ""
     @State private var message = ""
@@ -73,7 +73,7 @@ struct CheckoutView: View {
                 .pickerStyle(SegmentedPickerStyle())
                 
                 DatePicker(selection: $userDetails.user.time, displayedComponents: [.date, .hourAndMinute]) {
-                    Text("Time of \(method)")
+                    Text("\(method) Time")
                 }
                 
                 Section(header: Text("Name")) {
@@ -129,7 +129,7 @@ struct CheckoutView: View {
     }
     
     func onLoad() {
-        userDetails.user.time  = Calendar.current.date(byAdding: .minute, value: 10, to: Date()) ?? Date()
+        userDetails.user.time  = Calendar.current.date(byAdding: .minute, value: 60, to: Date()) ?? Date()
         
         NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { key in
             let value = key.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect

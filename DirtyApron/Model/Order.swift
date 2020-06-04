@@ -11,7 +11,7 @@ import Foundation
 class Orders: ObservableObject {
     @Published var list: [Order] = []
     
-    static let methods = ["Delivery", "Collection", "Dine-in"]
+    static let methods = ["Delivery", "Collection"]
 }
 
 struct Order: Identifiable {
