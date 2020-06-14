@@ -90,12 +90,13 @@ struct MapView: UIViewRepresentable {
         }
     }
 }
-
+#if DEBUG
 struct MapView_Previews: PreviewProvider {
     static var previews: some View {
         MapView(title: "Dirty Apron", deltaSpan: 0.003, venueCoordinate: MKPointAnnotation.example.coordinate, showingRoute: true)
     }
 }
+#endif
 
 #if DEBUG
 extension MKPointAnnotation {
