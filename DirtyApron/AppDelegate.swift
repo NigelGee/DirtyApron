@@ -15,6 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,  UNUserNotificationCenter
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        CKDefaults.shared.start()
+        
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
             if let error = error {
                 print(error.localizedDescription)

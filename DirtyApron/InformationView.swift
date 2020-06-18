@@ -10,6 +10,7 @@ import SwiftUI
 import MapKit
 
 struct InformationView: View {
+    @Environment(\.sizeCategory) var sizeCategory
     let info: Information = Bundle.main.decode("information")
     
     var body: some View {
@@ -33,6 +34,7 @@ struct InformationView: View {
                     Text(info.name)
                         .font(.system(.title, design: .serif))
                         .fontWeight(.light)
+                        .multilineTextAlignment(.center)
                         .padding(.horizontal)
                     
                     if info.webAddress != "" {
@@ -46,6 +48,7 @@ struct InformationView: View {
                         Text(info.address.street)
                         
                         Text("\(info.address.wrappedTown) \(info.address.city), \(info.address.zip)")
+                            .multilineTextAlignment(.center)
                             .padding(.bottom)
                         
                         Text(info.description)
@@ -54,10 +57,17 @@ struct InformationView: View {
                         Text("Opening Times")
                         
                         ForEach(info.times, id: \.day) { time in
-                            HStack {
-                                Text(time.day)
+                            AdaptingStack {
+                                Text("\(time.day): ")
                                 
-                                Spacer()
+                                if
+                                self.sizeCategory != .accessibilityMedium &&
+                                self.sizeCategory != .accessibilityLarge  &&
+                                self.sizeCategory != .accessibilityExtraLarge &&
+                                self.sizeCategory != .accessibilityExtraExtraLarge &&
+                                self.sizeCategory != .accessibilityExtraExtraExtraLarge {
+                                    Spacer()
+                                }
                                 
                                 Text("\(time.formattedOpenTime == "Closed" ? "Closed" : "\(time.formattedOpenTime) - ")\(time.formattedCloseTime)")
                             }

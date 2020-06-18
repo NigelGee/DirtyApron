@@ -25,13 +25,13 @@ class UserDetails: ObservableObject {
         didSet {
             let encoder = JSONEncoder()
             if let encoded = try? encoder.encode(user) {
-                UserDefaults.standard.set(encoded, forKey: "UserDetails")
+                UserDefaults.standard.set(encoded, forKey: "sync-UserDetails")
             }
         }
     }
     
     init() {
-        if let users = UserDefaults.standard.data(forKey: "UserDetails") {
+        if let users = UserDefaults.standard.data(forKey: "sync-UserDetails") {
             let decoder = JSONDecoder()
             if let decoded = try? decoder.decode(UserDetail.self, from: users) {
                 self.user = decoded
