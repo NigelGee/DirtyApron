@@ -29,6 +29,7 @@ struct LoyaltyView: View {
             VStack {
                 
                 GridStack(rows: rowCount, columns: columnCount, content: card)
+                        .animation(.spring(response: 0.9, dampingFraction: 0.9))
                         .padding()
                         .accessibilityElement(children: .ignore)
                         .accessibility(label: Text("\(reader.adjustedStamp) stamp\(reader.adjustedStamp > 1 ? "s" : "")"))

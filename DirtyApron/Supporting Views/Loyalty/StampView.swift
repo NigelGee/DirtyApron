@@ -16,8 +16,8 @@ struct StampView: View {
                 .clipShape(Circle())
                 .overlay(Circle().stroke(Color.secondary, lineWidth: 4))
                 .frame(height: 65)
-                .shadow(radius: 10)
-                .shadow(radius: 20)
+                .shadow(color: .secondary, radius: 5)
+                .shadow(color: .secondary, radius: 20)
         }
     }
 }

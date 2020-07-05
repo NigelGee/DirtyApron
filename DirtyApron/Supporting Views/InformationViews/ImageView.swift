@@ -17,12 +17,13 @@ struct ImageView: View {
             .scaledToFill()
             .clipShape(Capsule())
             .overlay(Capsule().stroke(Color.white, lineWidth: 4))
-            .shadow(radius: 10)
+            .shadow(color: .secondary, radius: 5)
+            .shadow(color: .secondary, radius: 10)
     }
 }
 
 struct ImageView_Previews: PreviewProvider {
     static var previews: some View {
-        ImageView(image: Image("cup"))
+        ImageView(image: Image("DALogo"))
     }
 }
